@@ -1,5 +1,6 @@
 .card {
-  font-family: var(--font-liberation-serif), "Times New Roman", Times, serif;
+  font-family: var(--font-times-nr-mt-std), var(--font-liberation-serif),
+    "Times New Roman", Times, serif;
   width: 62.5mm;
   height: 87.9mm;
   /* Proportions taken from the arch-devils source art (2090x2900 canvas):

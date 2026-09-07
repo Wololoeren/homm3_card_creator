@@ -35,14 +35,14 @@ export interface Unit {
 
 // prettier-ignore
 export const unitPortraits: UnitPortrait[] = [
-  { name: "Boars", path: "monsters/boars.png" },
-  { name: "Arch Devils", path: "monsters/arch_devils.png" },
-  { name: "Evil Eyes", path: "monsters/evil_eyes.png" },
-  { name: "Harpies", path: "monsters/harpies.png" },
-  { name: "Liches", path: "monsters/liches.png" },
-  { name: "Nagas", path: "monsters/nagas.png" },
-  { name: "Pegasi", path: "monsters/pegasi.png" },
-  { name: "Troglodytes", path: "monsters/troglodytes.png" },
+  { name: "Boars", path: "monsters/boars.webp" },
+  { name: "Arch Devils", path: "monsters/arch_devils.webp" },
+  { name: "Evil Eyes", path: "monsters/evil_eyes.webp" },
+  { name: "Harpies", path: "monsters/harpies.webp" },
+  { name: "Liches", path: "monsters/liches.webp" },
+  { name: "Nagas", path: "monsters/nagas.webp" },
+  { name: "Pegasi", path: "monsters/pegasi.webp" },
+  { name: "Troglodytes", path: "monsters/troglodytes.webp" },
 ];
 
 // Boars (Neutral, Core Game) is used as the default template: it's the

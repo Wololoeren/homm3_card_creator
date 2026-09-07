@@ -35,6 +35,23 @@ const liberationSerif = localFont({
   display: "swap",
 });
 
+// The card face font. Only a single Semibold weight exists, and it covers
+// Latin-1 only, so Liberation Serif stays behind it as the fallback.
+const timesNrMtStd = localFont({
+  src: [
+    {
+      path: "../assets/fonts/TimesNRMTStd-SemiBold.otf",
+      weight: "400",
+      style: "normal",
+    },
+  ],
+  variable: "--font-times-nr-mt-std",
+  display: "swap",
+  // Without this Next injects a `local(Arial)` fallback face ahead of our own
+  // stack, so the Cyrillic this font lacks would render sans-serif.
+  adjustFontFallback: false,
+});
+
 export const metadata: Metadata = {
   title: "Card Creator",
   description: "Card Creator - Heroes 3 Board Game",
@@ -46,7 +63,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={liberationSerif.variable}>
+    <html
+      lang="en"
+      className={`${liberationSerif.variable} ${timesNrMtStd.variable}`}
+    >
       <head>
         <link rel="icon" href="images/initiative.png" type="image/png" />
       </head>

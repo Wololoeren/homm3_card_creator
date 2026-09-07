@@ -23,7 +23,7 @@ export interface CreatureBankUnit {
 
 // prettier-ignore
 export const creatureBankPortraits: CreatureBankPortrait[] = [
-  { name: "Dragon Flies", path: "monsters/dragon_flies.png" },
+  { name: "Dragon Flies", path: "monsters/dragon_flies.webp" },
 ];
 
 export const initialCreatureBankUnit: CreatureBankUnit = {
