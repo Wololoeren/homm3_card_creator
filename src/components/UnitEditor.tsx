@@ -26,6 +26,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { loadUnit, saveUnit } from "@/lib/serializeUnit";
 import { loadOrToast } from "@/lib/toast";
+import { normalizeString } from "@/lib/normalizeString";
+import DownloadableCard from "./DownloadableCard";
 
 export default function UnitEditor() {
   const {
@@ -38,6 +40,9 @@ export default function UnitEditor() {
     setCurrent: setUnit,
   } = useCardInstances<Unit>(initialUnit, "unit");
 
+
+  const previewName =
+    normalizeString(String(unit.name ?? "")) || "unit";
   return (
     <div className={clsx("d-print-none", styles.editor)}>
       <Card className={styles.properties}>
@@ -94,8 +99,12 @@ export default function UnitEditor() {
         <CardBody>
           <div className={styles.previewContainer}>
             <div className={styles.previewRow}>
-              <UnitCard unit={unit} />
-              <UnitCardBack unit={unit} />
+              <DownloadableCard filename={`${previewName}-front`}>
+                <UnitCard unit={unit} />
+              </DownloadableCard>
+              <DownloadableCard filename={`${previewName}-back`}>
+                <UnitCardBack unit={unit} />
+              </DownloadableCard>
             </div>
           </div>
         </CardBody>

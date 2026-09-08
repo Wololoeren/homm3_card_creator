@@ -6,7 +6,7 @@
   padding: calc(3mm + 2mm); /* Black outline + border */
   background: black;
   position: relative;
-  letter-spacing: 0.05em;
+  letter-spacing: var(--card-letter-spacing);
   color: var(--white);
 
   text-shadow:

@@ -4,11 +4,11 @@
   width: 62.5mm;
   height: 87.9mm;
   background: black;
-  background-image: url("@/assets/cards/spell-parchment.jpg");
+  background-image: url("@/assets/cards/spell-parchment.webp");
   background-size: 100% 100%;
   position: relative;
   margin: 0;
-  letter-spacing: 0.05em;
+  letter-spacing: var(--card-letter-spacing);
   color: var(--white);
   text-shadow: 0 0 0.25mm black, 0 0.25mm 0.5mm black;
 
@@ -29,7 +29,8 @@
     text-shadow: 0 0 0.5mm #2a1a08, 0.25mm 0.25mm 0.35mm #2a1a08,
       -0.25mm 0.25mm 0.35mm #2a1a08, 0.25mm -0.25mm 0.35mm #2a1a08,
       -0.25mm -0.25mm 0.35mm #2a1a08;
-    font-size: 15pt;
+    font-size: var(--card-title-size);
+    letter-spacing: var(--card-title-letter-spacing);
     margin: 0;
     text-align: center;
     white-space: nowrap;
@@ -102,7 +103,7 @@
   justify-content: center;
   text-align: center;
   /* Printed effect text is white; only the title and table glyphs are gold. */
-  font-size: 8pt;
+  font-size: var(--card-body-size);
   line-height: 1.25em;
 
   img {

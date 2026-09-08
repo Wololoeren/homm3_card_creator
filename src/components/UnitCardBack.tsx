@@ -1,10 +1,10 @@
 import { Unit, UnitTier } from "@/models/unit";
 import styles from "./UnitCardBack.module.css";
 
-import BronzeBack from "@/assets/cards/neutral-back-tiers/bronze.jpg";
-import SilverBack from "@/assets/cards/neutral-back-tiers/silver.jpg";
-import GoldenBack from "@/assets/cards/neutral-back-tiers/golden.jpg";
-import AzureBack from "@/assets/cards/neutral-back-tiers/azure.jpg";
+import BronzeBack from "@/assets/cards/neutral-back-tiers/bronze.webp";
+import SilverBack from "@/assets/cards/neutral-back-tiers/silver.webp";
+import GoldenBack from "@/assets/cards/neutral-back-tiers/golden.webp";
+import AzureBack from "@/assets/cards/neutral-back-tiers/azure.webp";
 
 const backImages: Record<UnitTier, { src: string }> = {
   [UnitTier.Bronze]: BronzeBack,

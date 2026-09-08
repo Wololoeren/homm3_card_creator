@@ -14,12 +14,26 @@ body {
   --border-dark: #6a4835;
 
   --yellow: #e8d66b;
+  --yellow-middle: #f3e097;
+  --yellow-lighter: #fbf3c8;
   --white: #ffffff;
 
   --bronze: #a24f18;
   --silver: #dadada;
   --golden: #e1bb3a;
   --azure: #3a5ba7;
+
+  /* Card typography, shared so the text on every card type is set the same way
+     rather than drifting per file. Tracking is inherited from each card's root,
+     so it reaches every line the card draws. */
+  --card-letter-spacing: 0.025em;
+  /* Titles are set tighter than the body: they are large, and the tracking that
+     opens up small print only makes a name band run out of room. */
+  --card-title-letter-spacing: 0.01em;
+
+  --card-title-size: 13pt;
+  --card-body-size: 7pt;
+  --card-flavor-size: 6.5pt;
 }
 
 .bronze {

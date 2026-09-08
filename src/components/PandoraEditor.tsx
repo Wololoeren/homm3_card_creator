@@ -30,6 +30,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { loadPandoraCard, savePandoraCard } from "@/lib/serializePandoraCard";
 import { loadOrToast } from "@/lib/toast";
+import { normalizeString } from "@/lib/normalizeString";
+import DownloadableCard from "./DownloadableCard";
 
 export default function PandoraEditor() {
   const {
@@ -42,6 +44,9 @@ export default function PandoraEditor() {
     setCurrent: setPandora,
   } = useCardInstances<PandoraCardModel>(initialPandoraCard, "pandora");
 
+
+  const previewName =
+    normalizeString(String(pandora.name || defaultPandoraName)) || "pandora";
   return (
     <div className={clsx("d-print-none", styles.editor)}>
       <Card className={styles.properties}>
@@ -105,8 +110,12 @@ export default function PandoraEditor() {
         <CardBody>
           <div className={styles.previewContainer}>
             <div className={styles.previewRow}>
-              <PandoraCard pandora={pandora} />
-              <PandoraCardBack />
+              <DownloadableCard filename={`${previewName}-front`}>
+                <PandoraCard pandora={pandora} />
+              </DownloadableCard>
+              <DownloadableCard filename={`${previewName}-back`}>
+                <PandoraCardBack />
+              </DownloadableCard>
             </div>
           </div>
         </CardBody>

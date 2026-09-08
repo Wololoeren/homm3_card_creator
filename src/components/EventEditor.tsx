@@ -29,6 +29,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { loadEventCard, saveEventCard } from "@/lib/serializeEventCard";
 import { loadOrToast } from "@/lib/toast";
+import { normalizeString } from "@/lib/normalizeString";
+import DownloadableCard from "./DownloadableCard";
 
 export default function EventEditor() {
   const {
@@ -41,6 +43,9 @@ export default function EventEditor() {
     setCurrent: setEvent,
   } = useCardInstances<EventCardModel>(initialEventCard, "event");
 
+
+  const previewName =
+    normalizeString(String(event.name ?? "")) || "event";
   return (
     <div className={clsx("d-print-none", styles.editor)}>
       <Card className={styles.properties}>
@@ -99,10 +104,12 @@ export default function EventEditor() {
         <CardBody>
           <div className={styles.previewContainer}>
             <div className={styles.previewRow}>
-              <EventCard event={event} />
-              <div className={styles.flipped}>
+              <DownloadableCard filename={`${previewName}-front`}>
+                <EventCard event={event} />
+              </DownloadableCard>
+              <DownloadableCard filename={`${previewName}-back`} flipped>
                 <EventCardBack />
-              </div>
+              </DownloadableCard>
             </div>
           </div>
         </CardBody>

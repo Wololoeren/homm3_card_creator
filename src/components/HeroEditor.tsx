@@ -27,6 +27,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { loadHero, saveHero } from "@/lib/serializeHero";
 import { loadOrToast } from "@/lib/toast";
+import { normalizeString } from "@/lib/normalizeString";
+import DownloadableCard from "./DownloadableCard";
 
 export default function HeroEditor() {
   const {
@@ -38,6 +40,8 @@ export default function HeroEditor() {
     append,
     setCurrent: setHero,
   } = useCardInstances<Hero>(initialHero, "hero");
+
+  const previewName = normalizeString(String(hero.name ?? "")) || "hero";
 
   return (
     <div className={clsx("d-print-none", styles.editor)}>
@@ -100,7 +104,9 @@ export default function HeroEditor() {
         <CardBody className={styles.previewBody}>
           <div className={styles.previewContainer}>
             <div className="d-flex justify-content-center">
-              <HeroBoard hero={hero} />
+              <DownloadableCard filename={`${previewName}-board`}>
+                <HeroBoard hero={hero} />
+              </DownloadableCard>
             </div>
             <br />
             <HeroCards hero={hero} />

@@ -6,7 +6,7 @@
   background: black;
   position: relative;
   margin: 0;
-  letter-spacing: 0.05em;
+  letter-spacing: var(--card-letter-spacing);
   color: var(--white);
   text-shadow: 0 0 0.25mm black, 0 0.25mm 0.5mm black;
 
@@ -41,7 +41,8 @@
 
   h3 {
     color: var(--yellow);
-    font-size: 14pt;
+    font-size: var(--card-title-size);
+    letter-spacing: var(--card-title-letter-spacing);
     margin: 0;
     text-align: center;
     white-space: nowrap;
@@ -67,7 +68,7 @@
   justify-content: center;
   text-align: center;
   padding: 0 3mm;
-  font-size: 8.5pt;
+  font-size: var(--card-body-size);
   line-height: 1.3em;
 
   img {

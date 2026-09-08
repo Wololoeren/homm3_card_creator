@@ -32,6 +32,8 @@ import {
   saveArtifactCard,
 } from "@/lib/serializeArtifactCard";
 import { loadOrToast } from "@/lib/toast";
+import { normalizeString } from "@/lib/normalizeString";
+import DownloadableCard from "./DownloadableCard";
 
 export default function ArtifactEditor() {
   const {
@@ -44,6 +46,9 @@ export default function ArtifactEditor() {
     setCurrent: setArtifact,
   } = useCardInstances<ArtifactCardModel>(initialArtifactCard, "artifact");
 
+
+  const previewName =
+    normalizeString(String(artifact.name ?? "")) || "artifact";
   return (
     <div className={clsx("d-print-none", styles.editor)}>
       <Card className={styles.properties}>
@@ -105,8 +110,12 @@ export default function ArtifactEditor() {
         <CardBody>
           <div className={styles.previewContainer}>
             <div className={styles.previewRow}>
-              <ArtifactCard artifact={artifact} />
-              <ArtifactCardBack />
+              <DownloadableCard filename={`${previewName}-front`}>
+                <ArtifactCard artifact={artifact} />
+              </DownloadableCard>
+              <DownloadableCard filename={`${previewName}-back`}>
+                <ArtifactCardBack />
+              </DownloadableCard>
             </div>
           </div>
         </CardBody>

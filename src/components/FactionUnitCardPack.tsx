@@ -14,6 +14,7 @@ import { useBackground, useBorder } from "@/hooks/background";
 import { colord } from "colord";
 import { TypeBadge } from "./FactionUnitCard";
 
+import { PackHashIcon, unitStatIcons } from "@/lib/unitIcons";
 import GoldIcon from "@/assets/glyphsInternal/price-icons/gold.png";
 import ValuableIcon from "@/assets/glyphsInternal/price-icons/valuables.png";
 import PayIcon from "@/assets/glyphsInternal/price-icons/pay.png";
@@ -69,19 +70,19 @@ export default function FactionUnitCardPack({ unit }: { unit: FactionUnit }) {
 
       <div className={clsx(styles.stats, styles.statsAloneRow)}>
         <div className={clsx(styles.block, styles.tint, styles.stat)}>
-          <img src="images/attack.png" alt="Attack" />
+          <img src={unitStatIcons.attack.src} alt="Attack" />
           <span>{unit.pack.attack}</span>
         </div>
         <div className={clsx(styles.block, styles.tint, styles.stat)}>
-          <img src="images/defense.png" alt="Defense" />
+          <img src={unitStatIcons.defense.src} alt="Defense" />
           <span>{unit.pack.defense}</span>
         </div>
         <div className={clsx(styles.block, styles.tint, styles.stat)}>
-          <img src="images/hp.png" alt="Health" />
+          <img src={unitStatIcons.health.src} alt="Health" />
           <span>{unit.pack.health}</span>
         </div>
         <div className={clsx(styles.block, styles.tint, styles.stat)}>
-          <img src="images/initiative.png" alt="Initiative" />
+          <img src={unitStatIcons.initiative.src} alt="Initiative" />
           <span>{unit.pack.initiative}</span>
         </div>
       </div>
@@ -123,7 +124,10 @@ export default function FactionUnitCardPack({ unit }: { unit: FactionUnit }) {
         </div>
       ) : (
         <div className={clsx(styles.block, styles.tint, styles.packBand)}>
-          <span># PACK</span>
+          <span>
+            <img className={styles.packHash} src={PackHashIcon.src} alt="#" />
+            PACK
+          </span>
         </div>
       )}
 

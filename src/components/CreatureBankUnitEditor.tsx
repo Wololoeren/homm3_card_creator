@@ -32,6 +32,8 @@ import {
   saveCreatureBankUnit,
 } from "@/lib/serializeCreatureBankUnit";
 import { loadOrToast } from "@/lib/toast";
+import { normalizeString } from "@/lib/normalizeString";
+import DownloadableCard from "./DownloadableCard";
 
 export default function CreatureBankUnitEditor() {
   const {
@@ -44,6 +46,9 @@ export default function CreatureBankUnitEditor() {
     setCurrent: setUnit,
   } = useCardInstances<CreatureBankUnitModel>(initialCreatureBankUnit, "creatureBankUnit");
 
+
+  const previewName =
+    normalizeString(String(unit.name ?? "")) || "creature_bank_unit";
   return (
     <div className={clsx("d-print-none", styles.editor)}>
       <Card className={styles.properties}>
@@ -102,8 +107,12 @@ export default function CreatureBankUnitEditor() {
         <CardBody>
           <div className={styles.previewContainer}>
             <div className={styles.previewRow}>
-              <CreatureBankUnitCard unit={unit} />
-              <CreatureBankUnitCardBack />
+              <DownloadableCard filename={`${previewName}-front`}>
+                <CreatureBankUnitCard unit={unit} />
+              </DownloadableCard>
+              <DownloadableCard filename={`${previewName}-back`}>
+                <CreatureBankUnitCardBack />
+              </DownloadableCard>
             </div>
           </div>
         </CardBody>

@@ -29,6 +29,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { loadSpellCard, saveSpellCard } from "@/lib/serializeSpellCard";
 import { loadOrToast } from "@/lib/toast";
+import { normalizeString } from "@/lib/normalizeString";
+import DownloadableCard from "./DownloadableCard";
 
 export default function SpellEditor() {
   const {
@@ -41,6 +43,9 @@ export default function SpellEditor() {
     setCurrent: setSpell,
   } = useCardInstances<SpellCardModel>(initialSpellCard, "spell");
 
+
+  const previewName =
+    normalizeString(String(spell.name ?? "")) || "spell";
   return (
     <div className={clsx("d-print-none", styles.editor)}>
       <Card className={styles.properties}>
@@ -99,8 +104,12 @@ export default function SpellEditor() {
         <CardBody>
           <div className={styles.previewContainer}>
             <div className={styles.previewRow}>
-              <SpellCard spell={spell} />
-              <SpellCardBack />
+              <DownloadableCard filename={`${previewName}-front`}>
+                <SpellCard spell={spell} />
+              </DownloadableCard>
+              <DownloadableCard filename={`${previewName}-back`}>
+                <SpellCardBack />
+              </DownloadableCard>
             </div>
           </div>
         </CardBody>

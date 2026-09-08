@@ -32,6 +32,8 @@ import {
   saveAstrologerCard,
 } from "@/lib/serializeAstrologerCard";
 import { loadOrToast } from "@/lib/toast";
+import { normalizeString } from "@/lib/normalizeString";
+import DownloadableCard from "./DownloadableCard";
 
 export default function AstrologerEditor() {
   const {
@@ -44,6 +46,9 @@ export default function AstrologerEditor() {
     setCurrent: setAstrologer,
   } = useCardInstances<AstrologerCardModel>(initialAstrologerCard, "astrologer");
 
+
+  const previewName =
+    normalizeString(String(astrologer.name ?? "")) || "astrologer";
   return (
     <div className={clsx("d-print-none", styles.editor)}>
       <Card className={styles.properties}>
@@ -109,10 +114,12 @@ export default function AstrologerEditor() {
         <CardBody>
           <div className={styles.previewContainer}>
             <div className={styles.previewRow}>
-              <AstrologerCard astrologer={astrologer} />
-              <div className={styles.flipped}>
+              <DownloadableCard filename={`${previewName}-front`}>
+                <AstrologerCard astrologer={astrologer} />
+              </DownloadableCard>
+              <DownloadableCard filename={`${previewName}-back`} flipped>
                 <AstrologerCardBack />
-              </div>
+              </DownloadableCard>
             </div>
           </div>
         </CardBody>

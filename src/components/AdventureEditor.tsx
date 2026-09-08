@@ -32,6 +32,8 @@ import {
   saveAdventureCard,
 } from "@/lib/serializeAdventureCard";
 import { loadOrToast } from "@/lib/toast";
+import { normalizeString } from "@/lib/normalizeString";
+import DownloadableCard from "./DownloadableCard";
 
 export default function AdventureEditor() {
   const {
@@ -44,6 +46,9 @@ export default function AdventureEditor() {
     setCurrent: setAdventure,
   } = useCardInstances<AdventureCardModel>(initialAdventureCard, "adventure");
 
+
+  const previewName =
+    normalizeString(String(adventure.name ?? "")) || "adventure";
   return (
     <div className={clsx("d-print-none", styles.editor)}>
       <Card className={styles.properties}>
@@ -105,8 +110,12 @@ export default function AdventureEditor() {
         <CardBody>
           <div className={styles.previewContainer}>
             <div className={styles.previewRow}>
-              <AdventureCard adventure={adventure} />
-              <AdventureCardBack />
+              <DownloadableCard filename={`${previewName}-front`}>
+                <AdventureCard adventure={adventure} />
+              </DownloadableCard>
+              <DownloadableCard filename={`${previewName}-back`}>
+                <AdventureCardBack />
+              </DownloadableCard>
             </div>
           </div>
         </CardBody>

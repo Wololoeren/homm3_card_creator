@@ -4,8 +4,8 @@ import { MoraleCard as MoraleCardModel, MoraleType } from "@/models/moraleCard";
 import styles from "./MoraleCard.module.css";
 import { textToComponent } from "@/lib/textToComponent";
 
-import PositiveTemplate from "@/assets/cards/morale-positive-template.png";
-import NegativeTemplate from "@/assets/cards/morale-negative-template.png";
+import PositiveTemplate from "@/assets/cards/morale-positive-template.webp";
+import NegativeTemplate from "@/assets/cards/morale-negative-template.webp";
 
 const moraleTemplates: Record<MoraleType, string> = {
   [MoraleType.Positive]: PositiveTemplate.src,

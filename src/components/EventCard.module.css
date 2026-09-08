@@ -4,11 +4,11 @@
   width: 87.9mm;
   height: 62.5mm;
   background: black;
-  background-image: url("@/assets/cards/event-parchment.jpg");
+  background-image: url("@/assets/cards/event-parchment.webp");
   background-size: 100% 100%;
   position: relative;
   margin: 0;
-  letter-spacing: 0.05em;
+  letter-spacing: var(--card-letter-spacing);
   color: var(--white);
   text-shadow: 0 0 0.25mm black, 0 0.25mm 0.5mm black;
   /* Bands from stables.xcf (2900x2090 canvas). */
@@ -27,7 +27,8 @@
 
   h3 {
     color: var(--yellow);
-    font-size: 13pt;
+    font-size: var(--card-title-size);
+    letter-spacing: var(--card-title-letter-spacing);
     font-style: italic;
     font-weight: bold;
     margin: 0;
@@ -56,7 +57,7 @@
   text-align: center;
   padding: 0 3mm;
   font-style: italic;
-  font-size: 7.5pt;
+  font-size: var(--card-flavor-size);
   line-height: 1.25em;
   color: var(--yellow);
 }
@@ -69,7 +70,7 @@
   justify-content: center;
   text-align: center;
   padding: 0 3mm;
-  font-size: 8.5pt;
+  font-size: var(--card-body-size);
   line-height: 1.35em;
 
   img {

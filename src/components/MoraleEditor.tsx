@@ -29,6 +29,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { loadMoraleCard, saveMoraleCard } from "@/lib/serializeMoraleCard";
 import { loadOrToast } from "@/lib/toast";
+import { normalizeString } from "@/lib/normalizeString";
+import DownloadableCard from "./DownloadableCard";
 
 export default function MoraleEditor() {
   const {
@@ -41,6 +43,12 @@ export default function MoraleEditor() {
     setCurrent: setMorale,
   } = useCardInstances<MoraleCardModel>(initialMoraleCard, "morale");
 
+
+  // Morale cards are identified by type rather than a name, matching the
+  // filename the JSON export uses.
+  const previewName = `${
+    normalizeString(String(morale.type ?? "")) || "morale"
+  }_morale`;
   return (
     <div className={clsx("d-print-none", styles.editor)}>
       <Card className={styles.properties}>
@@ -99,8 +107,12 @@ export default function MoraleEditor() {
         <CardBody>
           <div className={styles.previewContainer}>
             <div className={styles.previewRow}>
-              <MoraleCard morale={morale} />
-              <MoraleCardBack type={morale.type} />
+              <DownloadableCard filename={`${previewName}-front`}>
+                <MoraleCard morale={morale} />
+              </DownloadableCard>
+              <DownloadableCard filename={`${previewName}-back`}>
+                <MoraleCardBack type={morale.type} />
+              </DownloadableCard>
             </div>
           </div>
         </CardBody>

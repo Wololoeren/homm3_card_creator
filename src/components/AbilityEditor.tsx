@@ -29,6 +29,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { loadAbilityCard, saveAbilityCard } from "@/lib/serializeAbilityCard";
 import { loadOrToast } from "@/lib/toast";
+import { normalizeString } from "@/lib/normalizeString";
+import DownloadableCard from "./DownloadableCard";
 
 export default function AbilityEditor() {
   const {
@@ -41,6 +43,9 @@ export default function AbilityEditor() {
     setCurrent: setAbility,
   } = useCardInstances<AbilityCardModel>(initialAbilityCard, "ability");
 
+
+  const previewName =
+    normalizeString(String(ability.name ?? "")) || "ability";
   return (
     <div className={clsx("d-print-none", styles.editor)}>
       <Card className={styles.properties}>
@@ -99,8 +104,12 @@ export default function AbilityEditor() {
         <CardBody>
           <div className={styles.previewContainer}>
             <div className={styles.previewRow}>
-              <AbilityCard ability={ability} />
-              <AbilityCardBack />
+              <DownloadableCard filename={`${previewName}-front`}>
+                <AbilityCard ability={ability} />
+              </DownloadableCard>
+              <DownloadableCard filename={`${previewName}-back`}>
+                <AbilityCardBack />
+              </DownloadableCard>
             </div>
           </div>
         </CardBody>

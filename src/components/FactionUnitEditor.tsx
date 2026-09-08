@@ -26,6 +26,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { loadFactionUnit, saveFactionUnit } from "@/lib/serializeFactionUnit";
 import { loadOrToast } from "@/lib/toast";
+import { normalizeString } from "@/lib/normalizeString";
+import DownloadableCard from "./DownloadableCard";
 
 export default function FactionUnitEditor() {
   const {
@@ -38,6 +40,9 @@ export default function FactionUnitEditor() {
     setCurrent: setUnit,
   } = useCardInstances<FactionUnit>(initialFactionUnit, "factionUnit");
 
+
+  const previewName =
+    normalizeString(String(unit.name ?? "")) || "faction_unit";
   return (
     <div className={clsx("d-print-none", styles.editor)}>
       <Card className={styles.properties}>
@@ -96,8 +101,12 @@ export default function FactionUnitEditor() {
         <CardBody>
           <div className={styles.previewContainer}>
             <div className={styles.previewRow}>
-              <FactionUnitCard unit={unit} />
-              <FactionUnitCardPack unit={unit} />
+              <DownloadableCard filename={`${previewName}-front`}>
+                <FactionUnitCard unit={unit} />
+              </DownloadableCard>
+              <DownloadableCard filename={`${previewName}-pack`}>
+                <FactionUnitCardPack unit={unit} />
+              </DownloadableCard>
             </div>
           </div>
         </CardBody>

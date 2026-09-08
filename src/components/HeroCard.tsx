@@ -8,31 +8,40 @@ import SpellEffect from "./SpellEffect";
 
 import { townColors } from "@/models/color";
 import { useBackground } from "@/hooks/background";
+import { unitStatIcons } from "@/lib/unitIcons";
 
 const textToComponentProps: TextToComponentProps = {
   renderSpell: (props) => <SpellEffect {...props} />,
   renderUnitStats: (props) => (
     <div className={styles.unitStats}>
       <div>
-        <img className={styles.unitIcon} src="images/attack.png" alt="Attack" />{" "}
+        <img
+          className={styles.unitIcon}
+          src={unitStatIcons.attack.src}
+          alt="Attack"
+        />{" "}
         {props.attack}
       </div>
       <div>
         <img
           className={styles.unitIcon}
-          src="images/defense.png"
+          src={unitStatIcons.defense.src}
           alt="Defense"
         />{" "}
         {props.defense}
       </div>
       <div>
-        <img className={styles.unitIcon} src="images/hp.png" alt="Health" />{" "}
+        <img
+          className={styles.unitIcon}
+          src={unitStatIcons.health.src}
+          alt="Health"
+        />{" "}
         {props.health}
       </div>
       <div>
         <img
           className={styles.unitIcon}
-          src="images/initiative.png"
+          src={unitStatIcons.initiative.src}
           alt="Speed"
         />{" "}
         {props.speed}

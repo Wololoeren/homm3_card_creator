@@ -6,7 +6,7 @@
   background: black;
   position: relative;
   margin: 0;
-  letter-spacing: 0.05em;
+  letter-spacing: var(--card-letter-spacing);
   color: var(--white);
   text-shadow: 0 0 0.25mm black, 0 0.25mm 0.5mm black;
 
@@ -52,7 +52,8 @@
 
   h3 {
     color: var(--yellow);
-    font-size: 13pt;
+    font-size: var(--card-title-size);
+    letter-spacing: var(--card-title-letter-spacing);
     margin: 0;
     text-align: center;
     white-space: nowrap;
@@ -87,7 +88,7 @@
   /* The inner panel already insets the text 5mm from the card edge, so this
      only needs to keep it clear of the frame, not repeat that inset. */
   padding: 0 1mm;
-  font-size: 8.5pt;
+  font-size: var(--card-body-size);
   line-height: 1.3em;
 
   img {
