@@ -19,6 +19,7 @@ import PandoraForm from "./PandoraForm";
 import PandoraCard from "./PandoraCard";
 import PandoraCardBack from "./PandoraCardBack";
 import clsx from "clsx";
+import ScaledPreview from "./ScaledPreview";
 import styles from "./PandoraEditor.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -100,16 +101,14 @@ export default function PandoraEditor() {
           </h2>
         </CardHeader>
         <CardBody>
-          <div className={styles.previewContainer}>
-            <div className={styles.previewRow}>
-              <DownloadableCard filename={`${previewName}-front`}>
-                <PandoraCard pandora={pandora} />
-              </DownloadableCard>
-              <DownloadableCard filename={`${previewName}-back`}>
-                <PandoraCardBack />
-              </DownloadableCard>
-            </div>
-          </div>
+          <ScaledPreview className={styles.previewRow}>
+            <DownloadableCard filename={`${previewName}-front`}>
+              <PandoraCard pandora={pandora} />
+            </DownloadableCard>
+            <DownloadableCard filename={`${previewName}-back`}>
+              <PandoraCardBack />
+            </DownloadableCard>
+          </ScaledPreview>
         </CardBody>
       </Card>
     </div>

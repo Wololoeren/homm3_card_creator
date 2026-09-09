@@ -24,18 +24,26 @@ function fakeCanvas(
 }
 
 /**
- * Builds a card element nested `zooms.length` ancestors deep, optionally
- * carrying the ::before declarations the exporter has to inline.
+ * Builds a card element nested under one wrapper per magnifying ancestor,
+ * optionally carrying the ::before declarations the exporter has to inline.
+ * A `transform` on the card itself stands in for the flip a landscape back is
+ * previewed with.
  */
 function mountCard({
   width = 236,
   height = 332,
   zooms = [] as string[],
+  transforms = [] as string[],
+  transform,
+  fontSize = "9.333px",
   before,
 }: {
   width?: number;
   height?: number;
   zooms?: string[];
+  transforms?: string[];
+  transform?: string;
+  fontSize?: string;
   before?: Record<string, string>;
 } = {}): HTMLElement {
   let parent = document.body;
@@ -45,13 +53,20 @@ function mountCard({
     parent.appendChild(wrapper);
     parent = wrapper;
   }
+  for (const value of transforms) {
+    const wrapper = document.createElement("div");
+    wrapper.dataset.transform = value;
+    parent.appendChild(wrapper);
+    parent = wrapper;
+  }
 
   const node = document.createElement("div");
+  if (transform) node.dataset.transform = transform;
   parent.appendChild(node);
   node.getBoundingClientRect = () => ({ width, height }) as DOMRect;
 
-  // happy-dom implements neither `zoom` nor pseudo-element styles, so both are
-  // served from the test's own description of the card.
+  // happy-dom implements neither the magnification nor pseudo-element styles,
+  // so both are served from the test's own description of the card.
   vi.spyOn(window, "getComputedStyle").mockImplementation(
     (element: Element, pseudo?: string | null) => {
       const declarations =
@@ -59,7 +74,11 @@ function mountCard({
 
       return {
         zoom: (element as HTMLElement).dataset?.zoom ?? "",
-        getPropertyValue: (name: string) => declarations[name] ?? "",
+        transform: (element as HTMLElement).dataset?.transform ?? "none",
+        getPropertyValue: (name: string) =>
+          name === "font-size" && !pseudo
+            ? fontSize
+            : (declarations[name] ?? ""),
       } as CSSStyleDeclaration;
     }
   );
@@ -141,6 +160,32 @@ describe("downloadCardWebp", () => {
     expect(toCanvas.mock.calls[0][1].width).toBeCloseTo(472 / 2.4);
   });
 
+  it("divides out an ancestor's preview scaling so the export keeps the true size", async () => {
+    const node = mountCard({
+      width: 283.2,
+      height: 398.4,
+      transforms: ["matrix(1.2, 0, 0, 1.2, 0, 0)"],
+    });
+
+    await downloadCardWebp(node, "spell");
+
+    const options = toCanvas.mock.calls[0][1];
+    expect(options.width).toBeCloseTo(236);
+    expect(options.height).toBeCloseTo(332);
+  });
+
+  it("keeps the card's own flip out of the measurement, since it does not resize it", async () => {
+    const node = mountCard({
+      width: 236,
+      height: 332,
+      transform: "matrix(1, 0, 0, -1, 0, 0)",
+    });
+
+    await downloadCardWebp(node, "astrologer-back");
+
+    expect(toCanvas.mock.calls[0][1].width).toBeCloseTo(236);
+  });
+
   it("strips the preview-only zoom and flip from the captured clone", async () => {
     await downloadCardWebp(mountCard({ zooms: ["1.2"] }), "astrologer-back");
 
@@ -148,6 +193,32 @@ describe("downloadCardWebp", () => {
       zoom: "1",
       transform: "none",
     });
+  });
+
+  it("hides the px font sizes from the renderer, which would shrink them", async () => {
+    const node = mountCard({ fontSize: "9.333px" });
+    let captured = "";
+    toCanvas.mockImplementation(async () => {
+      captured = window.getComputedStyle(node).getPropertyValue("font-size");
+      return fakeCanvas();
+    });
+
+    await downloadCardWebp(node, "spell");
+
+    // html-to-image only rewrites a value that ends in `px`, and a calc() of
+    // the same length is the size the card is actually set in.
+    expect(captured).toBe("calc(9.333px)");
+  });
+
+  it("leaves the page's own style reads alone once the capture is over", async () => {
+    const node = mountCard({ fontSize: "9.333px" });
+    toCanvas.mockRejectedValue(new Error("tainted canvas"));
+
+    await downloadCardWebp(node, "spell");
+
+    expect(window.getComputedStyle(node).getPropertyValue("font-size")).toBe(
+      "9.333px"
+    );
   });
 
   it("reports a failed render as a toast instead of throwing", async () => {

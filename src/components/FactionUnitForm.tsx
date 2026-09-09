@@ -32,7 +32,7 @@ export default function FactionUnitForm({
   const setTier = (tier: UnitTier) => setUnit({ ...unit, tier });
   const townColor = townColors[unit.town];
   // The panel colour used before custom colours existed.
-  const defaultPanelColor = "#6c5e38";
+  const defaultPanelColor = "#5b3e1f";
   // Border and panels toggle independently. Each seeds from its own default
   // when switched on, so flipping a switch changes nothing until a colour is
   // moved: the border from the town, the panels from their original brown.

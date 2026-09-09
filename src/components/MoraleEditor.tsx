@@ -18,6 +18,7 @@ import MoraleForm from "./MoraleForm";
 import MoraleCard from "./MoraleCard";
 import MoraleCardBack from "./MoraleCardBack";
 import clsx from "clsx";
+import ScaledPreview from "./ScaledPreview";
 import styles from "./MoraleEditor.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -101,16 +102,14 @@ export default function MoraleEditor() {
           </h2>
         </CardHeader>
         <CardBody>
-          <div className={styles.previewContainer}>
-            <div className={styles.previewRow}>
-              <DownloadableCard filename={`${previewName}-front`}>
-                <MoraleCard morale={morale} />
-              </DownloadableCard>
-              <DownloadableCard filename={`${previewName}-back`}>
-                <MoraleCardBack type={morale.type} />
-              </DownloadableCard>
-            </div>
-          </div>
+          <ScaledPreview className={styles.previewRow}>
+            <DownloadableCard filename={`${previewName}-front`}>
+              <MoraleCard morale={morale} />
+            </DownloadableCard>
+            <DownloadableCard filename={`${previewName}-back`}>
+              <MoraleCardBack type={morale.type} />
+            </DownloadableCard>
+          </ScaledPreview>
         </CardBody>
       </Card>
     </div>

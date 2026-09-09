@@ -18,6 +18,7 @@ import AdventureForm from "./AdventureForm";
 import AdventureCard from "./AdventureCard";
 import AdventureCardBack from "./AdventureCardBack";
 import clsx from "clsx";
+import ScaledPreview from "./ScaledPreview";
 import styles from "./AdventureEditor.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -104,16 +105,14 @@ export default function AdventureEditor() {
           </h2>
         </CardHeader>
         <CardBody>
-          <div className={styles.previewContainer}>
-            <div className={styles.previewRow}>
-              <DownloadableCard filename={`${previewName}-front`}>
-                <AdventureCard adventure={adventure} />
-              </DownloadableCard>
-              <DownloadableCard filename={`${previewName}-back`}>
-                <AdventureCardBack />
-              </DownloadableCard>
-            </div>
-          </div>
+          <ScaledPreview className={styles.previewRow}>
+            <DownloadableCard filename={`${previewName}-front`}>
+              <AdventureCard adventure={adventure} />
+            </DownloadableCard>
+            <DownloadableCard filename={`${previewName}-back`}>
+              <AdventureCardBack />
+            </DownloadableCard>
+          </ScaledPreview>
         </CardBody>
       </Card>
     </div>

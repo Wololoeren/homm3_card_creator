@@ -7,7 +7,6 @@
   background-size: 100% 100%;
   position: relative;
   margin: 0;
-  letter-spacing: var(--card-letter-spacing);
   color: var(--white);
   text-shadow: 0 0 0.25mm black, 0 0.25mm 0.5mm black;
 

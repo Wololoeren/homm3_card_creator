@@ -118,9 +118,10 @@ export default function DownloadableCard({
         <FontAwesomeIcon icon={exporting ? faSpinner : faFileImage} spin={exporting} />
       </Button>
       {zoomed &&
-        // Portalled to the body because the previews are magnified with `zoom`,
-        // which scales even a fixed descendant — the overlay would come out as
-        // large as the zoom factor and no longer cover the window.
+        // Portalled to the body because the previews are magnified with a
+        // transform, and a fixed descendant of one is laid out against the
+        // transformed box rather than the window, so the overlay would land
+        // scaled and offset instead of covering the screen.
         createPortal(
           <div
             className={styles.lightbox}

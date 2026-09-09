@@ -18,6 +18,7 @@ import ArtifactForm from "./ArtifactForm";
 import ArtifactCard from "./ArtifactCard";
 import ArtifactCardBack from "./ArtifactCardBack";
 import clsx from "clsx";
+import ScaledPreview from "./ScaledPreview";
 import styles from "./ArtifactEditor.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -104,16 +105,14 @@ export default function ArtifactEditor() {
           </h2>
         </CardHeader>
         <CardBody>
-          <div className={styles.previewContainer}>
-            <div className={styles.previewRow}>
-              <DownloadableCard filename={`${previewName}-front`}>
-                <ArtifactCard artifact={artifact} />
-              </DownloadableCard>
-              <DownloadableCard filename={`${previewName}-back`}>
-                <ArtifactCardBack />
-              </DownloadableCard>
-            </div>
-          </div>
+          <ScaledPreview className={styles.previewRow}>
+            <DownloadableCard filename={`${previewName}-front`}>
+              <ArtifactCard artifact={artifact} />
+            </DownloadableCard>
+            <DownloadableCard filename={`${previewName}-back`}>
+              <ArtifactCardBack />
+            </DownloadableCard>
+          </ScaledPreview>
         </CardBody>
       </Card>
     </div>

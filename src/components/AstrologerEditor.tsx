@@ -18,6 +18,7 @@ import AstrologerForm from "./AstrologerForm";
 import AstrologerCard from "./AstrologerCard";
 import AstrologerCardBack from "./AstrologerCardBack";
 import clsx from "clsx";
+import ScaledPreview from "./ScaledPreview";
 import styles from "./AstrologerEditor.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -104,16 +105,14 @@ export default function AstrologerEditor() {
           </h2>
         </CardHeader>
         <CardBody>
-          <div className={styles.previewContainer}>
-            <div className={styles.previewRow}>
-              <DownloadableCard filename={`${previewName}-front`}>
-                <AstrologerCard astrologer={astrologer} />
-              </DownloadableCard>
-              <DownloadableCard filename={`${previewName}-back`} flipped>
-                <AstrologerCardBack />
-              </DownloadableCard>
-            </div>
-          </div>
+          <ScaledPreview className={styles.previewRow}>
+            <DownloadableCard filename={`${previewName}-front`}>
+              <AstrologerCard astrologer={astrologer} />
+            </DownloadableCard>
+            <DownloadableCard filename={`${previewName}-back`} flipped>
+              <AstrologerCardBack />
+            </DownloadableCard>
+          </ScaledPreview>
         </CardBody>
       </Card>
     </div>

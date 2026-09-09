@@ -12,24 +12,43 @@ const PIXEL_RATIO = EXPORT_DPI / CSS_DPI;
 
 const WEBP_QUALITY = 0.95;
 
+/** How much a transform blows an element up, ignoring any mirroring. */
+function transformScale(transform: string | undefined): number {
+  if (!transform || transform === "none") return 1;
+  if (typeof DOMMatrixReadOnly !== "function") return 1;
+
+  try {
+    const matrix = new DOMMatrixReadOnly(transform);
+    // The previews only ever scale uniformly and flip, so the first column's
+    // length is the magnification and the sign of the flip drops out.
+    return Math.hypot(matrix.a, matrix.b) || 1;
+  } catch {
+    return 1;
+  }
+}
+
 /**
- * The previews are magnified with `zoom` for legibility, which inflates the
- * measured box. Undoing the accumulated zoom keeps an export at the card's
- * true size no matter how the surrounding preview is scaled.
+ * The previews are magnified for legibility, which inflates the measured box.
+ * Undoing the accumulated magnification keeps an export at the card's true size
+ * no matter how the surrounding preview is scaled.
  */
-function effectiveZoom(node: HTMLElement): number {
-  let zoom = 1;
+function effectiveScale(node: HTMLElement): number {
+  let scale = 1;
 
   for (
     let current: Element | null = node;
     current;
     current = current.parentElement
   ) {
-    const value = Number.parseFloat(getComputedStyle(current).zoom);
-    if (Number.isFinite(value) && value > 0) zoom *= value;
+    const style = getComputedStyle(current);
+
+    const zoom = Number.parseFloat(style.zoom);
+    if (Number.isFinite(zoom) && zoom > 0) scale *= zoom;
+
+    scale *= transformScale(style.transform);
   }
 
-  return zoom;
+  return scale;
 }
 
 function toWebpBlob(canvas: HTMLCanvasElement): Promise<Blob> {
@@ -145,25 +164,82 @@ async function inlinePseudoImages(root: HTMLElement): Promise<() => void> {
   };
 }
 
+/**
+ * html-to-image rewrites every px `font-size` it copies onto its clone as
+ * `Math.floor(size) - 0.1`. The card's body text is 7pt, which is 9.33px on the
+ * page and would be captured at 8.9px — small enough that a line wrapping on
+ * the card fits in the export, so the file stops matching the card it came
+ * from. Its rewrite only fires on values ending in `px`, so the true size is
+ * handed over as the `calc()` that means the same thing and is left alone.
+ *
+ * Wrapping the whole capture rather than a single call because the styles are
+ * read while cloning, deep inside the renderer.
+ */
+async function withTrueFontSizes<T>(capture: () => Promise<T>): Promise<T> {
+  const real = window.getComputedStyle.bind(window);
+  // `getComputedStyle` lives on the prototype, so there is usually nothing of
+  // our own to put back — but defining rather than assigning also survives a
+  // test that has the method stubbed behind an accessor.
+  const original = Object.getOwnPropertyDescriptor(window, "getComputedStyle");
+
+  Object.defineProperty(window, "getComputedStyle", {
+    configurable: true,
+    writable: true,
+    value: (element: Element, pseudo?: string | null) => {
+      const style = real(element, pseudo);
+
+      // A proxy rather than a copy: the renderer walks the declaration for the
+      // property names it should carry over as well as reading them one by one.
+      return new Proxy(style, {
+        get(target, property) {
+          if (property === "getPropertyValue") {
+            return (name: string) => {
+              const value = target.getPropertyValue(name);
+              return name === "font-size" && value.endsWith("px")
+                ? `calc(${value})`
+                : value;
+            };
+          }
+
+          const value = Reflect.get(target, property, target);
+          return typeof value === "function" ? value.bind(target) : value;
+        },
+      });
+    },
+  });
+
+  try {
+    return await capture();
+  } finally {
+    if (original) {
+      Object.defineProperty(window, "getComputedStyle", original);
+    } else {
+      delete (window as Partial<Window>).getComputedStyle;
+    }
+  }
+}
+
 /** Renders a card element at export resolution. */
 async function renderCardCanvas(node: HTMLElement): Promise<HTMLCanvasElement> {
   // Pulled in on demand so the renderer stays out of the initial bundle.
   const { toCanvas } = await import("html-to-image");
 
-  const zoom = effectiveZoom(node);
+  const scale = effectiveScale(node);
   const { width, height } = node.getBoundingClientRect();
   const restorePseudoImages = await inlinePseudoImages(node);
 
   try {
-    return await toCanvas(node, {
-      width: width / zoom,
-      height: height / zoom,
-      pixelRatio: PIXEL_RATIO,
-      // Both are preview-only: the zoom lives on an ancestor and would double
-      // the scaling we just divided out, and the flip is how a landscape back
-      // is shown, not how it should be saved.
-      style: { zoom: "1", transform: "none" },
-    });
+    return await withTrueFontSizes(() =>
+      toCanvas(node, {
+        width: width / scale,
+        height: height / scale,
+        pixelRatio: PIXEL_RATIO,
+        // Both are preview-only: the magnification lives on an ancestor and
+        // would double the scaling we just divided out, and the flip is how a
+        // landscape back is shown, not how it should be saved.
+        style: { zoom: "1", transform: "none" },
+      })
+    );
   } finally {
     restorePseudoImages();
   }

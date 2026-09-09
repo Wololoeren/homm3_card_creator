@@ -1,0 +1,25 @@
+/* Scrolls rather than squeezes when the drawn card is wider than the pane. */
+.viewport {
+  display: flex;
+  justify-content: center;
+  overflow-x: auto;
+}
+
+/* Holds the space the scaled card is drawn in; sized from the measurement. */
+.frame {
+  flex: none;
+  position: relative;
+}
+
+/*
+ * Taken out of flow so the frame's size comes from the measurement alone, and
+ * anchored top-left so the drawn box starts where the frame does.
+ */
+.content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: max-content;
+  transform: scale(var(--preview-scale));
+  transform-origin: top left;
+}

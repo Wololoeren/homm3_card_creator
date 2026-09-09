@@ -85,7 +85,7 @@ export const initialFactionUnit: FactionUnit = {
   },
   recruitCost: { gold: 22, valuables: 1 },
   reinforceCost: { gold: 30, valuables: 2 },
-  portrait: unitPortraits[1],
+  portrait: unitPortraits.find((p) => p.name === "Arch Devils")!,
   fewSpecialty: ":unit_attack: Ignores Retaliation Attacks.",
   packSpecialty:
     ":unit_attack: Ignores Retaliation Attacks.\n:unit_special: As a regular movement, the Arch Devils can move to any empty space.",

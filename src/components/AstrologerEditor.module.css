@@ -29,13 +29,6 @@
   }
 }
 
-.previewContainer {
-  display: flex;
-  justify-content: center;
-  overflow-x: auto;
-  zoom: 1.2;
-}
-
 .previewRow {
   display: flex;
   flex-direction: column;

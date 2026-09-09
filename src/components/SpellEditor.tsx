@@ -18,6 +18,7 @@ import SpellForm from "./SpellForm";
 import SpellCard from "./SpellCard";
 import SpellCardBack from "./SpellCardBack";
 import clsx from "clsx";
+import ScaledPreview from "./ScaledPreview";
 import styles from "./SpellEditor.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -98,16 +99,14 @@ export default function SpellEditor() {
           </h2>
         </CardHeader>
         <CardBody>
-          <div className={styles.previewContainer}>
-            <div className={styles.previewRow}>
-              <DownloadableCard filename={`${previewName}-front`}>
-                <SpellCard spell={spell} />
-              </DownloadableCard>
-              <DownloadableCard filename={`${previewName}-back`}>
-                <SpellCardBack />
-              </DownloadableCard>
-            </div>
-          </div>
+          <ScaledPreview className={styles.previewRow}>
+            <DownloadableCard filename={`${previewName}-front`}>
+              <SpellCard spell={spell} />
+            </DownloadableCard>
+            <DownloadableCard filename={`${previewName}-back`}>
+              <SpellCardBack />
+            </DownloadableCard>
+          </ScaledPreview>
         </CardBody>
       </Card>
     </div>

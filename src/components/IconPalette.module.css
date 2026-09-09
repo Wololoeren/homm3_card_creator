@@ -1,7 +1,7 @@
 /* Dark like the cards themselves: the glyphs are drawn in card yellow with a
    black drop shadow, which all but disappears against a white panel. */
 .palette {
-  background: #493f22;
+  background: #5b3e1f;
   border: 1px solid #bfbfbf;
   border-radius: 4px;
   margin: 4px 0;

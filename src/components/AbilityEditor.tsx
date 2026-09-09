@@ -18,6 +18,7 @@ import AbilityForm from "./AbilityForm";
 import AbilityCard from "./AbilityCard";
 import AbilityCardBack from "./AbilityCardBack";
 import clsx from "clsx";
+import ScaledPreview from "./ScaledPreview";
 import styles from "./AbilityEditor.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -98,16 +99,14 @@ export default function AbilityEditor() {
           </h2>
         </CardHeader>
         <CardBody>
-          <div className={styles.previewContainer}>
-            <div className={styles.previewRow}>
-              <DownloadableCard filename={`${previewName}-front`}>
-                <AbilityCard ability={ability} />
-              </DownloadableCard>
-              <DownloadableCard filename={`${previewName}-back`}>
-                <AbilityCardBack />
-              </DownloadableCard>
-            </div>
-          </div>
+          <ScaledPreview className={styles.previewRow}>
+            <DownloadableCard filename={`${previewName}-front`}>
+              <AbilityCard ability={ability} />
+            </DownloadableCard>
+            <DownloadableCard filename={`${previewName}-back`}>
+              <AbilityCardBack />
+            </DownloadableCard>
+          </ScaledPreview>
         </CardBody>
       </Card>
     </div>

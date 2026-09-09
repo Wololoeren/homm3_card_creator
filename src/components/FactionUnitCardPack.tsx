@@ -39,7 +39,7 @@ export default function FactionUnitCardPack({ unit }: { unit: FactionUnit }) {
   // Panels default to the same brown used before custom colours existed —
   // only the border follows the town by default. The specialty panel is a
   // shade deeper; the printed cards separate the two bands that way.
-  const panelColor = unit.backgroundColor ?? "#6c5e38";
+  const panelColor = unit.backgroundColor ?? "#5b3e1f";
   const tintUrl = useBackground(panelColor);
   const tintDarkUrl = useBackground(colord(panelColor).darken(0.1).toHex());
   // The back mirrors the front unless it has been given its own identity.

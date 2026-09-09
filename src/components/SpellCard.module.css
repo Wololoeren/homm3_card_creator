@@ -8,7 +8,6 @@
   background-size: 100% 100%;
   position: relative;
   margin: 0;
-  letter-spacing: var(--card-letter-spacing);
   color: var(--white);
   text-shadow: 0 0 0.25mm black, 0 0.25mm 0.5mm black;
 
@@ -30,7 +29,6 @@
       -0.25mm 0.25mm 0.35mm #2a1a08, 0.25mm -0.25mm 0.35mm #2a1a08,
       -0.25mm -0.25mm 0.35mm #2a1a08;
     font-size: var(--card-title-size);
-    letter-spacing: var(--card-title-letter-spacing);
     margin: 0;
     text-align: center;
     white-space: nowrap;

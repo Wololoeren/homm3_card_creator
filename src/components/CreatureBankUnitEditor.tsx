@@ -18,6 +18,7 @@ import CreatureBankUnitForm from "./CreatureBankUnitForm";
 import CreatureBankUnitCard from "./CreatureBankUnitCard";
 import CreatureBankUnitCardBack from "./CreatureBankUnitCardBack";
 import clsx from "clsx";
+import ScaledPreview from "./ScaledPreview";
 import styles from "./CreatureBankUnitEditor.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -101,16 +102,14 @@ export default function CreatureBankUnitEditor() {
           </h2>
         </CardHeader>
         <CardBody>
-          <div className={styles.previewContainer}>
-            <div className={styles.previewRow}>
-              <DownloadableCard filename={`${previewName}-front`}>
-                <CreatureBankUnitCard unit={unit} />
-              </DownloadableCard>
-              <DownloadableCard filename={`${previewName}-back`}>
-                <CreatureBankUnitCardBack />
-              </DownloadableCard>
-            </div>
-          </div>
+          <ScaledPreview className={styles.previewRow}>
+            <DownloadableCard filename={`${previewName}-front`}>
+              <CreatureBankUnitCard unit={unit} />
+            </DownloadableCard>
+            <DownloadableCard filename={`${previewName}-back`}>
+              <CreatureBankUnitCardBack />
+            </DownloadableCard>
+          </ScaledPreview>
         </CardBody>
       </Card>
     </div>

@@ -15,6 +15,7 @@ import FactionUnitForm from "./FactionUnitForm";
 import FactionUnitCard from "./FactionUnitCard";
 import FactionUnitCardPack from "./FactionUnitCardPack";
 import clsx from "clsx";
+import ScaledPreview from "./ScaledPreview";
 import styles from "./FactionUnitEditor.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -38,7 +39,6 @@ export default function FactionUnitEditor() {
     append,
     setCurrent: setUnit,
   } = useCardInstances<FactionUnit>(initialFactionUnit, "factionUnit");
-
 
   const previewName =
     normalizeString(String(unit.name ?? "")) || "faction_unit";
@@ -95,16 +95,14 @@ export default function FactionUnitEditor() {
           </h2>
         </CardHeader>
         <CardBody>
-          <div className={styles.previewContainer}>
-            <div className={styles.previewRow}>
-              <DownloadableCard filename={`${previewName}-front`}>
-                <FactionUnitCard unit={unit} />
-              </DownloadableCard>
-              <DownloadableCard filename={`${previewName}-pack`}>
-                <FactionUnitCardPack unit={unit} />
-              </DownloadableCard>
-            </div>
-          </div>
+          <ScaledPreview className={styles.previewRow}>
+            <DownloadableCard filename={`${previewName}-few`}>
+              <FactionUnitCard unit={unit} />
+            </DownloadableCard>
+            <DownloadableCard filename={`${previewName}-pack`}>
+              <FactionUnitCardPack unit={unit} />
+            </DownloadableCard>
+          </ScaledPreview>
         </CardBody>
       </Card>
     </div>

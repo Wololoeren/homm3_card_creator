@@ -18,6 +18,7 @@ import EventForm from "./EventForm";
 import EventCard from "./EventCard";
 import EventCardBack from "./EventCardBack";
 import clsx from "clsx";
+import ScaledPreview from "./ScaledPreview";
 import styles from "./EventEditor.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -98,16 +99,14 @@ export default function EventEditor() {
           </h2>
         </CardHeader>
         <CardBody>
-          <div className={styles.previewContainer}>
-            <div className={styles.previewRow}>
-              <DownloadableCard filename={`${previewName}-front`}>
-                <EventCard event={event} />
-              </DownloadableCard>
-              <DownloadableCard filename={`${previewName}-back`} flipped>
-                <EventCardBack />
-              </DownloadableCard>
-            </div>
-          </div>
+          <ScaledPreview className={styles.previewRow}>
+            <DownloadableCard filename={`${previewName}-front`}>
+              <EventCard event={event} />
+            </DownloadableCard>
+            <DownloadableCard filename={`${previewName}-back`} flipped>
+              <EventCardBack />
+            </DownloadableCard>
+          </ScaledPreview>
         </CardBody>
       </Card>
     </div>

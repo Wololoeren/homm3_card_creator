@@ -24,13 +24,7 @@ body {
   --azure: #3a5ba7;
 
   /* Card typography, shared so the text on every card type is set the same way
-     rather than drifting per file. Tracking is inherited from each card's root,
-     so it reaches every line the card draws. */
-  --card-letter-spacing: 0.025em;
-  /* Titles are set tighter than the body: they are large, and the tracking that
-     opens up small print only makes a name band run out of room. */
-  --card-title-letter-spacing: 0.01em;
-
+     rather than drifting per file. */
   --card-title-size: 13pt;
   --card-body-size: 7pt;
   --card-flavor-size: 6.5pt;
