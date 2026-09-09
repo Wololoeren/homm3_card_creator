@@ -3,8 +3,7 @@
 import { FactionUnit, initialFactionUnit } from "@/models/factionUnit";
 import { useCardInstances } from "@/hooks/cardInstances";
 import CardInstances from "./CardInstances";
-import { sendToPdf } from "@/lib/pdfQueue";
-import { faFilePdf } from "@fortawesome/free-solid-svg-icons";
+import SendToPdfButton from "./SendToPdfButton";
 import {
   Button,
   Card,
@@ -80,14 +79,11 @@ export default function FactionUnitEditor() {
             >
               <FontAwesomeIcon icon={faDownload} /> Save
             </Button>
-            <Button
-              variant="outline-success"
-              onClick={() =>
-                sendToPdf("factionUnit", String(unit.name ?? ""), unit)
-              }
-            >
-              <FontAwesomeIcon icon={faFilePdf} /> Send to PDF
-            </Button>
+            <SendToPdfButton
+              cardKey="factionUnit"
+              name={String(unit.name ?? "")}
+              payload={unit}
+            />
           </div>
         </CardFooter>
       </Card>

@@ -7,8 +7,7 @@ import {
 } from "@/models/pandoraCard";
 import { useCardInstances } from "@/hooks/cardInstances";
 import CardInstances from "./CardInstances";
-import { sendToPdf } from "@/lib/pdfQueue";
-import { faFilePdf } from "@fortawesome/free-solid-svg-icons";
+import SendToPdfButton from "./SendToPdfButton";
 import {
   Button,
   Card,
@@ -85,18 +84,11 @@ export default function PandoraEditor() {
             >
               <FontAwesomeIcon icon={faDownload} /> Save
             </Button>
-            <Button
-              variant="outline-success"
-              onClick={() =>
-                sendToPdf(
-                  "pandora",
-                  pandora.name || defaultPandoraName,
-                  pandora,
-                )
-              }
-            >
-              <FontAwesomeIcon icon={faFilePdf} /> Send to PDF
-            </Button>
+            <SendToPdfButton
+              cardKey="pandora"
+              name={pandora.name || defaultPandoraName}
+              payload={pandora}
+            />
           </div>
         </CardFooter>
       </Card>

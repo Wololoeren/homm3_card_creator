@@ -6,8 +6,7 @@ import {
 } from "@/models/adventureCard";
 import { useCardInstances } from "@/hooks/cardInstances";
 import CardInstances from "./CardInstances";
-import { sendToPdf } from "@/lib/pdfQueue";
-import { faFilePdf } from "@fortawesome/free-solid-svg-icons";
+import SendToPdfButton from "./SendToPdfButton";
 import {
   Button,
   Card,
@@ -89,14 +88,11 @@ export default function AdventureEditor() {
             >
               <FontAwesomeIcon icon={faDownload} /> Save
             </Button>
-            <Button
-              variant="outline-success"
-              onClick={() =>
-                sendToPdf("adventure", String(adventure.name ?? ""), adventure)
-              }
-            >
-              <FontAwesomeIcon icon={faFilePdf} /> Send to PDF
-            </Button>
+            <SendToPdfButton
+              cardKey="adventure"
+              name={String(adventure.name ?? "")}
+              payload={adventure}
+            />
           </div>
         </CardFooter>
       </Card>

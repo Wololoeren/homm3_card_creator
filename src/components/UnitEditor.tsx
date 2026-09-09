@@ -3,8 +3,7 @@
 import { Unit, initialUnit } from "@/models/unit";
 import { useCardInstances } from "@/hooks/cardInstances";
 import CardInstances from "./CardInstances";
-import { sendToPdf } from "@/lib/pdfQueue";
-import { faFilePdf } from "@fortawesome/free-solid-svg-icons";
+import SendToPdfButton from "./SendToPdfButton";
 import {
   Button,
   Card,
@@ -80,12 +79,11 @@ export default function UnitEditor() {
             >
               <FontAwesomeIcon icon={faDownload} /> Save
             </Button>
-            <Button
-              variant="outline-success"
-              onClick={() => sendToPdf("unit", String(unit.name ?? ""), unit)}
-            >
-              <FontAwesomeIcon icon={faFilePdf} /> Send to PDF
-            </Button>
+            <SendToPdfButton
+              cardKey="unit"
+              name={String(unit.name ?? "")}
+              payload={unit}
+            />
           </div>
         </CardFooter>
       </Card>

@@ -6,6 +6,7 @@ import { CardKey } from "@/lib/detectCardFile";
 
 import HeroCard from "./HeroCard";
 import HeroBoard from "./HeroBoard";
+import HeroBoardBack from "./HeroBoardBack";
 import UnitCard from "./UnitCard";
 import UnitCardBack from "./UnitCardBack";
 import FactionUnitCard from "./FactionUnitCard";
@@ -284,20 +285,24 @@ function chunk<T>(items: T[], size: number): T[][] {
   return out;
 }
 
-/** Hero boards are 134mm x 96mm, so two sit side by side on a landscape sheet. */
-const BOARDS_PER_SHEET = 2;
-
-/** The boards to print: one per hero card that still asks for its board. */
-function heroesIn(cards: LoadedCard[]): Hero[] {
-  return cards
-    .filter((card) => card.key === "hero" && optionsOf(card).board)
-    .flatMap((card) =>
-      Array<Hero>(optionsOf(card).copies).fill(card.payload as Hero),
-    );
+/** A hero board to print, and whether its tablet back goes with it. */
+interface Board {
+  hero: Hero;
+  back: boolean;
 }
 
-function boardSheetsFor(cards: LoadedCard[]): Hero[][] {
-  return chunk(heroesIn(cards), BOARDS_PER_SHEET);
+/** The boards to print: one per hero card that still asks for its board. */
+function boardsIn(cards: LoadedCard[]): Board[] {
+  return cards
+    .filter((card) => card.key === "hero" && optionsOf(card).board)
+    .flatMap((card) => {
+      // The same switch that drops the card backs drops the tablet back.
+      const { copies, back } = optionsOf(card);
+      return Array.from<unknown, Board>({ length: copies }, () => ({
+        hero: card.payload as Hero,
+        back,
+      }));
+    });
 }
 
 /**
@@ -354,12 +359,22 @@ function CroppedSheets({
         </div>
       ))}
 
-      {heroesIn(cards).map((hero, bi) => (
-        <div className="cropBoard page" key={`board-${bi}`}>
-          <div>
-            <HeroBoard hero={hero} cutoutLevels={cutoutLevels} />
+      {boardsIn(cards).map((board, bi) => (
+        <React.Fragment key={`board-${bi}`}>
+          <div className="cropBoard page">
+            <div>
+              <HeroBoard hero={board.hero} cutoutLevels={cutoutLevels} />
+            </div>
           </div>
-        </div>
+          {/* The tablet back, on its own page: a cropped page holds one piece. */}
+          {board.back ? (
+            <div className="cropBoard page">
+              <div>
+                <HeroBoardBack />
+              </div>
+            </div>
+          ) : null}
+        </React.Fragment>
       ))}
     </div>
   );
@@ -394,14 +409,16 @@ export default function PdfSheets({
         </div>
       ))}
 
-      {/* Boards last, after every card sheet. */}
-      {boardSheetsFor(cards).map((boards, si) => (
-        <div className="landscape page" key={`board-${si}`}>
+      {/* Boards last, after every card sheet. A board is 134mm x 96mm, so it
+          and its back sit side by side on one landscape sheet: cut the pair
+          out as one piece and fold along the join, the same as a card. With
+          the back left off, the board is cut out on its own. */}
+      {boardsIn(cards).map((board, bi) => (
+        <div className="landscape page" key={`board-${bi}`}>
           <div>
             <div style={{ display: "flex", flexDirection: "row" }}>
-              {boards.map((hero, bi) => (
-                <HeroBoard hero={hero} cutoutLevels={cutoutLevels} key={bi} />
-              ))}
+              <HeroBoard hero={board.hero} cutoutLevels={cutoutLevels} />
+              {board.back ? <HeroBoardBack /> : null}
             </div>
           </div>
         </div>
@@ -411,16 +428,20 @@ export default function PdfSheets({
 }
 
 export function sheetCount(cards: LoadedCard[], cropped = false): number {
+  const boards = boardsIn(cards);
+
+  // A board and its back share a sheet, but take a cropped page each.
   if (cropped)
     return (
       cards.reduce((n, card) => n + piecesFor(card).length, 0) +
-      heroesIn(cards).length
+      boards.length +
+      boards.filter((board) => board.back).length
     );
-  return sheetsFor(cards).length + boardSheetsFor(cards).length;
+  return sheetsFor(cards).length + boards.length;
 }
 
 export function boardCount(cards: LoadedCard[]): number {
-  return heroesIn(cards).length;
+  return boardsIn(cards).length;
 }
 
 /** How many cards this entry prints — one per piece cut out. */

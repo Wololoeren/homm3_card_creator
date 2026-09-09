@@ -175,10 +175,12 @@ export default function PdfEditor({
             Add any saved card files — heroes, units, spells, artifacts and the
             rest, in any mix. Each card is printed next to its own back: cut the
             pair out as one piece and fold along the join for a double-sided
-            card. Hero boards are printed on their own sheets at the end. Each
-            row sets how many copies to print and whether its front, back and
-            board are printed at all; a card printed on one side only is cut out
-            on its own, with no fold. Everything goes to your browser&apos;s
+            card. Hero boards come at the end, each on a sheet of its own next
+            to the tablet back it folds onto — turning a hero&apos;s back off
+            leaves that tablet back out along with its card backs. Each row
+            sets how many copies to print and whether its front, back and board
+            are printed at all; a card printed on one side only is cut out on
+            its own, with no fold. Everything goes to your browser&apos;s
             print dialog, where you can choose <em>Save as PDF</em>. To edit a
             pile of files instead of printing it,{" "}
             <em>Bulk import to editors</em> sends each one to the tab that edits

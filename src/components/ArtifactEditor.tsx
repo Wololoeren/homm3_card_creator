@@ -6,8 +6,7 @@ import {
 } from "@/models/artifactCard";
 import { useCardInstances } from "@/hooks/cardInstances";
 import CardInstances from "./CardInstances";
-import { sendToPdf } from "@/lib/pdfQueue";
-import { faFilePdf } from "@fortawesome/free-solid-svg-icons";
+import SendToPdfButton from "./SendToPdfButton";
 import {
   Button,
   Card,
@@ -89,14 +88,11 @@ export default function ArtifactEditor() {
             >
               <FontAwesomeIcon icon={faDownload} /> Save
             </Button>
-            <Button
-              variant="outline-success"
-              onClick={() =>
-                sendToPdf("artifact", String(artifact.name ?? ""), artifact)
-              }
-            >
-              <FontAwesomeIcon icon={faFilePdf} /> Send to PDF
-            </Button>
+            <SendToPdfButton
+              cardKey="artifact"
+              name={String(artifact.name ?? "")}
+              payload={artifact}
+            />
           </div>
         </CardFooter>
       </Card>

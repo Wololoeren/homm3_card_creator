@@ -3,8 +3,7 @@
 import HeroBoard from "./HeroBoard";
 import { useCardInstances } from "@/hooks/cardInstances";
 import CardInstances from "./CardInstances";
-import { sendToPdf } from "@/lib/pdfQueue";
-import { faFilePdf } from "@fortawesome/free-solid-svg-icons";
+import SendToPdfButton from "./SendToPdfButton";
 import { Hero, initialHero } from "@/models/hero";
 import HeroCards from "./HeroCards";
 import {
@@ -85,12 +84,11 @@ export default function HeroEditor() {
             >
               <FontAwesomeIcon icon={faDownload} /> Save
             </Button>
-            <Button
-              variant="outline-success"
-              onClick={() => sendToPdf("hero", String(hero.name ?? ""), hero)}
-            >
-              <FontAwesomeIcon icon={faFilePdf} /> Send to PDF
-            </Button>
+            <SendToPdfButton
+              cardKey="hero"
+              name={String(hero.name ?? "")}
+              payload={hero}
+            />
           </div>
         </CardFooter>
       </Card>

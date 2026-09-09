@@ -12,7 +12,6 @@ import PandoraEditor from "@/components/PandoraEditor";
 import CreatureBankUnitEditor from "@/components/CreatureBankUnitEditor";
 import AdventureEditor from "@/components/AdventureEditor";
 import MoraleEditor from "@/components/MoraleEditor";
-import PrintView from "@/components/PrintView";
 import PdfEditor from "@/components/PdfEditor";
 import PdfSheets, { LoadedCard } from "@/components/PdfSheets";
 import WelcomeModal from "@/components/WelcomeModal";
@@ -207,19 +206,15 @@ export default function Home() {
           </Tab>
         </Tabs>
       </div>
-      <div
-        className={activeTab === "pdf" ? "printOnly" : "d-none d-print-block"}
-      >
-        {activeTab === "pdf" ? (
+      {activeTab === "pdf" ? (
+        <div className="printOnly">
           <PdfSheets
             cards={pdfCards}
             cropped={pdfCropped}
             cutoutLevels={pdfCutoutLevels}
           />
-        ) : (
-          <PrintView />
-        )}
-      </div>
+        </div>
+      ) : null}
       <WelcomeModal
         show={!welcomeMessageAccepted && ready}
         onHide={() => setWelcomeMessageAccepted(true)}
