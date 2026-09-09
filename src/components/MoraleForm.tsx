@@ -2,8 +2,7 @@
 
 import { MoraleCard, MoraleType } from "@/models/moraleCard";
 import { Form } from "react-bootstrap";
-import { iconMap } from "@/lib/textToComponent";
-import styles from "./HeroForm.module.css";
+import IconPalette from "./IconPalette";
 
 export default function MoraleForm({
   morale,
@@ -42,15 +41,15 @@ export default function MoraleForm({
         />
       </Form.Group>
 
-      <div>Available icons</div>
-
-      <div className={styles.iconContainer}>
-        {Object.entries(iconMap).map(([key, icon]) => (
-          <span key={key} title={key} className={styles.icon}>
-            {icon}
-          </span>
-        ))}
-      </div>
+      <IconPalette
+        targets={[
+          {
+            id: "moraleEffectContent",
+            value: morale.effect,
+            setValue: setEffect,
+          },
+        ]}
+      />
     </Form>
   );
 }

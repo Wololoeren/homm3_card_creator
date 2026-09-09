@@ -2,8 +2,7 @@
 
 import { PandoraCard, defaultPandoraName } from "@/models/pandoraCard";
 import { Form } from "react-bootstrap";
-import { iconMap } from "@/lib/textToComponent";
-import styles from "./HeroForm.module.css";
+import IconPalette from "./IconPalette";
 
 export default function PandoraForm({
   pandora,
@@ -38,15 +37,15 @@ export default function PandoraForm({
         />
       </Form.Group>
 
-      <div>Available icons</div>
-
-      <div className={styles.iconContainer}>
-        {Object.entries(iconMap).map(([key, icon]) => (
-          <span key={key} title={key} className={styles.icon}>
-            {icon}
-          </span>
-        ))}
-      </div>
+      <IconPalette
+        targets={[
+          {
+            id: "pandoraEffectContent",
+            value: pandora.effect,
+            setValue: setEffect,
+          },
+        ]}
+      />
     </Form>
   );
 }

@@ -81,7 +81,7 @@ export const initialSpellCard: SpellCard = {
   name: "Magic Arrow",
   icon: spellIcons.find((icon) => icon.name === "Magic Arrow") ?? spellIcons[0],
   effect:
-    ":activation: The selected unit suffers:\n:spell{{0;1;2};{1;2;3};{:damage:}}:\n:or:\n:instant: +1 :spell:.",
+    ":activation: The selected unit suffers:\n:spell{{0;1;2};{1;2;3};{:damage:}}:\n:or:\n:instant: +1 :empower:.",
   // Magic Arrow belongs to every school, which is what Any renders.
   tier: SpellTier.Any,
   school: SpellSchool.Water,

@@ -9,8 +9,7 @@ import {
 import { useState } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import ReplaceEntityModal from "./ReplaceEntityModal";
-import { iconMap } from "@/lib/textToComponent";
-import styles from "./HeroForm.module.css";
+import IconPalette from "./IconPalette";
 
 export default function AdventureForm({
   adventure,
@@ -84,20 +83,20 @@ export default function AdventureForm({
           onChange={(e) => setEffect(e.target.value)}
         />
         <Form.Text muted>
-          Use :spell{"{{6;8;10};{effect0;effect1;effect2}}"}: for a
-          Combat card&apos;s power-scaled reward table.
+          Use :spell{"{{6;8;10};{effect0;effect1;effect2}}"}: for a Combat
+          card&apos;s power-scaled reward table.
         </Form.Text>
       </Form.Group>
 
-      <div>Available icons</div>
-
-      <div className={styles.iconContainer}>
-        {Object.entries(iconMap).map(([key, icon]) => (
-          <span key={key} title={key} className={styles.icon}>
-            {icon}
-          </span>
-        ))}
-      </div>
+      <IconPalette
+        targets={[
+          {
+            id: "adventureEffectContent",
+            value: adventure.effect,
+            setValue: setEffect,
+          },
+        ]}
+      />
     </Form>
   );
 }

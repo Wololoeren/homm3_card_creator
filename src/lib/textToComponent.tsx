@@ -52,7 +52,6 @@ import Building2Icon from "@/assets/glyphs/2_building_materials.svg";
 import Building4Icon from "@/assets/glyphs/4_building_materials.svg";
 import Gold3Icon from "@/assets/glyphs/3_gold.svg";
 import Gold6Icon from "@/assets/glyphs/6_gold.svg";
-import TreasureDieIcon from "@/assets/glyphs/trasuredie.svg";
 import TreasureDie2Icon from "@/assets/glyphs/2_treasure_die.svg";
 import PayV2Icon from "@/assets/glyphs/pay_v2.svg";
 
@@ -86,8 +85,21 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 
 export const iconMap: Record<string, JSX.Element> = {
-  ":instant:": <InstantIcon aria-label="Instant" className="textIcon" />,
-  ":ongoing:": <OngoingIcon aria-label="Ongoing" className="textIcon" />,
+  // Order matters only to the icon palette, which lists the map as it stands.
+  // The glyphs most reached for while writing a card lead; the rest follow in
+  // the groups they have always been in. Every lookup here is by key.
+  ":or:": (
+    <OrDividerIcon
+      aria-label="Or"
+      className="textIcon"
+      style={{
+        width: "15mm",
+        height: "auto",
+        marginTop: "0.75mm",
+        marginBottom: "0.5mm",
+      }}
+    />
+  ),
   ":permanent:": (
     <PermanentIcon
       viewBox="-10 -200 1722 1250"
@@ -95,40 +107,32 @@ export const iconMap: Record<string, JSX.Element> = {
       className="textIcon"
     />
   ),
-
-  ":attack:": <AttackIcon aria-label="Attack" className="textIcon" />,
-  ":defense:": <DefenseIcon aria-label="Defense" className="textIcon" />,
-  ":empower:": <EmpowerIcon aria-label="Empower" className="textIcon" />,
-
-  ":health:": <HealthPointsIcon aria-label="Health" className="textIcon" />,
-  ":map:": <MapIcon aria-label="Map" className="textIcon" />,
-  ":spell:": <SpellIcon aria-label="Spell" className="textIcon" />,
-
-  ":movement:": <MovementIcon aria-label="Movement" className="textIcon" />,
-  ":initiative:": (
-    <InitiativeIcon aria-label="Initiative" className="textIcon" />
+  ":unit_passive:": (
+    <UnitPassiveIcon aria-label="Unit passive" className="textIcon" />
   ),
+  ":ongoing:": <OngoingIcon aria-label="Ongoing" className="textIcon" />,
   ":activation:": (
     <ActivationIcon aria-label="Activation" className="textIcon" />
   ),
-  ":morale:": <MoraleIcon aria-label="Morale" className="textIcon" />,
-  ":morale_negative:": (
-    <MoraleNegativeIcon
-      aria-label="Negative Morale"
-      className="textIcon"
-      style={{ color: "#a8a8a7" }}
-    />
+  ":instant:": <InstantIcon aria-label="Instant" className="textIcon" />,
+  ":unit_attack:": (
+    <UnitAttackIcon aria-label="Unit attack" className="textIcon" />
+  ),
+  ":unit_retaliate:": (
+    <UnitRetaliateIcon aria-label="Unit retaliate" className="textIcon" />
+  ),
+  ":unit_special:": (
+    <UnitSpecialIcon aria-label="Unit Special acion" className="textIcon" />
+  ),
+  ":paralysis:": <ParalysisIcon aria-label="Paralysis" className="textIcon" />,
+  ":map:": <MapIcon aria-label="Map" className="textIcon" />,
+  ":attack:": <AttackIcon aria-label="Attack" className="textIcon" />,
+  ":defense:": <DefenseIcon aria-label="Defense" className="textIcon" />,
+  ":health:": <HealthPointsIcon aria-label="Health" className="textIcon" />,
+  ":initiative:": (
+    <InitiativeIcon aria-label="Initiative" className="textIcon" />
   ),
   ":damage:": <DamageIcon aria-label="Damage" className="textIcon" />,
-  ":paralysis:": <ParalysisIcon aria-label="Paralysis" className="textIcon" />,
-
-  ":gold:": <GoldIcon aria-label="Gold" className="textIcon" />,
-  ":valuable:": <ValuableIcon aria-label="Valuable" className="textIcon" />,
-  ":building:": (
-    <BuildingMaterialIcon aria-label="Building Material" className="textIcon" />
-  ),
-  ":pay:": <img src={PayIcon.src} alt="Pay" className="textIcon" />,
-
   ":unit_ground:": (
     <UnitGroundIcon
       viewBox="0 0 76 76"
@@ -144,32 +148,50 @@ export const iconMap: Record<string, JSX.Element> = {
   ":unit_ranged:": (
     <UnitRangedIcon aria-label="Ranged unit" className="textIcon" />
   ),
-
-  ":treasure:": <TreasureIcon aria-label="Treasure" className="textIcon" />,
-  ":resource:": <ResourceIcon aria-label="Resource" className="textIcon" />,
-
-  ":necro:": <NecroIcon aria-label="Necro" className="textIcon" />,
-
   ":expert:": <ExpertIcon aria-label="Expert" className="textIcon" />,
   ":hand_limit:": (
     <HandLimitIcon aria-label="Hand limit" className="textIcon" />
   ),
+  ":pay:": <img src={PayIcon.src} alt="Pay" className="textIcon" />,
+  ":reinforce:": <ReinforceIcon aria-label="Reinforce" className="textIcon" />,
+  ":bronze:": <FontAwesomeIcon icon={faStar} className="bronze" />,
+  ":silver:": <FontAwesomeIcon icon={faStar} className="silver" />,
+  ":golden:": <FontAwesomeIcon icon={faStar} className="golden" />,
+  ":azure:": <FontAwesomeIcon icon={faStar} className="azure" />,
+
+  ":empower:": <EmpowerIcon aria-label="Empower" className="textIcon" />,
+
+  ":spell:": <SpellIcon aria-label="Spell" className="textIcon" />,
+
+  ":movement:": <MovementIcon aria-label="Movement" className="textIcon" />,
+  ":morale:": <MoraleIcon aria-label="Morale" className="textIcon" />,
+  ":morale_negative:": (
+    <MoraleNegativeIcon
+      aria-label="Negative Morale"
+      className="textIcon"
+      style={{ color: "#a8a8a7" }}
+    />
+  ),
+
+  ":gold:": <GoldIcon aria-label="Gold" className="textIcon" />,
+  ":valuable:": <ValuableIcon aria-label="Valuable" className="textIcon" />,
+  ":building:": (
+    <BuildingMaterialIcon aria-label="Building Material" className="textIcon" />
+  ),
+
+  ":necro:": <NecroIcon aria-label="Necro" className="textIcon" />,
+
   ":experience:": (
     <ExperienceIcon aria-label="Experience" className="textIcon" />
   ),
-  ":reinforce:": <ReinforceIcon aria-label="Reinforce" className="textIcon" />,
-
-  ":unit_attack:": (
-    <UnitAttackIcon aria-label="Unit attack" className="textIcon" />
-  ),
-  ":unit_retaliate:": (
-    <UnitRetaliateIcon aria-label="Unit retaliate" className="textIcon" />
-  ),
-  ":unit_special:": (
-    <UnitSpecialIcon aria-label="Unit Special acion" className="textIcon" />
-  ),
-  ":unit_passive:": (
-    <UnitPassiveIcon aria-label="Unit passive" className="textIcon" />
+  ":skill:": <SkillIcon aria-label="Skill" className="textIcon" />,
+  ":might:": <MightIcon aria-label="Might" className="textIcon" />,
+  ":magic:": <MagicIcon aria-label="Magic" className="textIcon" />,
+  ":artifact:": <ArtifactIcon aria-label="Artifact" className="textIcon" />,
+  ":treasure:": <TreasureIcon aria-label="Treasure" className="textIcon" />,
+  ":resource:": <ResourceIcon aria-label="Resource" className="textIcon" />,
+  ":2_treasure_die:": (
+    <TreasureDie2Icon aria-label="2 Treasure dice" className="textIcon" />
   ),
 
   ":1_valuables:": (
@@ -186,18 +208,8 @@ export const iconMap: Record<string, JSX.Element> = {
   ),
   ":3_gold:": <Gold3Icon aria-label="3 Gold" className="textIcon" />,
   ":6_gold:": <Gold6Icon aria-label="6 Gold" className="textIcon" />,
-  ":treasure_die:": (
-    <TreasureDieIcon aria-label="Treasure die" className="textIcon" />
-  ),
-  ":2_treasure_die:": (
-    <TreasureDie2Icon aria-label="2 Treasure dice" className="textIcon" />
-  ),
   ":pay_v2:": <PayV2Icon aria-label="Pay" className="textIcon" />,
 
-  ":artifact:": <ArtifactIcon aria-label="Artifact" className="textIcon" />,
-  ":skill:": <SkillIcon aria-label="Skill" className="textIcon" />,
-  ":might:": <MightIcon aria-label="Might" className="textIcon" />,
-  ":magic:": <MagicIcon aria-label="Magic" className="textIcon" />,
   ":defense_color:": (
     <DefenseColorIcon
       viewBox="0 0 249.99348 282.92319"
@@ -248,24 +260,6 @@ export const iconMap: Record<string, JSX.Element> = {
   ),
 
   ":damage_dark:": <DamageDarkIcon aria-label="Damage" className="textIcon" />,
-
-  ":bronze:": <FontAwesomeIcon icon={faStar} className="bronze" />,
-  ":silver:": <FontAwesomeIcon icon={faStar} className="silver" />,
-  ":golden:": <FontAwesomeIcon icon={faStar} className="golden" />,
-  ":azure:": <FontAwesomeIcon icon={faStar} className="azure" />,
-
-  ":or:": (
-    <OrDividerIcon
-      aria-label="Or"
-      className="textIcon"
-      style={{
-        width: "15mm",
-        height: "auto",
-        marginTop: "0.75mm",
-        marginBottom: "0.5mm",
-      }}
-    />
-  ),
 };
 
 type IconToken = keyof typeof iconMap;

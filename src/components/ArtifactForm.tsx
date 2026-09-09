@@ -9,8 +9,7 @@ import {
 import { useState } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import ReplaceEntityModal from "./ReplaceEntityModal";
-import { iconMap } from "@/lib/textToComponent";
-import styles from "./HeroForm.module.css";
+import IconPalette from "./IconPalette";
 
 export default function ArtifactForm({
   artifact,
@@ -97,15 +96,20 @@ export default function ArtifactForm({
         />
       </Form.Group>
 
-      <div>Available icons</div>
-
-      <div className={styles.iconContainer}>
-        {Object.entries(iconMap).map(([key, icon]) => (
-          <span key={key} title={key} className={styles.icon}>
-            {icon}
-          </span>
-        ))}
-      </div>
+      <IconPalette
+        targets={[
+          {
+            id: "artifactEffectContent",
+            value: artifact.effect,
+            setValue: setEffect,
+          },
+          {
+            id: "artifactFlavorTextContent",
+            value: artifact.flavorText,
+            setValue: setFlavorText,
+          },
+        ]}
+      />
     </Form>
   );
 }
