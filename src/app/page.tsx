@@ -49,6 +49,7 @@ export default function Home() {
   const [pdfCards, setPdfCards] = useState<LoadedCard[]>([]);
   const [pdfCropped, setPdfCropped] = useState(false);
   const [pdfCutoutLevels, setPdfCutoutLevels] = useState(false);
+  const [pdfRounded, setPdfRounded] = useState(false);
   const [ready, setReady] = useState(false);
   useEffect(() => setReady(true), []);
 
@@ -203,6 +204,8 @@ export default function Home() {
               setCropped={setPdfCropped}
               cutoutLevels={pdfCutoutLevels}
               setCutoutLevels={setPdfCutoutLevels}
+              rounded={pdfRounded}
+              setRounded={setPdfRounded}
             />
           </Tab>
         </Tabs>
@@ -215,6 +218,7 @@ export default function Home() {
             cards={pdfCards}
             cropped={pdfCropped}
             cutoutLevels={pdfCutoutLevels}
+            rounded={pdfRounded}
           />
         ) : (
           <PrintView />

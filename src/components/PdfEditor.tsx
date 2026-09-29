@@ -110,6 +110,8 @@ export default function PdfEditor({
   setCropped,
   cutoutLevels,
   setCutoutLevels,
+  rounded,
+  setRounded,
 }: {
   cards: LoadedCard[];
   setCards: (cards: LoadedCard[]) => void;
@@ -117,6 +119,8 @@ export default function PdfEditor({
   setCropped: (cropped: boolean) => void;
   cutoutLevels: boolean;
   setCutoutLevels: (cutoutLevels: boolean) => void;
+  rounded: boolean;
+  setRounded: (rounded: boolean) => void;
 }) {
   const addFiles = async () => {
     const picked = await pickCardFiles();
@@ -244,6 +248,26 @@ export default function PdfEditor({
                   — leaves the thirteen squares of every hero board&apos;s level
                   track blank, so nothing is printed there and you can cut them
                   open for an acrylic cube. Only affects the boards.
+                </span>
+              </>
+            }
+          />
+
+          <Form.Check
+            type="switch"
+            id="pdf-rounded"
+            className="mb-3"
+            checked={rounded}
+            onChange={(e) => setRounded(e.currentTarget.checked)}
+            label={
+              <>
+                Rounded corners
+                <span className="text-muted">
+                  {" "}
+                  &mdash; rounds off the outline you cut along, 3mm as on a
+                  real card. A folded pair keeps square corners at the join,
+                  since that edge is folded rather than cut. Applies to boards
+                  too.
                 </span>
               </>
             }

@@ -188,6 +188,14 @@ img.textIcon {
   border-color: #14804a;
 }
 
+/* Cards are poker-sized (62.5x87.9mm), so they take a poker card's corner.
+   A fold-pair rounds the outline of the pair, not of each face: the join down
+   the middle is a fold, not a cut. */
+.roundedPiece {
+  border-radius: 3mm;
+  overflow: hidden;
+}
+
 /* Print-only content, kept in the render tree rather than display:none.
    Chrome defers background-image fetches inside a display:none subtree, so a
    print started before they load produces cards with no artwork. Positioning

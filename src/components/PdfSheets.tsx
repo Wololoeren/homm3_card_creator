@@ -267,12 +267,35 @@ export function piecesFor(card: LoadedCard): Piece[] {
 }
 
 /** The faces of one piece, butted together: the join is the fold line. */
-function PieceFaces({ piece }: { piece: Piece }) {
+function PieceFaces({ piece, rounded }: { piece: Piece; rounded: boolean }) {
   return (
-    <div style={{ display: "flex" }}>
+    <div
+      className={clsx(rounded && "roundedPiece")}
+      style={{ display: "flex" }}
+    >
       {piece.faces.map((face, fi) => (
         <React.Fragment key={fi}>{face}</React.Fragment>
       ))}
+    </div>
+  );
+}
+
+/** A board is a piece of its own, cut out along the same rounded outline. */
+function BoardPiece({
+  hero,
+  cutoutLevels,
+  rounded,
+}: {
+  hero: Hero;
+  cutoutLevels: boolean;
+  rounded: boolean;
+}) {
+  return (
+    <div
+      className={clsx(rounded && "roundedPiece")}
+      style={{ display: "flex" }}
+    >
+      <HeroBoard hero={hero} cutoutLevels={cutoutLevels} />
     </div>
   );
 }
@@ -337,9 +360,11 @@ function sheetsFor(cards: LoadedCard[]) {
 function CroppedSheets({
   cards,
   cutoutLevels,
+  rounded,
 }: {
   cards: LoadedCard[];
   cutoutLevels: boolean;
+  rounded: boolean;
 }) {
   return (
     <div style={{ ["--adjust-scale" as string]: "1" }}>
@@ -349,7 +374,7 @@ function CroppedSheets({
           key={pi}
         >
           <div>
-            <PieceFaces piece={piece} />
+            <PieceFaces piece={piece} rounded={rounded} />
           </div>
         </div>
       ))}
@@ -357,7 +382,11 @@ function CroppedSheets({
       {heroesIn(cards).map((hero, bi) => (
         <div className="cropBoard page" key={`board-${bi}`}>
           <div>
-            <HeroBoard hero={hero} cutoutLevels={cutoutLevels} />
+            <BoardPiece
+              hero={hero}
+              cutoutLevels={cutoutLevels}
+              rounded={rounded}
+            />
           </div>
         </div>
       ))}
@@ -369,13 +398,21 @@ export default function PdfSheets({
   cards,
   cropped = false,
   cutoutLevels = false,
+  rounded = false,
 }: {
   cards: LoadedCard[];
   cropped?: boolean;
   cutoutLevels?: boolean;
+  rounded?: boolean;
 }) {
   if (cropped)
-    return <CroppedSheets cards={cards} cutoutLevels={cutoutLevels} />;
+    return (
+      <CroppedSheets
+        cards={cards}
+        cutoutLevels={cutoutLevels}
+        rounded={rounded}
+      />
+    );
 
   const cardSheets = sheetsFor(cards);
   return (
@@ -386,7 +423,7 @@ export default function PdfSheets({
             {sheet.map((row, ri) => (
               <div style={{ display: "flex", flexDirection: "row" }} key={ri}>
                 {row.map((piece, pi) => (
-                  <PieceFaces piece={piece} key={pi} />
+                  <PieceFaces piece={piece} rounded={rounded} key={pi} />
                 ))}
               </div>
             ))}
@@ -400,7 +437,12 @@ export default function PdfSheets({
           <div>
             <div style={{ display: "flex", flexDirection: "row" }}>
               {boards.map((hero, bi) => (
-                <HeroBoard hero={hero} cutoutLevels={cutoutLevels} key={bi} />
+                <BoardPiece
+                  hero={hero}
+                  cutoutLevels={cutoutLevels}
+                  rounded={rounded}
+                  key={bi}
+                />
               ))}
             </div>
           </div>
