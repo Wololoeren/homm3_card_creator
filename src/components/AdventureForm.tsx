@@ -84,8 +84,9 @@ export default function AdventureForm({
           onChange={(e) => setEffect(e.target.value)}
         />
         <Form.Text muted>
-          Use :spell{"{{6;8;10};{effect0;effect1;effect2}}"}: for a
-          Combat card&apos;s power-scaled reward table.
+          Use :spell{"{{6;8;10};{effect0;effect1;effect2}}"}: for a Combat
+          card&apos;s power-scaled reward table. It takes two to five options,
+          as long as there are as many effects as powers.
         </Form.Text>
       </Form.Group>
 

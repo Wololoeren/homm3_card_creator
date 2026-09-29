@@ -106,8 +106,11 @@ export default function SpellForm({
         <Form.Text muted>
           Use :spell{"{{0;1;2};{effect0;effect1;effect2}}"}: for the
           power-scaled effect table. Use :scale
-          {"{{:gold:};{0;1;2};{1;2;3};{:valuable:}}"}: for the same table with
-          both icons chosen.
+          {"{{:gold:};{0;1;2};{effect0;effect1;effect2}}"}: to choose the
+          left-hand symbol, or :scale
+          {"{{:gold:};{0;1;2};{1;2;3};{:valuable:}}"}: to put a second bracket
+          on the right instead of text. All of them take two to five options,
+          as long as there are as many effects as powers.
         </Form.Text>
       </Form.Group>
 

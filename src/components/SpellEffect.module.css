@@ -13,9 +13,9 @@
   justify-content: space-between;
 
   .spellOptions {
-    /* Fixed, not stretched: the bracket keeps its aspect ratio, so letting it
-       follow the row height would widen it over the effect text. */
-    height: 14mm;
+    /* Height is set on the element, from the row count: the bracket keeps its
+       aspect ratio, so letting it follow the row height would widen it over
+       the effect text. */
     flex: 0 0 auto;
     position: relative;
 
@@ -65,14 +65,22 @@
 
     .powerCount {
       position: absolute;
-      top: 0.75mm;
-      bottom: 0.75mm;
+      top: 0;
+      bottom: 0;
       width: 3.75mm;
 
       display: flex;
       flex-direction: column;
-      align-items: center;
-      justify-content: space-between;
+
+      /* One band per option, each centring its number on its own circle.
+         Bands rather than space-between so the column keeps lining up with
+         the bracket whatever the row count. */
+      > span {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
     }
   }
 
@@ -88,13 +96,21 @@
   }
 
   .spellOptionsText {
-    align-self: stretch;
     flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    padding-top: 0.75mm;
-    padding-bottom: 0.75mm;
     padding-left: 2mm;
+    /* Ranged against the options rather than centred under the card's own
+       text-align, so each effect starts level with the one above it. */
+    text-align: left;
+
+    /* Matched bands, as in .powerCount, so each effect sits beside its own
+       option. A row that wraps grows its band and pushes the table taller
+       rather than spilling over the divider below. */
+    > span {
+      flex: 1;
+      display: flex;
+      align-items: center;
+    }
   }
 }

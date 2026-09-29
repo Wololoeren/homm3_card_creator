@@ -325,11 +325,36 @@ interface UnitStatProps {
 }
 
 interface SpellProps {
-  power: [number, number, number];
-  effect: [React.ReactNode, React.ReactNode, React.ReactNode];
+  /** One entry per option; two to five of them. */
+  power: number[];
+  effect: React.ReactNode[];
   effectIcon?: React.ReactNode;
   /** Left-hand icon. Defaults to the spell power book when omitted. */
   powerIcon?: React.ReactNode;
+}
+
+/** A power table reads as a table from two options; five fills a card. */
+const MIN_SPELL_OPTIONS = 2;
+const MAX_SPELL_OPTIONS = 5;
+
+/** Why this power table cannot be drawn, or null when it can. */
+function spellTableProblem(
+  keyword: string,
+  power: number[],
+  effect: React.ReactNode[]
+): string | null {
+  if (power.length !== effect.length) {
+    return `${keyword} needs as many effects as powers`;
+  }
+  if (power.length < MIN_SPELL_OPTIONS || power.length > MAX_SPELL_OPTIONS) {
+    return `${keyword} must have ${MIN_SPELL_OPTIONS} to ${MAX_SPELL_OPTIONS} options`;
+  }
+  // An empty or non-numeric slot parses to NaN, which would otherwise be
+  // printed into the option circle as the word itself.
+  if (power.some((p) => !Number.isFinite(p))) {
+    return `${keyword} powers must be numbers`;
+  }
+  return null;
 }
 
 export interface TextToComponentProps {
@@ -440,43 +465,29 @@ export function textToComponent(
             .map((p) => p.trim())
         );
 
-      if (spellParts.length === 3) {
-        const [power, effect, effectIcon] = [
-          spellParts[0].map((p) => parseInt(p)) as [number, number, number],
-          spellParts[1].map((p) => textToComponent(p, props)) as [
-            React.ReactNode,
-            React.ReactNode,
-            React.ReactNode
-          ],
-          spellParts[2][0],
-        ];
-        append(
-          props.renderSpell ? (
-            props.renderSpell({
-              power,
-              effect,
-              effectIcon: iconMap[effectIcon as IconToken],
-            })
-          ) : (
-            <span className="text-danger">No renderSpell available</span>
-          )
-        );
-      } else if (spellParts.length === 2) {
-        const [power, effect] = [
-          spellParts[0].map((p) => parseInt(p)) as [number, number, number],
-          spellParts[1].map((p) => textToComponent(p, props)) as [
-            React.ReactNode,
-            React.ReactNode,
-            React.ReactNode
-          ],
-        ];
-        append(
-          props.renderSpell ? (
-            props.renderSpell({ power, effect })
-          ) : (
-            <span className="text-danger">No renderSpell available</span>
-          )
-        );
+      if (spellParts.length === 2 || spellParts.length === 3) {
+        const power = spellParts[0].map((p) => parseInt(p));
+        const effect = spellParts[1].map((p) => textToComponent(p, props));
+        const problem = spellTableProblem("Spell", power, effect);
+
+        if (problem) {
+          append(<span className="text-danger">{problem}</span>);
+        } else {
+          append(
+            props.renderSpell ? (
+              props.renderSpell({
+                power,
+                effect,
+                effectIcon:
+                  spellParts.length === 3
+                    ? iconMap[spellParts[2][0] as IconToken]
+                    : undefined,
+              })
+            ) : (
+              <span className="text-danger">No renderSpell available</span>
+            )
+          );
+        }
       } else {
         append(
           <span className="text-danger">Spell must have 2 or 3 components</span>
@@ -484,8 +495,8 @@ export function textToComponent(
       }
       last = tokEnd;
     } else if (tok.startsWith(":scale{")) {
-      // Same two-column table as :spell{}:, but both icons are chosen rather
-      // than fixed to the spell power book and the effect icon.
+      // Same table as :spell{}:, but the left-hand icon is chosen rather than
+      // fixed to the spell power book.
       const scaleParts = tok
         .slice(7, -2)
         .trim()
@@ -498,30 +509,35 @@ export function textToComponent(
             .map((p) => p.trim())
         );
 
-      if (scaleParts.length === 4) {
-        append(
-          props.renderSpell ? (
-            props.renderSpell({
-              powerIcon: iconMap[scaleParts[0][0] as IconToken],
-              power: scaleParts[1].map((p) => parseInt(p)) as [
-                number,
-                number,
-                number
-              ],
-              effect: scaleParts[2].map((p) => textToComponent(p, props)) as [
-                React.ReactNode,
-                React.ReactNode,
-                React.ReactNode
-              ],
-              effectIcon: iconMap[scaleParts[3][0] as IconToken],
-            })
-          ) : (
-            <span className="text-danger">No renderSpell available</span>
-          )
-        );
+      if (scaleParts.length === 3 || scaleParts.length === 4) {
+        const power = scaleParts[1].map((p) => parseInt(p));
+        const effect = scaleParts[2].map((p) => textToComponent(p, props));
+        const problem = spellTableProblem("Scale", power, effect);
+
+        if (problem) {
+          append(<span className="text-danger">{problem}</span>);
+        } else {
+          append(
+            props.renderSpell ? (
+              props.renderSpell({
+                powerIcon: iconMap[scaleParts[0][0] as IconToken],
+                power,
+                effect,
+                // Three components picks the left-hand symbol and leaves the
+                // right-hand column as plain text, with no second bracket.
+                effectIcon:
+                  scaleParts.length === 4
+                    ? iconMap[scaleParts[3][0] as IconToken]
+                    : undefined,
+              })
+            ) : (
+              <span className="text-danger">No renderSpell available</span>
+            )
+          );
+        }
       } else {
         append(
-          <span className="text-danger">Scale must have 4 components</span>
+          <span className="text-danger">Scale must have 3 or 4 components</span>
         );
       }
       last = tokEnd;
