@@ -37,5 +37,6 @@ export const initialCreatureBankUnit: CreatureBankUnit = {
     initiative: 8,
   },
   portrait: creatureBankPortraits[0],
-  specialty: ":unit_retaliate: Retaliation Attacks against Dragon Flies suffer -2 :attack:.",
+  specialty:
+    ":unit_attack: Retaliation Attacks against Dragon Flies suffers -2 :attack:.",
 };
