@@ -32,7 +32,7 @@ export function stringifyHero(hero: Hero): string {
 export async function loadHero(): Promise<Hero> {
   const blob = await fileOpen({
     mimeTypes: ["application/json"],
-    extensions: [".homm3.json"],
+    extensions: [".json"],
   });
   const text = await blob.text();
   return parseHero(text);
@@ -41,7 +41,7 @@ export async function loadHero(): Promise<Hero> {
 export async function loadHeroes(): Promise<Hero[]> {
   const blobs = await fileOpen({
     mimeTypes: ["application/json"],
-    extensions: [".homm3.json"],
+    extensions: [".json"],
     multiple: true,
   });
   const texts = await Promise.all(blobs.map((blob) => blob.text()));
@@ -53,6 +53,6 @@ export function saveHero(hero: Hero) {
     new Blob([stringifyHero(hero)], {
       type: "application/json;charset=utf-8",
     }),
-    `${normalizeString(hero.name)}.homm3.json`
+    `${normalizeString(`${hero.name}.${hero.town}`)}.json`,
   );
 }

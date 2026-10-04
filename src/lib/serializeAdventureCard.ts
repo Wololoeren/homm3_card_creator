@@ -30,9 +30,6 @@ export function stringifyAdventureCard(adventure: AdventureCard): string {
 export async function loadAdventureCard(): Promise<AdventureCard> {
   const blob = await fileOpen({
     mimeTypes: ["application/json"],
-    // Chrome rejects accept extensions longer than 16 characters, and
-    // ".homm3adventure.json" exceeds that. Filter on .json instead so
-    // files saved with the long name still open.
     extensions: [".json"],
     description: "Adventure card",
   });
@@ -45,6 +42,6 @@ export function saveAdventureCard(adventure: AdventureCard) {
     new Blob([stringifyAdventureCard(adventure)], {
       type: "application/json;charset=utf-8",
     }),
-    `${normalizeString(adventure.name)}.homm3adventure.json`
+    `${normalizeString(adventure.name)}.adventure.json`,
   );
 }

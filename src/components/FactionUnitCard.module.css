@@ -230,7 +230,7 @@
 .specialty {
   grid-area: 4 / 1 / 5 / 3;
 
-  padding: 2mm;
+  padding: 1mm;
   font-size: var(--card-body-size);
   line-height: 1.25em;
 

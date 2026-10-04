@@ -30,9 +30,6 @@ export function stringifyFactionUnit(factionUnit: FactionUnit): string {
 export async function loadFactionUnit(): Promise<FactionUnit> {
   const blob = await fileOpen({
     mimeTypes: ["application/json"],
-    // Chrome rejects accept extensions longer than 16 characters, and
-    // ".homm3factionunit.json" exceeds that. Filter on .json instead so
-    // files saved with the long name still open.
     extensions: [".json"],
     description: "Faction unit card",
   });
@@ -45,6 +42,6 @@ export function saveFactionUnit(factionUnit: FactionUnit) {
     new Blob([stringifyFactionUnit(factionUnit)], {
       type: "application/json;charset=utf-8",
     }),
-    `${normalizeString(factionUnit.name)}.homm3factionunit.json`
+    `${normalizeString(factionUnit.name)}.faction_unit.json`,
   );
 }

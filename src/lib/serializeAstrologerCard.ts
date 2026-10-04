@@ -30,9 +30,6 @@ export function stringifyAstrologerCard(astrologer: AstrologerCard): string {
 export async function loadAstrologerCard(): Promise<AstrologerCard> {
   const blob = await fileOpen({
     mimeTypes: ["application/json"],
-    // Chrome rejects accept extensions longer than 16 characters, and
-    // ".homm3astrologer.json" exceeds that. Filter on .json instead so
-    // files saved with the long name still open.
     extensions: [".json"],
     description: "Astrologer card",
   });
@@ -45,6 +42,6 @@ export function saveAstrologerCard(astrologer: AstrologerCard) {
     new Blob([stringifyAstrologerCard(astrologer)], {
       type: "application/json;charset=utf-8",
     }),
-    `${normalizeString(astrologer.name)}.homm3astrologer.json`
+    `${normalizeString(astrologer.name)}.astrologer.json`,
   );
 }

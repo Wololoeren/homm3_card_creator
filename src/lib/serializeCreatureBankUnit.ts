@@ -30,9 +30,6 @@ export function stringifyCreatureBankUnit(unit: CreatureBankUnit): string {
 export async function loadCreatureBankUnit(): Promise<CreatureBankUnit> {
   const blob = await fileOpen({
     mimeTypes: ["application/json"],
-    // Chrome rejects accept extensions longer than 16 characters, and
-    // ".homm3creaturebankunit.json" exceeds that. Filter on .json instead so
-    // files saved with the long name still open.
     extensions: [".json"],
     description: "Creature bank unit card",
   });
@@ -45,6 +42,6 @@ export function saveCreatureBankUnit(unit: CreatureBankUnit) {
     new Blob([stringifyCreatureBankUnit(unit)], {
       type: "application/json;charset=utf-8",
     }),
-    `${normalizeString(unit.name)}.homm3creaturebankunit.json`
+    `${normalizeString(unit.name)}.creaturebank_unit.json`
   );
 }

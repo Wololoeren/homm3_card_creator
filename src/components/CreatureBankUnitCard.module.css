@@ -1,5 +1,6 @@
 .card {
-  font-family: var(--font-times-nr-mt-std), var(--font-liberation-serif),
+  font-family:
+    var(--font-times-nr-mt-std), var(--font-liberation-serif),
     "Times New Roman", Times, serif;
   width: 62.5mm;
   height: 87.9mm;
@@ -10,7 +11,9 @@
   position: relative;
   margin: 0;
   color: var(--white);
-  text-shadow: 0 0 0.25mm black, 0 0.25mm 0.5mm black;
+  text-shadow:
+    0 0 0.25mm black,
+    0 0.25mm 0.5mm black;
 
   display: grid;
   grid-template-columns: 9.3mm minmax(0, 1fr);
@@ -132,7 +135,7 @@
 .specialty {
   grid-area: 4 / 1 / 5 / 3;
 
-  padding: 2mm;
+  padding: 1mm;
   font-size: var(--card-body-size);
   line-height: 1.25em;
 
