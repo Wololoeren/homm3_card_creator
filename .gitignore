@@ -58,3 +58,6 @@ next-env.d.ts
 
 # symlink-dir moves the previous real directory aside before linking.
 .ignored_*/
+
+# Windows download metadata (WSL)
+*:Zone.Identifier
