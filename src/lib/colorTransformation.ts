@@ -1,6 +1,7 @@
 import { colord, HsvColor } from "colord";
 import LeatherBackground from "@/assets/background/leather.png";
 import Border from "@/assets/border/border.png";
+import SilverBorder from "@/assets/border/border_silver.png";
 import { mat3, vec3 } from "gl-matrix";
 
 const leatherColor = "#5d3f25";
@@ -89,6 +90,7 @@ function computeFilterFromColors(input: string, output: string): mat3 {
  */
 const backgrounds = new Map<string, Promise<string>>();
 const borders = new Map<string, Promise<string>>();
+const silverBorders = new Map<string, Promise<string>>();
 
 function cached(
   cache: Map<string, Promise<string>>,
@@ -112,7 +114,11 @@ export function generateBackground(color: string): Promise<string> {
 }
 
 export function renderBorderWithShadow(color: string): Promise<string> {
-  return cached(borders, color, renderBorder);
+  return cached(borders, color, (c) => renderBorder(c, Border.src));
+}
+
+export function renderSilverBorderWithShadow(color: string): Promise<string> {
+  return cached(silverBorders, color, (c) => renderBorder(c, SilverBorder.src));
 }
 
 async function renderBackground(color: string): Promise<string> {
@@ -156,8 +162,11 @@ async function renderBackground(color: string): Promise<string> {
   }
 }
 
-async function renderBorder(borderColor: string): Promise<string> {
-  const img = await loadImage(Border.src);
+async function renderBorder(
+  borderColor: string,
+  borderSrc: string,
+): Promise<string> {
+  const img = await loadImage(borderSrc);
 
   const canvas = document.createElement("canvas");
   canvas.width = img.naturalWidth || img.width;

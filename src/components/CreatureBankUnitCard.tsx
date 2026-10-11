@@ -41,7 +41,7 @@ export default function CreatureBankUnitCard({
 }: {
   unit: CreatureBankUnit;
 }) {
-  const borderUrl = useBorder("#a8a8a8");
+  const borderUrl = useBorder("#536346", true);
 
   return (
     <div

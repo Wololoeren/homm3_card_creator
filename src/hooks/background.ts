@@ -1,6 +1,7 @@
 import {
   generateBackground,
   renderBorderWithShadow,
+  renderSilverBorderWithShadow,
 } from "@/lib/colorTransformation";
 import { useEffect, useState } from "react";
 import { useDebounceValue } from "usehooks-ts";
@@ -35,6 +36,9 @@ export function useBackground(color: string) {
   return useCssUrl(generateBackground, color);
 }
 
-export function useBorder(color: string) {
-  return useCssUrl(renderBorderWithShadow, color);
+export function useBorder(color: string, silver = false) {
+  return useCssUrl(
+    silver ? renderSilverBorderWithShadow : renderBorderWithShadow,
+    color,
+  );
 }

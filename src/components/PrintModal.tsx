@@ -65,6 +65,7 @@ export default function PrintModal({
       onHide={onHide}
       backdrop="static"
       centered
+      scrollable
       fullscreen="sm-down"
     >
       <Modal.Header closeButton>

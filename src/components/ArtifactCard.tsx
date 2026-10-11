@@ -1,20 +1,26 @@
 "use client";
 
-import { ArtifactCard as ArtifactCardModel, artifactRarityColors } from "@/models/artifactCard";
+import {
+  ArtifactCard as ArtifactCardModel,
+  ArtifactRarity,
+  artifactRarityColors,
+} from "@/models/artifactCard";
 import styles from "./ArtifactCard.module.css";
 import { textToComponent } from "@/lib/textToComponent";
 import { useBorder } from "@/hooks/background";
+import clsx from "clsx";
 
 export default function ArtifactCard({
   artifact,
 }: {
   artifact: ArtifactCardModel;
 }) {
-  const borderUrl = useBorder(artifactRarityColors[artifact.rarity]);
+  const minor = artifact.rarity === ArtifactRarity.Minor;
+  const borderUrl = useBorder(artifactRarityColors[artifact.rarity], minor);
 
   return (
     <div
-      className={styles.card}
+      className={clsx(styles.card, minor && styles.silver)}
       style={{ "--border-image": borderUrl } as React.CSSProperties}
     >
       <div className={styles.inner}>

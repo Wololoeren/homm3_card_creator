@@ -8,6 +8,8 @@
      structure exactly in the source art (2090x2900 canvas). */
   padding: 4.7mm 5mm 4.9mm 5mm;
   background: black;
+  /* Silver frame instead of the default gold, to match the card back. */
+  --border-light: #b5b5b7;
   position: relative;
   margin: 0;
   color: var(--white);
