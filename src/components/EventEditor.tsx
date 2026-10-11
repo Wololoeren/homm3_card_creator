@@ -103,7 +103,7 @@ export default function EventEditor() {
             <DownloadableCard filename={`${previewName}-front`}>
               <EventCard event={event} />
             </DownloadableCard>
-            <DownloadableCard filename={`${previewName}-back`} flipped>
+            <DownloadableCard filename={`${previewName}-back`}>
               <EventCardBack />
             </DownloadableCard>
           </ScaledPreview>

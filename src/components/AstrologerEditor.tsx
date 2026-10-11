@@ -109,7 +109,7 @@ export default function AstrologerEditor() {
             <DownloadableCard filename={`${previewName}-front`}>
               <AstrologerCard astrologer={astrologer} />
             </DownloadableCard>
-            <DownloadableCard filename={`${previewName}-back`} flipped>
+            <DownloadableCard filename={`${previewName}-back`}>
               <AstrologerCardBack />
             </DownloadableCard>
           </ScaledPreview>
