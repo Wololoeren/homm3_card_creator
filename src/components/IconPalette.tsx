@@ -275,21 +275,6 @@ export default function IconPalette({ targets }: { targets: IconTarget[] }) {
 
       <div className={styles.palette}>
         <div className={styles.row}>
-          {Object.entries(iconMap)
-            .filter(([token]) => !HIDDEN_ICONS.has(token))
-            .map(([token, icon]) =>
-              button(
-                token,
-                `Insert ${token}`,
-                `Insert ${token}`,
-                styles.icon,
-                () => insert(token),
-                icon,
-              ),
-            )}
-        </div>
-
-        <div className={styles.row}>
           {button(
             "heading",
             "Heading",
@@ -317,6 +302,21 @@ export default function IconPalette({ targets }: { targets: IconTarget[] }) {
               face,
             ),
           )}
+        </div>
+
+        <div className={styles.row}>
+          {Object.entries(iconMap)
+            .filter(([token]) => !HIDDEN_ICONS.has(token))
+            .map(([token, icon]) =>
+              button(
+                token,
+                `Insert ${token}`,
+                `Insert ${token}`,
+                styles.icon,
+                () => insert(token),
+                icon,
+              ),
+            )}
         </div>
       </div>
     </>
