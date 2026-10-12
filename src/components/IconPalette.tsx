@@ -134,17 +134,30 @@ function bold(selected: string): Edit {
   return { text: `**${inner}**`, select: [2, 2 + inner.length] };
 }
 
+/** The line breaks that put `text` on a line of its own, adding only the ones
+ * the text around it does not already supply. */
+function ownLine(text: string, before: string, after: string) {
+  const lead = before === "" || before.endsWith("\n") ? "" : "\n";
+  const tail = after === "" || after.startsWith("\n") ? "" : "\n";
+  return { lead, text: `${lead}${text}${tail}` };
+}
+
 /** A heading needs a line of its own: the parser only reads "#" at a line's
  * start, and the heading runs to the end of that line. */
 function heading(selected: string, before: string, after: string): Edit {
   const inner = selected.trim() || "Heading";
-  const lead = before === "" || before.endsWith("\n") ? "" : "\n";
-  const tail = after === "" || after.startsWith("\n") ? "" : "\n";
+  const { lead, text } = ownLine(`# ${inner}`, before, after);
   const start = lead.length + 2;
-  return {
-    text: `${lead}# ${inner}${tail}`,
-    select: [start, start + inner.length],
-  };
+  return { text, select: [start, start + inner.length] };
+}
+
+/** A construction is a block of its own: a table, a stat row or a divider
+ * run into a line of text — or a heading, which takes the rest of its line —
+ * does not lay out as one. The caret goes on past it, ready for what follows. */
+function block(token: string) {
+  return (_selected: string, before: string, after: string): Edit => ({
+    text: ownLine(token, before, after).text,
+  });
 }
 
 /** The arrow a power table points with, from the left column to the right. */
@@ -298,7 +311,7 @@ export default function IconPalette({ targets }: { targets: IconTarget[] }) {
               label,
               title ?? `${label}: ${token}`,
               `${styles.icon} ${styles.table}`,
-              () => insert(token),
+              () => edit(block(token)),
               face,
             ),
           )}

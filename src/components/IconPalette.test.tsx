@@ -130,8 +130,8 @@ describe("IconPalette", () => {
     );
 
     expect(field("a")).toHaveValue(
-      "one:spell{{1;2;3};{1;2;3};{:damage:}}:" +
-        ":spell{{1;2;3};{effect 1;effect 2;effect 3}}:",
+      "one\n:spell{{1;2;3};{1;2;3};{:damage:}}:" +
+        "\n:spell{{1;2;3};{effect 1;effect 2;effect 3}}:",
     );
   });
 
@@ -143,7 +143,7 @@ describe("IconPalette", () => {
     );
 
     expect(field("a")).toHaveValue(
-      "one:scale{{:event_battle:};{1;2;3};{effect 1;effect 2;effect 3}}:",
+      "one\n:scale{{:event_battle:};{1;2;3};{effect 1;effect 2;effect 3}}:",
     );
   });
 
@@ -154,7 +154,7 @@ describe("IconPalette", () => {
       screen.getByRole("button", { name: "Insert a unit stat row" }),
     );
 
-    expect(field("a")).toHaveValue("one:stats{0;0;0;0}:");
+    expect(field("a")).toHaveValue("one\n:stats{0;0;0;0}:");
   });
 
   it("leaves :or: off the glyphs, for the divider that replaces it", () => {
@@ -164,7 +164,7 @@ describe("IconPalette", () => {
       screen.queryByRole("button", { name: "Insert :or:" }),
     ).not.toBeInTheDocument();
     fireEvent.click(screen.getByRole("button", { name: "Insert a divider" }));
-    expect(field("a")).toHaveValue("one:divide{OR}:");
+    expect(field("a")).toHaveValue("one\n:divide{OR}:");
   });
 
   it("types a table with an icon on each side", () => {
@@ -177,7 +177,7 @@ describe("IconPalette", () => {
     );
 
     expect(field("a")).toHaveValue(
-      "one:scale{{:gold:};{1;2;3};{1;2;3};{:valuable:}}:",
+      "one\n:scale{{:gold:};{1;2;3};{1;2;3};{:valuable:}}:",
     );
   });
 
@@ -229,5 +229,25 @@ describe("IconPalette", () => {
     heading();
 
     expect(field("a")).toHaveValue("one\n# Title\ntwo");
+  });
+
+  it("puts a construction on a line of its own", () => {
+    render(<Form first="# Qwerty more" />);
+
+    select("a", 8, 8);
+    fireEvent.click(screen.getByRole("button", { name: "Insert a divider" }));
+
+    expect(field("a")).toHaveValue("# Qwerty\n:divide{OR}:\n more");
+  });
+
+  it("adds no line breaks a construction already has around it", () => {
+    render(<Form first={"one\n\ntwo"} />);
+
+    select("a", 4, 4);
+    fireEvent.click(
+      screen.getByRole("button", { name: "Insert a unit stat row" }),
+    );
+
+    expect(field("a")).toHaveValue("one\n:stats{0;0;0;0}:\ntwo");
   });
 });
