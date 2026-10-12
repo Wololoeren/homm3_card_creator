@@ -2,6 +2,7 @@ import React from "react";
 import { JSX } from "react";
 
 import OrDividerIcon from "@/assets/glyphsInternal/or_divider.svg";
+import EventBattleIcon from "@/assets/glyphsInternal/event_battle.svg";
 
 import InstantIcon from "@/assets/glyphs/instant.svg";
 import OngoingIcon from "@/assets/glyphs/ongoing.svg";
@@ -26,6 +27,7 @@ import GoldIcon from "@/assets/glyphs/gold.svg";
 import ValuableIcon from "@/assets/glyphs/valuablegreater.svg";
 import BuildingMaterialIcon from "@/assets/glyphs/building_materials.svg";
 import PayIcon from "@/assets/glyphsInternal/price-icons/pay.png";
+import { unitStatIcons } from "@/lib/unitIcons";
 
 import UnitGroundIcon from "@/assets/glyphsInternal/unit_ground.svg";
 import UnitFlyingIcon from "@/assets/glyphsInternal/unit_flying.svg";
@@ -153,6 +155,7 @@ export const iconMap: Record<string, JSX.Element> = {
     <HandLimitIcon aria-label="Hand limit" className="textIcon" />
   ),
   ":pay:": <img src={PayIcon.src} alt="Pay" className="textIcon" />,
+  ":pay_v2:": <PayV2Icon aria-label="Pay" className="textIcon recolorFill" />,
   ":reinforce:": <ReinforceIcon aria-label="Reinforce" className="textIcon" />,
   ":bronze:": <FontAwesomeIcon icon={faStar} className="bronze" />,
   ":silver:": <FontAwesomeIcon icon={faStar} className="silver" />,
@@ -162,8 +165,10 @@ export const iconMap: Record<string, JSX.Element> = {
   ":empower:": <EmpowerIcon aria-label="Empower" className="textIcon" />,
 
   ":spell:": <SpellIcon aria-label="Spell" className="textIcon" />,
+  ":experience:": (
+    <ExperienceIcon aria-label="Experience" className="textIcon" />
+  ),
 
-  ":movement:": <MovementIcon aria-label="Movement" className="textIcon" />,
   ":morale:": <MoraleIcon aria-label="Morale" className="textIcon" />,
   ":morale_negative:": (
     <MoraleNegativeIcon
@@ -178,12 +183,19 @@ export const iconMap: Record<string, JSX.Element> = {
   ":building:": (
     <BuildingMaterialIcon aria-label="Building Material" className="textIcon" />
   ),
+  ":movement:": <MovementIcon aria-label="Movement" className="textIcon" />,
+  ":arrow_right:": (
+    <ArrowRightIcon
+      aria-label="Arrow right"
+      className="textIcon recolorStroke"
+    />
+  ),
+  ":arrow_right_gray:": (
+    <ArrowRightGrayIcon aria-label="Arrow right (gray)" className="textIcon" />
+  ),
 
   ":necro:": <NecroIcon aria-label="Necro" className="textIcon" />,
 
-  ":experience:": (
-    <ExperienceIcon aria-label="Experience" className="textIcon" />
-  ),
   ":skill:": <SkillIcon aria-label="Skill" className="textIcon" />,
   ":might:": <MightIcon aria-label="Might" className="textIcon" />,
   ":magic:": <MagicIcon aria-label="Magic" className="textIcon" />,
@@ -208,8 +220,16 @@ export const iconMap: Record<string, JSX.Element> = {
   ),
   ":3_gold:": <Gold3Icon aria-label="3 Gold" className="textIcon" />,
   ":6_gold:": <Gold6Icon aria-label="6 Gold" className="textIcon" />,
-  ":pay_v2:": <PayV2Icon aria-label="Pay" className="textIcon" />,
 
+  ":plusone:": <PlusOneIcon aria-label="Plus one" className="textIcon" />,
+  ":zero:": <ZeroIcon aria-label="Zero" className="textIcon" />,
+
+  ":level1:": <Level1Icon aria-label="Level I" className="textIcon" />,
+  ":level4:": <Level4Icon aria-label="Level IV" className="textIcon" />,
+  ":level6:": <Level6Icon aria-label="Level VI" className="textIcon" />,
+  ":attack_color:": (
+    <img src={unitStatIcons.attack.src} alt="Attack" className="textIcon" />
+  ),
   ":defense_color:": (
     <DefenseColorIcon
       viewBox="0 0 249.99348 282.92319"
@@ -217,18 +237,13 @@ export const iconMap: Record<string, JSX.Element> = {
       className="textIcon"
     />
   ),
-  ":plusone:": <PlusOneIcon aria-label="Plus one" className="textIcon" />,
-  ":zero:": <ZeroIcon aria-label="Zero" className="textIcon" />,
-  ":arrow_right:": (
-    <ArrowRightIcon aria-label="Arrow right" className="textIcon" />
+  ":initiative_2:": (
+    <img
+      src={unitStatIcons.initiative.src}
+      alt="Initiative"
+      className="textIcon"
+    />
   ),
-  ":arrow_right_gray:": (
-    <ArrowRightGrayIcon aria-label="Arrow right (gray)" className="textIcon" />
-  ),
-
-  ":level1:": <Level1Icon aria-label="Level I" className="textIcon" />,
-  ":level4:": <Level4Icon aria-label="Level IV" className="textIcon" />,
-  ":level6:": <Level6Icon aria-label="Level VI" className="textIcon" />,
 
   ":bronze_mono:": (
     <BronzeMonoIcon
@@ -260,54 +275,55 @@ export const iconMap: Record<string, JSX.Element> = {
   ),
 
   ":damage_dark:": <DamageDarkIcon aria-label="Damage" className="textIcon" />,
+  ":event_battle:": (
+    <EventBattleIcon aria-label="Event battle" className="textIcon" />
+  ),
 };
 
 type IconToken = keyof typeof iconMap;
 
-// Renders arbitrary text flanked by the same tapered wedge lines as the
-// ":or:" glyph, but with the text width (and thus the whole glyph's width)
-// scaling to fit the given string instead of being fixed to "OR".
-function renderDivide(text: string): React.ReactNode {
-  const wedgeWidth = 50;
-  const charWidth = 13;
-  const textPadding = 20;
-  const textWidth = Math.max(wedgeWidth, text.length * charWidth + textPadding);
-  const totalWidth = wedgeWidth * 2 + textWidth;
-  const leftWide = wedgeWidth;
-  const rightWide = wedgeWidth + textWidth;
-
+/** One tapered line of a divider, wide end against the text. */
+function DivideWedge({ pointing }: { pointing: "left" | "right" }) {
   return (
     <svg
-      viewBox={`0 0 ${totalWidth} 14`}
-      aria-label={text}
-      className="textIcon"
-      style={{
-        height: "1.4mm",
-        width: "auto",
-        marginTop: "0.75mm",
-        marginBottom: "0.5mm",
-        overflow: "visible",
-      }}
+      viewBox="0 0 50 3"
+      preserveAspectRatio="none"
+      aria-hidden="true"
+      style={{ width: "5mm", height: "0.3mm", flex: "none" }}
     >
-      <text
-        x={leftWide + textWidth / 2}
-        y="50%"
-        textAnchor="middle"
-        dominantBaseline="central"
-        fill="currentColor"
-        fontSize="20"
-      >
-        {text}
-      </text>
       <polygon
-        points={`${leftWide},5.5 ${leftWide},8.5 0,7`}
-        fill="currentColor"
-      />
-      <polygon
-        points={`${rightWide},5.5 ${rightWide},8.5 ${totalWidth},7`}
+        points={pointing === "left" ? "50,0 50,3 0,1.5" : "0,0 0,3 50,1.5"}
         fill="currentColor"
       />
     </svg>
+  );
+}
+
+// Text flanked by the same tapered wedge lines as the ":or:" glyph, drawn in
+// the same 2mm lettering. Laid out rather than drawn into one SVG, so the
+// lines sit the same distance from any length of text and the text can carry
+// icons of its own.
+function renderDivide(
+  text: string,
+  props: TextToComponentProps,
+): React.ReactNode {
+  return (
+    <span
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        gap: "1.2mm",
+        fontSize: "2mm",
+        lineHeight: 1,
+        verticalAlign: "middle",
+        marginTop: "0.75mm",
+        marginBottom: "0.5mm",
+      }}
+    >
+      <DivideWedge pointing="left" />
+      <span>{textToComponent(text, props)}</span>
+      <DivideWedge pointing="right" />
+    </span>
   );
 }
 
@@ -319,11 +335,36 @@ interface UnitStatProps {
 }
 
 interface SpellProps {
-  power: [number, number, number];
-  effect: [React.ReactNode, React.ReactNode, React.ReactNode];
+  /** One entry per option; two to five of them. */
+  power: number[];
+  effect: React.ReactNode[];
   effectIcon?: React.ReactNode;
   /** Left-hand icon. Defaults to the spell power book when omitted. */
   powerIcon?: React.ReactNode;
+}
+
+/** A power table reads as a table from two options; five fills a card. */
+const MIN_SPELL_OPTIONS = 2;
+const MAX_SPELL_OPTIONS = 5;
+
+/** Why this power table cannot be drawn, or null when it can. */
+function spellTableProblem(
+  keyword: string,
+  power: number[],
+  effect: React.ReactNode[],
+): string | null {
+  if (power.length !== effect.length) {
+    return `${keyword} needs as many effects as powers`;
+  }
+  if (power.length < MIN_SPELL_OPTIONS || power.length > MAX_SPELL_OPTIONS) {
+    return `${keyword} must have ${MIN_SPELL_OPTIONS} to ${MAX_SPELL_OPTIONS} options`;
+  }
+  // An empty or non-numeric slot parses to NaN, which would otherwise be
+  // printed into the option circle as the word itself.
+  if (power.some((p) => !Number.isFinite(p))) {
+    return `${keyword} powers must be numbers`;
+  }
+  return null;
 }
 
 export interface TextToComponentProps {
@@ -333,7 +374,7 @@ export interface TextToComponentProps {
 
 export function textToComponent(
   text: string,
-  props: TextToComponentProps = {}
+  props: TextToComponentProps = {},
 ): React.ReactNode {
   // Digits are allowed so tokens can carry a quantity, e.g. :3_gold:.
   const re =
@@ -379,7 +420,7 @@ export function textToComponent(
         last = start; // match original behavior when there's no closing **
       } else {
         append(
-          <strong>{textToComponent(text.slice(start, close), props)}</strong>
+          <strong>{textToComponent(text.slice(start, close), props)}</strong>,
         );
         last = close + 2; // jump past closing **
       }
@@ -387,10 +428,10 @@ export function textToComponent(
       const start = tokEnd;
       const close = text.indexOf("\n", start);
       if (close === -1) {
-        append(<h4>{text.slice(start)}</h4>);
+        append(<h4 className="cardHeading">{text.slice(start)}</h4>);
         last = text.length;
       } else {
-        append(<h4>{text.slice(start, close)}</h4>);
+        append(<h4 className="cardHeading">{text.slice(start, close)}</h4>);
         last = close + 1; // include trailing newline
       }
     } else if (tok === "\n") {
@@ -404,7 +445,7 @@ export function textToComponent(
 
       if (stats.length !== 4) {
         append(
-          <span className="text-danger">Stats must have 4 components</span>
+          <span className="text-danger">Stats must have 4 components</span>,
         );
       }
 
@@ -418,7 +459,7 @@ export function textToComponent(
           })
         ) : (
           <span className="text-danger">No renderUnitStats available</span>
-        )
+        ),
       );
       last = tokEnd;
     } else if (tok.startsWith(":spell{")) {
@@ -431,55 +472,43 @@ export function textToComponent(
           s
             .trim()
             .split(";")
-            .map((p) => p.trim())
+            .map((p) => p.trim()),
         );
 
-      if (spellParts.length === 3) {
-        const [power, effect, effectIcon] = [
-          spellParts[0].map((p) => parseInt(p)) as [number, number, number],
-          spellParts[1].map((p) => textToComponent(p, props)) as [
-            React.ReactNode,
-            React.ReactNode,
-            React.ReactNode
-          ],
-          spellParts[2][0],
-        ];
-        append(
-          props.renderSpell ? (
-            props.renderSpell({
-              power,
-              effect,
-              effectIcon: iconMap[effectIcon as IconToken],
-            })
-          ) : (
-            <span className="text-danger">No renderSpell available</span>
-          )
-        );
-      } else if (spellParts.length === 2) {
-        const [power, effect] = [
-          spellParts[0].map((p) => parseInt(p)) as [number, number, number],
-          spellParts[1].map((p) => textToComponent(p, props)) as [
-            React.ReactNode,
-            React.ReactNode,
-            React.ReactNode
-          ],
-        ];
-        append(
-          props.renderSpell ? (
-            props.renderSpell({ power, effect })
-          ) : (
-            <span className="text-danger">No renderSpell available</span>
-          )
-        );
+      if (spellParts.length === 2 || spellParts.length === 3) {
+        const power = spellParts[0].map((p) => parseInt(p));
+        const effect = spellParts[1].map((p) => textToComponent(p, props));
+        const problem = spellTableProblem("Spell", power, effect);
+
+        if (problem) {
+          append(<span className="text-danger">{problem}</span>);
+        } else {
+          append(
+            props.renderSpell ? (
+              props.renderSpell({
+                power,
+                effect,
+                effectIcon:
+                  spellParts.length === 3
+                    ? iconMap[spellParts[2][0] as IconToken]
+                    : undefined,
+              })
+            ) : (
+              <span className="text-danger">No renderSpell available</span>
+            ),
+          );
+        }
       } else {
         append(
-          <span className="text-danger">Spell must have 2 or 3 components</span>
+          <span className="text-danger">
+            Spell must have 2 or 3 components
+          </span>,
         );
       }
       last = tokEnd;
     } else if (tok.startsWith(":scale{")) {
-      // Same two-column table as :spell{}:, but both icons are chosen rather
-      // than fixed to the spell power book and the effect icon.
+      // Same table as :spell{}:, but the left-hand icon is chosen rather than
+      // fixed to the spell power book.
       const scaleParts = tok
         .slice(7, -2)
         .trim()
@@ -489,39 +518,46 @@ export function textToComponent(
           s
             .trim()
             .split(";")
-            .map((p) => p.trim())
+            .map((p) => p.trim()),
         );
 
-      if (scaleParts.length === 4) {
-        append(
-          props.renderSpell ? (
-            props.renderSpell({
-              powerIcon: iconMap[scaleParts[0][0] as IconToken],
-              power: scaleParts[1].map((p) => parseInt(p)) as [
-                number,
-                number,
-                number
-              ],
-              effect: scaleParts[2].map((p) => textToComponent(p, props)) as [
-                React.ReactNode,
-                React.ReactNode,
-                React.ReactNode
-              ],
-              effectIcon: iconMap[scaleParts[3][0] as IconToken],
-            })
-          ) : (
-            <span className="text-danger">No renderSpell available</span>
-          )
-        );
+      if (scaleParts.length === 3 || scaleParts.length === 4) {
+        const power = scaleParts[1].map((p) => parseInt(p));
+        const effect = scaleParts[2].map((p) => textToComponent(p, props));
+        const problem = spellTableProblem("Scale", power, effect);
+
+        if (problem) {
+          append(<span className="text-danger">{problem}</span>);
+        } else {
+          append(
+            props.renderSpell ? (
+              props.renderSpell({
+                powerIcon: iconMap[scaleParts[0][0] as IconToken],
+                power,
+                effect,
+                // Three components picks the left-hand symbol and leaves the
+                // right-hand column as plain text, with no second bracket.
+                effectIcon:
+                  scaleParts.length === 4
+                    ? iconMap[scaleParts[3][0] as IconToken]
+                    : undefined,
+              })
+            ) : (
+              <span className="text-danger">No renderSpell available</span>
+            ),
+          );
+        }
       } else {
         append(
-          <span className="text-danger">Scale must have 4 components</span>
+          <span className="text-danger">
+            Scale must have 3 or 4 components
+          </span>,
         );
       }
       last = tokEnd;
     } else if (tok.startsWith(":divide{")) {
       const divideText = tok.slice(8, -2);
-      append(renderDivide(divideText));
+      append(renderDivide(divideText, props));
       last = tokEnd;
     } else if ((tok as IconToken) in iconMap) {
       append(iconMap[tok as IconToken]);

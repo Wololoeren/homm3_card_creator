@@ -7,6 +7,7 @@ vi.mock("@/lib/textToComponent", () => ({
   iconMap: {
     ":gold:": <i data-testid="gold" />,
     ":spell:": <i data-testid="spell" />,
+    ":or:": <i data-testid="or" />,
   },
 }));
 
@@ -116,5 +117,117 @@ describe("IconPalette", () => {
     press();
     // Nothing threw and the surviving field is the one that took the icon.
     expect(field("a")).toBeInTheDocument();
+  });
+
+  it("types a whole spell table from one button", () => {
+    render(<Form />);
+
+    fireEvent.click(
+      screen.getByRole("button", { name: "Insert a power table with an icon" }),
+    );
+    fireEvent.click(
+      screen.getByRole("button", { name: "Insert a power table with text" }),
+    );
+
+    expect(field("a")).toHaveValue(
+      "one:spell{{1;2;3};{1;2;3};{:damage:}}:" +
+        ":spell{{1;2;3};{effect 1;effect 2;effect 3}}:",
+    );
+  });
+
+  it("types a battle table that names its own left-hand icon", () => {
+    render(<Form />);
+
+    fireEvent.click(
+      screen.getByRole("button", { name: "Insert a event-battle table" }),
+    );
+
+    expect(field("a")).toHaveValue(
+      "one:scale{{:event_battle:};{1;2;3};{effect 1;effect 2;effect 3}}:",
+    );
+  });
+
+  it("types a unit stat row", () => {
+    render(<Form />);
+
+    fireEvent.click(
+      screen.getByRole("button", { name: "Insert a unit stat row" }),
+    );
+
+    expect(field("a")).toHaveValue("one:stats{0;0;0;0}:");
+  });
+
+  it("leaves :or: off the glyphs, for the divider that replaces it", () => {
+    render(<Form />);
+
+    expect(
+      screen.queryByRole("button", { name: "Insert :or:" }),
+    ).not.toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: "Insert a divider" }));
+    expect(field("a")).toHaveValue("one:divide{OR}:");
+  });
+
+  it("types a table with an icon on each side", () => {
+    render(<Form />);
+
+    fireEvent.click(
+      screen.getByRole("button", {
+        name: "Insert a table with icons on both sides",
+      }),
+    );
+
+    expect(field("a")).toHaveValue(
+      "one:scale{{:gold:};{1;2;3};{1;2;3};{:valuable:}}:",
+    );
+  });
+
+  const bold = () =>
+    fireEvent.click(screen.getByRole("button", { name: "Bold" }));
+  const select = (id: string, start: number, end: number) => {
+    field(id).focus();
+    field(id).setSelectionRange(start, end);
+  };
+
+  it("bolds the selection and keeps it selected", () => {
+    render(<Form first="a big hit" />);
+
+    select("a", 2, 5);
+    bold();
+
+    expect(field("a")).toHaveValue("a **big** hit");
+    expect(field("a").selectionStart).toBe(4);
+    expect(field("a").selectionEnd).toBe(7);
+  });
+
+  it("types a bold placeholder, selected to type over, with nothing selected", () => {
+    render(<Form first="" />);
+
+    select("a", 0, 0);
+    bold();
+
+    expect(field("a")).toHaveValue("**Bold**");
+    expect(field("a").selectionStart).toBe(2);
+    expect(field("a").selectionEnd).toBe(6);
+  });
+
+  const heading = () =>
+    fireEvent.click(screen.getByRole("button", { name: "Heading" }));
+
+  it("puts a heading on a line of its own", () => {
+    render(<Form first="before after" />);
+
+    select("a", 7, 7);
+    heading();
+
+    expect(field("a")).toHaveValue("before \n# Heading\nafter");
+  });
+
+  it("turns the selected line into a heading without doubling newlines", () => {
+    render(<Form first={"one\nTitle\ntwo"} />);
+
+    select("a", 4, 9);
+    heading();
+
+    expect(field("a")).toHaveValue("one\n# Title\ntwo");
   });
 });

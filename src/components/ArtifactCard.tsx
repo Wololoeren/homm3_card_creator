@@ -9,6 +9,7 @@ import styles from "./ArtifactCard.module.css";
 import { textToComponent } from "@/lib/textToComponent";
 import { useBorder } from "@/hooks/background";
 import clsx from "clsx";
+import { cardTextProps } from "./cardTextProps";
 
 export default function ArtifactCard({
   artifact,
@@ -34,7 +35,7 @@ export default function ArtifactCard({
         />
 
         <div className={styles.effect}>
-          <div>{textToComponent(artifact.effect)}</div>
+          <div>{textToComponent(artifact.effect, cardTextProps)}</div>
         </div>
 
         <div className={styles.divider} />

@@ -268,12 +268,41 @@ export function piecesFor(card: LoadedCard): Piece[] {
 }
 
 /** The faces of one piece, butted together: the join is the fold line. */
-function PieceFaces({ piece }: { piece: Piece }) {
+function PieceFaces({ piece, rounded }: { piece: Piece; rounded: boolean }) {
   return (
-    <div style={{ display: "flex" }}>
+    <div
+      className={clsx(rounded && "roundedPiece")}
+      style={{ display: "flex" }}
+    >
       {piece.faces.map((face, fi) => (
         <React.Fragment key={fi}>{face}</React.Fragment>
       ))}
+    </div>
+  );
+}
+
+/**
+ * A board is a piece of its own, cut out along the same rounded outline. With
+ * its back beside it, the pair is one piece folded along the join.
+ */
+function BoardPiece({
+  hero,
+  back,
+  cutoutLevels,
+  rounded,
+}: {
+  hero: Hero;
+  back: boolean;
+  cutoutLevels: boolean;
+  rounded: boolean;
+}) {
+  return (
+    <div
+      className={clsx(rounded && "roundedPiece")}
+      style={{ display: "flex" }}
+    >
+      <HeroBoard hero={hero} cutoutLevels={cutoutLevels} />
+      {back ? <HeroBoardBack /> : null}
     </div>
   );
 }
@@ -342,9 +371,11 @@ function sheetsFor(cards: LoadedCard[]) {
 function CroppedSheets({
   cards,
   cutoutLevels,
+  rounded,
 }: {
   cards: LoadedCard[];
   cutoutLevels: boolean;
+  rounded: boolean;
 }) {
   return (
     <div style={{ ["--adjust-scale" as string]: "1" }}>
@@ -354,7 +385,7 @@ function CroppedSheets({
           key={pi}
         >
           <div>
-            <PieceFaces piece={piece} />
+            <PieceFaces piece={piece} rounded={rounded} />
           </div>
         </div>
       ))}
@@ -363,14 +394,24 @@ function CroppedSheets({
         <React.Fragment key={`board-${bi}`}>
           <div className="cropBoard page">
             <div>
-              <HeroBoard hero={board.hero} cutoutLevels={cutoutLevels} />
+              <BoardPiece
+                hero={board.hero}
+                back={false}
+                cutoutLevels={cutoutLevels}
+                rounded={rounded}
+              />
             </div>
           </div>
           {/* The tablet back, on its own page: a cropped page holds one piece. */}
           {board.back ? (
             <div className="cropBoard page">
               <div>
-                <HeroBoardBack />
+                <div
+                  className={clsx(rounded && "roundedPiece")}
+                  style={{ display: "flex" }}
+                >
+                  <HeroBoardBack />
+                </div>
               </div>
             </div>
           ) : null}
@@ -384,13 +425,21 @@ export default function PdfSheets({
   cards,
   cropped = false,
   cutoutLevels = false,
+  rounded = false,
 }: {
   cards: LoadedCard[];
   cropped?: boolean;
   cutoutLevels?: boolean;
+  rounded?: boolean;
 }) {
   if (cropped)
-    return <CroppedSheets cards={cards} cutoutLevels={cutoutLevels} />;
+    return (
+      <CroppedSheets
+        cards={cards}
+        cutoutLevels={cutoutLevels}
+        rounded={rounded}
+      />
+    );
 
   const cardSheets = sheetsFor(cards);
   return (
@@ -401,7 +450,7 @@ export default function PdfSheets({
             {sheet.map((row, ri) => (
               <div style={{ display: "flex", flexDirection: "row" }} key={ri}>
                 {row.map((piece, pi) => (
-                  <PieceFaces piece={piece} key={pi} />
+                  <PieceFaces piece={piece} rounded={rounded} key={pi} />
                 ))}
               </div>
             ))}
@@ -417,8 +466,12 @@ export default function PdfSheets({
         <div className="landscape page" key={`board-${bi}`}>
           <div>
             <div style={{ display: "flex", flexDirection: "row" }}>
-              <HeroBoard hero={board.hero} cutoutLevels={cutoutLevels} />
-              {board.back ? <HeroBoardBack /> : null}
+              <BoardPiece
+                hero={board.hero}
+                back={board.back}
+                cutoutLevels={cutoutLevels}
+                rounded={rounded}
+              />
             </div>
           </div>
         </div>

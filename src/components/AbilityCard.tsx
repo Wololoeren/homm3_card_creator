@@ -8,6 +8,7 @@ import clsx from "clsx";
 import { colord } from "colord";
 
 import ExpertIcon from "@/assets/glyphs/expert.svg";
+import { cardTextProps } from "./cardTextProps";
 
 export default function AbilityCard({
   ability,
@@ -43,7 +44,7 @@ export default function AbilityCard({
             <div className={styles.icon} style={{ backgroundImage: `url("${ability.icon.path}")` }} />
 
             <div className={styles.effect}>
-              <div>{textToComponent(ability.expertEffect)}</div>
+              <div>{textToComponent(ability.expertEffect, cardTextProps)}</div>
             </div>
           </>
         ) : (
@@ -58,7 +59,7 @@ export default function AbilityCard({
             </div>
 
             <div className={styles.effect}>
-              <div>{textToComponent(ability.regularEffect)}</div>
+              <div>{textToComponent(ability.regularEffect, cardTextProps)}</div>
             </div>
 
             <div className={styles.lower}>
@@ -69,7 +70,7 @@ export default function AbilityCard({
               </div>
 
               <div className={styles.effect}>
-                <div>{textToComponent(ability.expertEffect)}</div>
+                <div>{textToComponent(ability.expertEffect, cardTextProps)}</div>
               </div>
             </div>
           </>

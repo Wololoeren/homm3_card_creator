@@ -3,52 +3,11 @@ import styles from "./HeroCard.module.css";
 import clsx from "clsx";
 import { SpecialtyLevel } from "@/models/specialty";
 
-import { textToComponent, TextToComponentProps } from "@/lib/textToComponent";
-import SpellEffect from "./SpellEffect";
+import { textToComponent } from "@/lib/textToComponent";
+import { cardTextProps } from "./cardTextProps";
 
 import { townColors } from "@/models/color";
 import { useBackground } from "@/hooks/background";
-import { unitStatIcons } from "@/lib/unitIcons";
-
-const textToComponentProps: TextToComponentProps = {
-  renderSpell: (props) => <SpellEffect {...props} />,
-  renderUnitStats: (props) => (
-    <div className={styles.unitStats}>
-      <div>
-        <img
-          className={styles.unitIcon}
-          src={unitStatIcons.attack.src}
-          alt="Attack"
-        />{" "}
-        {props.attack}
-      </div>
-      <div>
-        <img
-          className={styles.unitIcon}
-          src={unitStatIcons.defense.src}
-          alt="Defense"
-        />{" "}
-        {props.defense}
-      </div>
-      <div>
-        <img
-          className={styles.unitIcon}
-          src={unitStatIcons.health.src}
-          alt="Health"
-        />{" "}
-        {props.health}
-      </div>
-      <div>
-        <img
-          className={styles.unitIcon}
-          src={unitStatIcons.initiative.src}
-          alt="Speed"
-        />{" "}
-        {props.speed}
-      </div>
-    </div>
-  ),
-};
 
 export default function HeroCard({
   hero,
@@ -78,7 +37,7 @@ export default function HeroCard({
           <div>
             {textToComponent(
               hero.specialtyContent[specialtyLevel],
-              textToComponentProps
+              cardTextProps
             )}
           </div>
         </div>

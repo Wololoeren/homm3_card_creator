@@ -6,6 +6,7 @@ import { textToComponent } from "@/lib/textToComponent";
 
 import PositiveTemplate from "@/assets/cards/morale-positive-template.webp";
 import NegativeTemplate from "@/assets/cards/morale-negative-template.webp";
+import { cardTextProps } from "./cardTextProps";
 
 const moraleTemplates: Record<MoraleType, string> = {
   [MoraleType.Positive]: PositiveTemplate.src,
@@ -19,7 +20,7 @@ export default function MoraleCard({ morale }: { morale: MoraleCardModel }) {
       style={{ backgroundImage: `url("${moraleTemplates[morale.type]}")` }}
     >
       <div className={styles.effect}>
-        <div>{textToComponent(morale.effect)}</div>
+        <div>{textToComponent(morale.effect, cardTextProps)}</div>
       </div>
     </div>
   );

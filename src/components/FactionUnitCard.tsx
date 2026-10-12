@@ -28,6 +28,7 @@ import AzureStar from "@/assets/glyphsInternal/tier-stars/azure.png";
 import UnitGroundIcon from "@/assets/glyphsInternal/unit_ground.svg";
 import UnitFlyingIcon from "@/assets/glyphsInternal/unit_flying.svg";
 import UnitRangedIcon from "@/assets/glyphs/unit_ranged.svg";
+import { cardTextProps } from "./cardTextProps";
 
 const tierStars: Record<UnitTier, { src: string }> = {
   [UnitTier.Bronze]: BronzeStar,
@@ -164,7 +165,7 @@ export default function FactionUnitCard({ unit }: { unit: FactionUnit }) {
       </div>
 
       <div className={clsx(styles.block, styles.tintDark, styles.specialty)}>
-        <div>{textToComponent(unit.fewSpecialty)}</div>
+        <div>{textToComponent(unit.fewSpecialty, cardTextProps)}</div>
       </div>
     </div>
   );

@@ -12,6 +12,7 @@ import { unitStatIcons } from "@/lib/unitIcons";
 import UnitGroundIcon from "@/assets/glyphsInternal/unit_ground.svg";
 import UnitFlyingIcon from "@/assets/glyphsInternal/unit_flying.svg";
 import UnitRangedIcon from "@/assets/glyphs/unit_ranged.svg";
+import { cardTextProps } from "./cardTextProps";
 
 function TypeBadge({ type }: { type: UnitType }) {
   switch (type) {
@@ -83,7 +84,7 @@ export default function CreatureBankUnitCard({
       </div>
 
       <div className={clsx(styles.block, styles.leather, styles.specialty)}>
-        <div>{textToComponent(unit.specialty)}</div>
+        <div>{textToComponent(unit.specialty, cardTextProps)}</div>
       </div>
     </div>
   );
