@@ -34,20 +34,12 @@
         left: 0;
         transform: translateY(-50%) translateX(10%) scale(0.9);
       }
-
-      .powerCount {
-        left: 13.5mm;
-      }
     }
 
     &:not(.flip) {
       .spellPowerIcon {
         right: 0;
         transform: translateY(-50%) translateX(-10%) scale(0.7, 0.7);
-      }
-
-      .powerCount {
-        right: 13.3mm;
       }
     }
 
@@ -63,23 +55,20 @@
       }
     }
 
+    /* Each value is placed on its circle's centre from SpellEffect.tsx and
+       pulled back by half its own size. Its box is trimmed to the digits, which
+       stand as tall as capitals, so it is the figure itself that is centred
+       rather than a line box with room below it for descenders. */
     .powerCount {
       position: absolute;
-      top: 0;
-      bottom: 0;
-      width: 3.75mm;
+      inset: 0;
 
-      display: flex;
-      flex-direction: column;
-
-      /* One band per option, each centring its number on its own circle.
-         Bands rather than space-between so the column keeps lining up with
-         the bracket whatever the row count. */
       > span {
-        flex: 1;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        position: absolute;
+        transform: translate(-50%, -50%);
+        line-height: 1;
+        white-space: nowrap;
+        text-box: trim-both cap alphabetic;
       }
     }
   }

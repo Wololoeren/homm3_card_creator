@@ -63,6 +63,34 @@ h4.cardHeading {
   font-weight: normal;
 }
 
+/* A ":divide{...}:" line: text between two tapered lines, coloured like the
+   glyphs. Every card sets its own font and line height, so the text's box is
+   trimmed to its capitals: the lines then centre on the lettering itself
+   rather than on a box that sits differently in each font. */
+.cardDivide {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.2mm;
+  margin: 0.75mm 0 0.5mm 0;
+  vertical-align: middle;
+  font-size: 2mm;
+  line-height: 1;
+  color: var(--yellow);
+  filter: drop-shadow(0 0.25mm 0.5mm black);
+}
+
+.cardDivideText {
+  text-box: trim-both cap alphabetic;
+}
+
+/* !important: cards size the SVGs in their text, and those rules would
+   otherwise stretch or squash the lines. */
+svg.cardDivideWedge {
+  flex: none;
+  width: 5mm !important;
+  height: 0.3mm !important;
+}
+
 @media print {
   html,
   body,

@@ -289,7 +289,7 @@ function DivideWedge({ pointing }: { pointing: "left" | "right" }) {
       viewBox="0 0 50 3"
       preserveAspectRatio="none"
       aria-hidden="true"
-      style={{ width: "5mm", height: "0.3mm", flex: "none" }}
+      className="cardDivideWedge"
     >
       <polygon
         points={pointing === "left" ? "50,0 50,3 0,1.5" : "0,0 0,3 50,1.5"}
@@ -299,29 +299,18 @@ function DivideWedge({ pointing }: { pointing: "left" | "right" }) {
   );
 }
 
-// Text flanked by the same tapered wedge lines as the ":or:" glyph, drawn in
-// the same 2mm lettering. Laid out rather than drawn into one SVG, so the
-// lines sit the same distance from any length of text and the text can carry
-// icons of its own.
+// Text flanked by the same tapered wedge lines as the ":or:" glyph. Laid out
+// rather than drawn into one SVG, so the lines sit the same distance from any
+// length of text and the text can carry icons of its own. Styled in
+// globals.css, the same on every card.
 function renderDivide(
   text: string,
   props: TextToComponentProps,
 ): React.ReactNode {
   return (
-    <span
-      style={{
-        display: "inline-flex",
-        alignItems: "center",
-        gap: "1.2mm",
-        fontSize: "2mm",
-        lineHeight: 1,
-        verticalAlign: "middle",
-        marginTop: "0.75mm",
-        marginBottom: "0.5mm",
-      }}
-    >
+    <span className="cardDivide">
       <DivideWedge pointing="left" />
-      <span>{textToComponent(text, props)}</span>
+      <span className="cardDivideText">{textToComponent(text, props)}</span>
       <DivideWedge pointing="right" />
     </span>
   );

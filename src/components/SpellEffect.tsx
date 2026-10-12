@@ -32,6 +32,8 @@ interface Bracket {
   heightMm: number;
   /** Centre of each option circle, and of the row of text beside it. */
   rows: number[];
+  /** The same centres, as a fraction of the bracket's height from its top. */
+  rowFractions: number[];
   spokes: { y1: number; x2: number; y2: number }[];
 }
 
@@ -51,6 +53,7 @@ function bracket(rows: number): Bracket {
     viewBox: `0 ${-reach} ${VIEW_WIDTH} ${height}`,
     heightMm: height * MM_PER_UNIT,
     rows: ys,
+    rowFractions: ys.map((y) => (y + reach) / height),
     spokes: ys.map((y) => {
       // The spoke leaves the option circle's edge and lands on the big circle,
       // so it always meets it cleanly. Spread rather than a fixed rise per
@@ -60,6 +63,39 @@ function bracket(rows: number): Bracket {
       return { y1: y, x2: BIG_CX - Math.sqrt(BIG_R ** 2 - y2 ** 2), y2 };
     }),
   };
+}
+
+/** The option circles' centre across the bracket, as a fraction of its width.
+    The left-hand bracket is drawn mirrored, so its circles sit on the right. */
+const circleAcross = (flipped: boolean) =>
+  flipped ? 1 - SMALL_CX / VIEW_WIDTH : SMALL_CX / VIEW_WIDTH;
+
+/** One value per option, each centred on its own circle. Placed from the same
+    geometry the circles are drawn from, so it stays on them at every row
+    count rather than drifting the way evenly split bands would. */
+function OptionValues({
+  shape,
+  values,
+  flipped,
+}: {
+  shape: Bracket;
+  values: React.ReactNode[];
+  flipped: boolean;
+}) {
+  const left = `${circleAcross(flipped) * 100}%`;
+
+  return (
+    <div className={styles.powerCount}>
+      {values.map((value, row) => (
+        <span
+          key={row}
+          style={{ left, top: `${shape.rowFractions[row] * 100}%` }}
+        >
+          {value}
+        </span>
+      ))}
+    </div>
+  );
 }
 
 function OptionBracket({ shape }: { shape: Bracket }) {
@@ -133,11 +169,7 @@ export default function SpellEffect({
         <span className={styles.spellPowerIcon}>
           {powerIcon ?? <EmpowerIcon />}
         </span>
-        <div className={styles.powerCount}>
-          {power.map((value, row) => (
-            <span key={row}>{value}</span>
-          ))}
-        </div>
+        <OptionValues shape={shape} values={power} flipped />
       </div>
       {effectIcon ? (
         <>
@@ -147,11 +179,7 @@ export default function SpellEffect({
           <div className={styles.spellOptions} style={{ height: rowHeight }}>
             <OptionBracket shape={shape} />
             <span className={styles.spellPowerIcon}>{effectIcon}</span>
-            <div className={styles.powerCount}>
-              {effect.map((value, row) => (
-                <span key={row}>{value}</span>
-              ))}
-            </div>
+            <OptionValues shape={shape} values={effect} flipped={false} />
           </div>
         </>
       ) : (
@@ -160,7 +188,12 @@ export default function SpellEffect({
           style={{ minHeight: rowHeight }}
         >
           {effect.map((value, row) => (
-            <span key={row}>{value}</span>
+            // The inner span keeps the row one run of text: as direct children
+            // of the flex band, text and icons would each become their own
+            // item, and the spaces between them would be dropped.
+            <span key={row}>
+              <span>{value}</span>
+            </span>
           ))}
         </div>
       )}
