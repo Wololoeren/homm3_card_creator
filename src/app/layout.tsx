@@ -4,7 +4,6 @@ import "./globals.css";
 
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
-import StoreProvider from "./StoreProvider";
 import Toaster from "@/components/Toaster";
 config.autoAddCss = false;
 
@@ -86,7 +85,7 @@ export default function RootLayout({
         anything below it, so a real mismatch inside the app still reports.
       */}
       <body suppressHydrationWarning>
-        <StoreProvider>{children}</StoreProvider>
+        {children}
         <Toaster />
       </body>
     </html>
