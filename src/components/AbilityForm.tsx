@@ -4,8 +4,7 @@ import { AbilityCard, AbilityIcon, abilityIcons } from "@/models/abilityCard";
 import { useState } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import ReplaceEntityModal from "./ReplaceEntityModal";
-import { iconMap } from "@/lib/textToComponent";
-import styles from "./HeroForm.module.css";
+import IconPalette from "./IconPalette";
 
 export default function AbilityForm({
   ability,
@@ -65,7 +64,8 @@ export default function AbilityForm({
           onChange={(e) => setEmpowered(e.target.checked)}
         />
         <Form.Text muted>
-          Empowered cards show only the Expert effect, with an &quot;Empowered&quot; label under the name.
+          Empowered cards show only the Expert effect, with an
+          &quot;Empowered&quot; label under the name.
         </Form.Text>
       </Form.Group>
 
@@ -83,7 +83,9 @@ export default function AbilityForm({
       ) : null}
 
       <Form.Group className="mb-3" controlId="abilityExpertEffectContent">
-        <Form.Label>{ability.empowered ? "Effect" : "Expert Effect"}</Form.Label>
+        <Form.Label>
+          {ability.empowered ? "Effect" : "Expert Effect"}
+        </Form.Label>
         <Form.Control
           as="textarea"
           rows={3}
@@ -93,15 +95,25 @@ export default function AbilityForm({
         />
       </Form.Group>
 
-      <div>Available icons</div>
-
-      <div className={styles.iconContainer}>
-        {Object.entries(iconMap).map(([key, icon]) => (
-          <span key={key} title={key} className={styles.icon}>
-            {icon}
-          </span>
-        ))}
-      </div>
+      <IconPalette
+        targets={[
+          // The regular effect is only on the form while it is printed.
+          ...(ability.empowered
+            ? []
+            : [
+                {
+                  id: "abilityRegularEffectContent",
+                  value: ability.regularEffect,
+                  setValue: setRegularEffect,
+                },
+              ]),
+          {
+            id: "abilityExpertEffectContent",
+            value: ability.expertEffect,
+            setValue: setExpertEffect,
+          },
+        ]}
+      />
     </Form>
   );
 }

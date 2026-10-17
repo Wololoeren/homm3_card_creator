@@ -2,8 +2,8 @@ import { MoraleType } from "@/models/moraleCard";
 import styles from "./MoraleCardBack.module.css";
 
 const moraleBacks: Record<MoraleType, string> = {
-  [MoraleType.Positive]: "morale_positive_back.png",
-  [MoraleType.Negative]: "morale_negative_back.png",
+  [MoraleType.Positive]: "morale_positive_back.webp",
+  [MoraleType.Negative]: "morale_negative_back.webp",
 };
 
 export default function MoraleCardBack({ type }: { type: MoraleType }) {

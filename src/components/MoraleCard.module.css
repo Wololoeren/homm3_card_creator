@@ -1,12 +1,12 @@
 .card {
-  font-family: var(--font-liberation-serif), "Times New Roman", Times, serif;
+  font-family: var(--font-times-nr-mt-std), var(--font-liberation-serif),
+    "Times New Roman", Times, serif;
   width: 62.5mm;
   height: 87.9mm;
   background: black;
   background-size: 100% 100%;
   position: relative;
   margin: 0;
-  letter-spacing: 0.05em;
   color: var(--white);
   text-shadow: 0 0 0.25mm black, 0 0.25mm 0.5mm black;
 
@@ -23,7 +23,7 @@
   justify-content: center;
   text-align: center;
   padding: 0 5mm 6mm 5mm;
-  font-size: 8.5pt;
+  font-size: var(--card-body-size);
   line-height: 1.3em;
 
   img {

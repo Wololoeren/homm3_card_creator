@@ -6,8 +6,7 @@ import {
 } from "@/models/abilityCard";
 import { useCardInstances } from "@/hooks/cardInstances";
 import CardInstances from "./CardInstances";
-import { sendToPdf } from "@/lib/pdfQueue";
-import { faFilePdf } from "@fortawesome/free-solid-svg-icons";
+import SendToPdfButton from "./SendToPdfButton";
 import {
   Button,
   Card,
@@ -19,6 +18,7 @@ import AbilityForm from "./AbilityForm";
 import AbilityCard from "./AbilityCard";
 import AbilityCardBack from "./AbilityCardBack";
 import clsx from "clsx";
+import ScaledPreview from "./ScaledPreview";
 import styles from "./AbilityEditor.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -29,6 +29,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { loadAbilityCard, saveAbilityCard } from "@/lib/serializeAbilityCard";
 import { loadOrToast } from "@/lib/toast";
+import { normalizeString } from "@/lib/normalizeString";
+import DownloadableCard from "./DownloadableCard";
 
 export default function AbilityEditor() {
   const {
@@ -41,6 +43,9 @@ export default function AbilityEditor() {
     setCurrent: setAbility,
   } = useCardInstances<AbilityCardModel>(initialAbilityCard, "ability");
 
+
+  const previewName =
+    normalizeString(String(ability.name ?? "")) || "ability";
   return (
     <div className={clsx("d-print-none", styles.editor)}>
       <Card className={styles.properties}>
@@ -78,14 +83,11 @@ export default function AbilityEditor() {
             >
               <FontAwesomeIcon icon={faDownload} /> Save
             </Button>
-            <Button
-              variant="outline-success"
-              onClick={() =>
-                sendToPdf("ability", String(ability.name ?? ""), ability)
-              }
-            >
-              <FontAwesomeIcon icon={faFilePdf} /> Send to PDF
-            </Button>
+            <SendToPdfButton
+              cardKey="ability"
+              name={String(ability.name ?? "")}
+              payload={ability}
+            />
           </div>
         </CardFooter>
       </Card>
@@ -97,12 +99,14 @@ export default function AbilityEditor() {
           </h2>
         </CardHeader>
         <CardBody>
-          <div className={styles.previewContainer}>
-            <div className={styles.previewRow}>
+          <ScaledPreview className={styles.previewRow}>
+            <DownloadableCard filename={`${previewName}-front`}>
               <AbilityCard ability={ability} />
+            </DownloadableCard>
+            <DownloadableCard filename={`${previewName}-back`}>
               <AbilityCardBack />
-            </div>
-          </div>
+            </DownloadableCard>
+          </ScaledPreview>
         </CardBody>
       </Card>
     </div>

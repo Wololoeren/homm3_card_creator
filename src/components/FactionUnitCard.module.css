@@ -1,5 +1,7 @@
 .card {
-  font-family: var(--font-liberation-serif), "Times New Roman", Times, serif;
+  font-family:
+    var(--font-times-nr-mt-std), var(--font-liberation-serif),
+    "Times New Roman", Times, serif;
   width: 62.5mm;
   height: 87.9mm;
   /* Proportions taken from the arch-devils source art (2090x2900 canvas):
@@ -8,9 +10,10 @@
   background: black;
   position: relative;
   margin: 0;
-  letter-spacing: 0.05em;
   color: var(--white);
-  text-shadow: 0 0 0.25mm black, 0 0.25mm 0.5mm black;
+  text-shadow:
+    0 0 0.25mm black,
+    0 0.25mm 0.5mm black;
 
   display: grid;
   /* Stat column runs to the vertical rule at 477px; name band, cost band and
@@ -66,8 +69,8 @@
   padding: 0 6mm;
 
   h3 {
-    color: var(--yellow);
-    font-size: 11pt;
+    color: var(--yellow-middle);
+    font-size: 14pt;
     margin: 0;
     text-align: center;
     white-space: nowrap;
@@ -78,9 +81,9 @@
   .tierStar {
     position: absolute;
     right: 1mm;
-    top: calc(50% + 0.45mm);
+    top: calc(50% + 0.1mm);
     transform: translateY(-50%);
-    width: 6.3mm;
+    width: 5.5mm;
     height: auto;
     filter: drop-shadow(0 0.25mm 0.5mm black);
   }
@@ -100,19 +103,18 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 0.3mm;
 
     img {
-      width: 6.5mm;
+      width: 7.5mm;
       height: auto;
       flex-shrink: 0;
-      filter: drop-shadow(0 0.5mm 0.35mm black);
     }
 
     span {
       font-weight: bold;
       font-size: 10pt;
       line-height: 1;
+      margin-bottom: 0.5mm;
     }
   }
 }
@@ -129,14 +131,14 @@
   box-shadow: 0 0 5mm rgba(0, 0, 0, 0.8) inset;
 
   /* Sized by height: the ground/flying/ranged glyphs have quite different
-     widths in the source art but all sit about 6mm tall. */
+     widths in the source art but share a height, so only that is pinned. */
   .typeBadge {
     position: absolute;
     top: 1.3mm;
     left: 1.2mm;
-    height: 6mm;
+    height: 4.5mm;
     width: auto;
-    color: var(--yellow);
+    color: var(--yellow-middle);
     filter: drop-shadow(0 0.25mm 0.5mm black);
   }
 }
@@ -170,6 +172,7 @@
     }
 
     span {
+      color: var(--yellow);
       font-weight: bold;
       font-size: 9pt;
     }
@@ -188,10 +191,24 @@
   justify-content: center;
 
   span {
-    color: var(--yellow);
+    color: var(--yellow-lighter);
     font-weight: bold;
-    font-size: 12pt;
+    font-size: 9pt;
     letter-spacing: 0.1em;
+
+    display: flex;
+    align-items: center;
+    /* A flex box drops the leading space of the text beside the glyph, so the
+       word space that used to separate "#" from "PACK" is set here instead. */
+    gap: 0.25em;
+  }
+
+  /* Stands in for the "#" character, and drawn a good deal larger than one:
+     the artwork carries a soft glow that leaves the hash itself 65% of the
+     file's height. Centred by the span's flex box rather than the baseline. */
+  .packHash {
+    height: 1.75em;
+    width: auto;
   }
 }
 
@@ -213,9 +230,8 @@
 .specialty {
   grid-area: 4 / 1 / 5 / 3;
 
-  padding: 2mm;
-  font-size: 7.5pt;
-  letter-spacing: 0.025em;
+  padding: 1mm;
+  font-size: var(--card-body-size);
   line-height: 1.25em;
 
   display: flex;

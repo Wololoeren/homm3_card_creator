@@ -41,6 +41,6 @@ export function saveEventCard(event: EventCard) {
     new Blob([stringifyEventCard(event)], {
       type: "application/json;charset=utf-8",
     }),
-    `${normalizeString(event.name)}.homm3event.json`
+    `${normalizeString(event.name)}.event.json`,
   );
 }

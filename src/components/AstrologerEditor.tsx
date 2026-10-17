@@ -6,8 +6,7 @@ import {
 } from "@/models/astrologerCard";
 import { useCardInstances } from "@/hooks/cardInstances";
 import CardInstances from "./CardInstances";
-import { sendToPdf } from "@/lib/pdfQueue";
-import { faFilePdf } from "@fortawesome/free-solid-svg-icons";
+import SendToPdfButton from "./SendToPdfButton";
 import {
   Button,
   Card,
@@ -19,6 +18,7 @@ import AstrologerForm from "./AstrologerForm";
 import AstrologerCard from "./AstrologerCard";
 import AstrologerCardBack from "./AstrologerCardBack";
 import clsx from "clsx";
+import ScaledPreview from "./ScaledPreview";
 import styles from "./AstrologerEditor.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -32,6 +32,8 @@ import {
   saveAstrologerCard,
 } from "@/lib/serializeAstrologerCard";
 import { loadOrToast } from "@/lib/toast";
+import { normalizeString } from "@/lib/normalizeString";
+import DownloadableCard from "./DownloadableCard";
 
 export default function AstrologerEditor() {
   const {
@@ -44,6 +46,9 @@ export default function AstrologerEditor() {
     setCurrent: setAstrologer,
   } = useCardInstances<AstrologerCardModel>(initialAstrologerCard, "astrologer");
 
+
+  const previewName =
+    normalizeString(String(astrologer.name ?? "")) || "astrologer";
   return (
     <div className={clsx("d-print-none", styles.editor)}>
       <Card className={styles.properties}>
@@ -84,18 +89,11 @@ export default function AstrologerEditor() {
             >
               <FontAwesomeIcon icon={faDownload} /> Save
             </Button>
-            <Button
-              variant="outline-success"
-              onClick={() =>
-                sendToPdf(
-                  "astrologer",
-                  String(astrologer.name ?? ""),
-                  astrologer,
-                )
-              }
-            >
-              <FontAwesomeIcon icon={faFilePdf} /> Send to PDF
-            </Button>
+            <SendToPdfButton
+              cardKey="astrologer"
+              name={String(astrologer.name ?? "")}
+              payload={astrologer}
+            />
           </div>
         </CardFooter>
       </Card>
@@ -107,14 +105,14 @@ export default function AstrologerEditor() {
           </h2>
         </CardHeader>
         <CardBody>
-          <div className={styles.previewContainer}>
-            <div className={styles.previewRow}>
+          <ScaledPreview className={styles.previewRow}>
+            <DownloadableCard filename={`${previewName}-front`}>
               <AstrologerCard astrologer={astrologer} />
-              <div className={styles.flipped}>
-                <AstrologerCardBack />
-              </div>
-            </div>
-          </div>
+            </DownloadableCard>
+            <DownloadableCard filename={`${previewName}-back`}>
+              <AstrologerCardBack />
+            </DownloadableCard>
+          </ScaledPreview>
         </CardBody>
       </Card>
     </div>

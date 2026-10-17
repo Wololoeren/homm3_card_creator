@@ -6,6 +6,7 @@ import clsx from "clsx";
 import { textToComponent } from "@/lib/textToComponent";
 import { useBackground, useBorder } from "@/hooks/background";
 
+import { unitStatIcons } from "@/lib/unitIcons";
 import PayIcon from "@/assets/glyphsInternal/price-icons/pay.png";
 import GoldIcon from "@/assets/glyphsInternal/price-icons/gold.png";
 
@@ -17,6 +18,7 @@ import AzureStar from "@/assets/glyphsInternal/tier-stars/azure.png";
 import UnitGroundIcon from "@/assets/glyphsInternal/unit_ground.svg";
 import UnitFlyingIcon from "@/assets/glyphsInternal/unit_flying.svg";
 import UnitRangedIcon from "@/assets/glyphs/unit_ranged.svg";
+import { cardTextProps } from "./cardTextProps";
 
 const tierStars: Record<UnitTier, { src: string }> = {
   [UnitTier.Bronze]: BronzeStar,
@@ -50,9 +52,9 @@ function TypeBadge({ type }: { type: UnitType }) {
 
 /* Fixed for every neutral unit — hoisted so the whole deck shares one string,
    and with it one cached render of each. */
-const BORDER_COLOR = "#e8d66b";
-const TINT_COLOR = "#6c5e38";
-const TINT_DARK_COLOR = "#3c3321";
+const BORDER_COLOR = "#ddbf13";
+const TINT_COLOR = "#736718";
+const TINT_DARK_COLOR = "#2c2405";
 
 export default function UnitCard({ unit }: { unit: Unit }) {
   const tierStar = tierStars[unit.tier];
@@ -82,19 +84,19 @@ export default function UnitCard({ unit }: { unit: Unit }) {
 
       <div className={styles.stats}>
         <div className={clsx(styles.block, styles.leather, styles.stat)}>
-          <img src="images/attack.png" alt="Attack" />
+          <img src={unitStatIcons.attack.src} alt="Attack" />
           <span>{unit.statistics.attack}</span>
         </div>
         <div className={clsx(styles.block, styles.leather, styles.stat)}>
-          <img src="images/defense.png" alt="Defense" />
+          <img src={unitStatIcons.defense.src} alt="Defense" />
           <span>{unit.statistics.defense}</span>
         </div>
         <div className={clsx(styles.block, styles.leather, styles.stat)}>
-          <img src="images/hp.png" alt="Health" />
+          <img src={unitStatIcons.health.src} alt="Health" />
           <span>{unit.statistics.health}</span>
         </div>
         <div className={clsx(styles.block, styles.leather, styles.stat)}>
-          <img src="images/initiative.png" alt="Initiative" />
+          <img src={unitStatIcons.initiative.src} alt="Initiative" />
           <span>{unit.statistics.initiative}</span>
         </div>
       </div>
@@ -113,7 +115,7 @@ export default function UnitCard({ unit }: { unit: Unit }) {
       </div>
 
       <div className={clsx(styles.block, styles.tintDark, styles.specialty)}>
-        <div>{textToComponent(unit.specialty)}</div>
+        <div>{textToComponent(unit.specialty, cardTextProps)}</div>
       </div>
     </div>
   );

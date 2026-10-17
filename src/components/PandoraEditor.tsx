@@ -7,8 +7,7 @@ import {
 } from "@/models/pandoraCard";
 import { useCardInstances } from "@/hooks/cardInstances";
 import CardInstances from "./CardInstances";
-import { sendToPdf } from "@/lib/pdfQueue";
-import { faFilePdf } from "@fortawesome/free-solid-svg-icons";
+import SendToPdfButton from "./SendToPdfButton";
 import {
   Button,
   Card,
@@ -20,6 +19,7 @@ import PandoraForm from "./PandoraForm";
 import PandoraCard from "./PandoraCard";
 import PandoraCardBack from "./PandoraCardBack";
 import clsx from "clsx";
+import ScaledPreview from "./ScaledPreview";
 import styles from "./PandoraEditor.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -30,6 +30,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { loadPandoraCard, savePandoraCard } from "@/lib/serializePandoraCard";
 import { loadOrToast } from "@/lib/toast";
+import { normalizeString } from "@/lib/normalizeString";
+import DownloadableCard from "./DownloadableCard";
 
 export default function PandoraEditor() {
   const {
@@ -42,6 +44,9 @@ export default function PandoraEditor() {
     setCurrent: setPandora,
   } = useCardInstances<PandoraCardModel>(initialPandoraCard, "pandora");
 
+
+  const previewName =
+    normalizeString(String(pandora.name || defaultPandoraName)) || "pandora";
   return (
     <div className={clsx("d-print-none", styles.editor)}>
       <Card className={styles.properties}>
@@ -80,18 +85,11 @@ export default function PandoraEditor() {
             >
               <FontAwesomeIcon icon={faDownload} /> Save
             </Button>
-            <Button
-              variant="outline-success"
-              onClick={() =>
-                sendToPdf(
-                  "pandora",
-                  pandora.name || defaultPandoraName,
-                  pandora,
-                )
-              }
-            >
-              <FontAwesomeIcon icon={faFilePdf} /> Send to PDF
-            </Button>
+            <SendToPdfButton
+              cardKey="pandora"
+              name={pandora.name || defaultPandoraName}
+              payload={pandora}
+            />
           </div>
         </CardFooter>
       </Card>
@@ -103,12 +101,14 @@ export default function PandoraEditor() {
           </h2>
         </CardHeader>
         <CardBody>
-          <div className={styles.previewContainer}>
-            <div className={styles.previewRow}>
+          <ScaledPreview className={styles.previewRow}>
+            <DownloadableCard filename={`${previewName}-front`}>
               <PandoraCard pandora={pandora} />
+            </DownloadableCard>
+            <DownloadableCard filename={`${previewName}-back`}>
               <PandoraCardBack />
-            </div>
-          </div>
+            </DownloadableCard>
+          </ScaledPreview>
         </CardBody>
       </Card>
     </div>

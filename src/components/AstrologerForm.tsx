@@ -2,8 +2,7 @@
 
 import { AstrologerCard } from "@/models/astrologerCard";
 import { Form } from "react-bootstrap";
-import { iconMap } from "@/lib/textToComponent";
-import styles from "./HeroForm.module.css";
+import IconPalette from "./IconPalette";
 
 export default function AstrologerForm({
   astrologer,
@@ -29,7 +28,8 @@ export default function AstrologerForm({
           placeholder="Enter astrologer card name"
         />
         <Form.Text muted>
-          Shown as &quot;Astrologers proclaim week of the {astrologer.name || "..."}&quot;.
+          Shown as &quot;Astrologers proclaim week of the{" "}
+          {astrologer.name || "..."}&quot;.
         </Form.Text>
       </Form.Group>
 
@@ -55,15 +55,20 @@ export default function AstrologerForm({
         />
       </Form.Group>
 
-      <div>Available icons</div>
-
-      <div className={styles.iconContainer}>
-        {Object.entries(iconMap).map(([key, icon]) => (
-          <span key={key} title={key} className={styles.icon}>
-            {icon}
-          </span>
-        ))}
-      </div>
+      <IconPalette
+        targets={[
+          {
+            id: "astrologerEffectContent",
+            value: astrologer.effect,
+            setValue: setEffect,
+          },
+          {
+            id: "astrologerFlavorTextContent",
+            value: astrologer.flavorText,
+            setValue: setFlavorText,
+          },
+        ]}
+      />
     </Form>
   );
 }

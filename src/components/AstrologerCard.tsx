@@ -4,6 +4,7 @@ import { AstrologerCard as AstrologerCardModel } from "@/models/astrologerCard";
 import styles from "./AstrologerCard.module.css";
 import { textToComponent } from "@/lib/textToComponent";
 import { useBorder } from "@/hooks/background";
+import { cardTextProps } from "./cardTextProps";
 
 export default function AstrologerCard({
   astrologer,
@@ -23,13 +24,13 @@ export default function AstrologerCard({
         </div>
 
         <div className={styles.effect}>
-          <div>{textToComponent(astrologer.effect)}</div>
+          <div>{textToComponent(astrologer.effect, cardTextProps)}</div>
         </div>
 
         <div className={styles.divider} />
 
         <div className={styles.flavor}>
-          <div>{textToComponent(astrologer.flavorText)}</div>
+          <div>{textToComponent(astrologer.flavorText, cardTextProps)}</div>
         </div>
       </div>
     </div>

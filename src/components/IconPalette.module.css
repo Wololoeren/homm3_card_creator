@@ -1,0 +1,122 @@
+/* Dark like the cards themselves: the glyphs are drawn in card yellow with a
+   black drop shadow, which all but disappears against a white panel. */
+.palette {
+  background: #5b3e1f;
+  border: 1px solid #bfbfbf;
+  border-radius: 4px;
+  margin: 4px 0;
+  padding: 2px;
+}
+
+/* Glyphs on the first row; formatting and constructions on the second. */
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  row-gap: 2px;
+}
+
+.row + .row {
+  margin-top: 2px;
+  padding-top: 2px;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.icon {
+  display: inline-block;
+  padding: 2px 4px;
+  margin: 0 2px;
+  border: 0;
+  border-radius: 3px;
+  background: transparent;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.icon:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.icon:focus-visible {
+  outline: 2px solid #0d6efd;
+  outline-offset: 1px;
+}
+
+/* A spell table template: several glyphs read as one button. */
+.table {
+  display: inline-flex;
+  align-items: center;
+  gap: 1px;
+  vertical-align: middle;
+}
+
+.circle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px;
+  width: 1.5em;
+  height: 1.5em;
+  border: 1px solid var(--yellow);
+  border-radius: 50%;
+  color: var(--yellow);
+  font-size: 0.85em;
+  line-height: 1;
+}
+
+/* The glyph's own nudge upward would push it off centre in the ring. */
+.circle :global(.textIcon) {
+  transform: none;
+}
+
+/* A lowercase letter sits on the baseline, below the middle of its line box,
+   so centring the box leaves the letter low. Padding the bottom lifts it. */
+.letter {
+  padding-bottom: 0.2em;
+}
+.letter span {
+  transform: translateY(-1px);
+}
+
+/* The stat row: its four glyphs boxed together, as the row reads on a card. */
+.square {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 2px 3px;
+  border: 1px solid var(--yellow);
+}
+
+.stat {
+  height: 1.1em;
+  width: auto;
+}
+
+.arrow {
+  width: 1em;
+  height: 1em;
+}
+
+.desc {
+  color: var(--yellow);
+  font-size: 0.85em;
+  font-style: italic;
+}
+
+/* H1 and B: plain lettering in card yellow. */
+.format {
+  min-width: 1.8em;
+  color: var(--yellow);
+  font-family: serif;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.separator {
+  align-self: stretch;
+  width: 1px;
+  margin: 0 4px;
+  background: rgba(255, 255, 255, 0.2);
+}

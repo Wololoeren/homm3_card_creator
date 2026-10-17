@@ -6,8 +6,7 @@ import {
 } from "@/models/eventCard";
 import { useCardInstances } from "@/hooks/cardInstances";
 import CardInstances from "./CardInstances";
-import { sendToPdf } from "@/lib/pdfQueue";
-import { faFilePdf } from "@fortawesome/free-solid-svg-icons";
+import SendToPdfButton from "./SendToPdfButton";
 import {
   Button,
   Card,
@@ -19,6 +18,7 @@ import EventForm from "./EventForm";
 import EventCard from "./EventCard";
 import EventCardBack from "./EventCardBack";
 import clsx from "clsx";
+import ScaledPreview from "./ScaledPreview";
 import styles from "./EventEditor.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -29,6 +29,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { loadEventCard, saveEventCard } from "@/lib/serializeEventCard";
 import { loadOrToast } from "@/lib/toast";
+import { normalizeString } from "@/lib/normalizeString";
+import DownloadableCard from "./DownloadableCard";
 
 export default function EventEditor() {
   const {
@@ -41,6 +43,9 @@ export default function EventEditor() {
     setCurrent: setEvent,
   } = useCardInstances<EventCardModel>(initialEventCard, "event");
 
+
+  const previewName =
+    normalizeString(String(event.name ?? "")) || "event";
   return (
     <div className={clsx("d-print-none", styles.editor)}>
       <Card className={styles.properties}>
@@ -78,14 +83,11 @@ export default function EventEditor() {
             >
               <FontAwesomeIcon icon={faDownload} /> Save
             </Button>
-            <Button
-              variant="outline-success"
-              onClick={() =>
-                sendToPdf("event", String(event.name ?? ""), event)
-              }
-            >
-              <FontAwesomeIcon icon={faFilePdf} /> Send to PDF
-            </Button>
+            <SendToPdfButton
+              cardKey="event"
+              name={String(event.name ?? "")}
+              payload={event}
+            />
           </div>
         </CardFooter>
       </Card>
@@ -97,14 +99,14 @@ export default function EventEditor() {
           </h2>
         </CardHeader>
         <CardBody>
-          <div className={styles.previewContainer}>
-            <div className={styles.previewRow}>
+          <ScaledPreview className={styles.previewRow}>
+            <DownloadableCard filename={`${previewName}-front`}>
               <EventCard event={event} />
-              <div className={styles.flipped}>
-                <EventCardBack />
-              </div>
-            </div>
-          </div>
+            </DownloadableCard>
+            <DownloadableCard filename={`${previewName}-back`}>
+              <EventCardBack />
+            </DownloadableCard>
+          </ScaledPreview>
         </CardBody>
       </Card>
     </div>

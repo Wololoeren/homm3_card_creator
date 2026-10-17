@@ -14,12 +14,20 @@ body {
   --border-dark: #6a4835;
 
   --yellow: #e8d66b;
+  --yellow-middle: #f3e097;
+  --yellow-lighter: #fbf3c8;
   --white: #ffffff;
 
   --bronze: #a24f18;
   --silver: #dadada;
   --golden: #e1bb3a;
   --azure: #3a5ba7;
+
+  /* Card typography, shared so the text on every card type is set the same way
+     rather than drifting per file. */
+  --card-title-size: 13pt;
+  --card-body-size: 7pt;
+  --card-flavor-size: 6.5pt;
 }
 
 .bronze {
@@ -44,6 +52,43 @@ h3,
 h4,
 h5 {
   font-weight: bold;
+}
+
+/* A "# heading" line in a card's text. Sized for the card rather than the
+   page: the browser's own h4 dwarfs the text around it on every card. */
+h4.cardHeading {
+  margin: 1.5mm 0 1mm 0;
+  color: var(--yellow);
+  font-size: 8pt;
+  font-weight: normal;
+}
+
+/* A ":divide{...}:" line: text between two tapered lines, coloured like the
+   glyphs. Every card sets its own font and line height, so the text's box is
+   trimmed to its capitals: the lines then centre on the lettering itself
+   rather than on a box that sits differently in each font. */
+.cardDivide {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.2mm;
+  margin: 0.75mm 0 0.5mm 0;
+  vertical-align: middle;
+  font-size: 2mm;
+  line-height: 1;
+  color: var(--yellow);
+  filter: drop-shadow(0 0.25mm 0.5mm black);
+}
+
+.cardDivideText {
+  text-box: trim-both cap alphabetic;
+}
+
+/* !important: cards size the SVGs in their text, and those rules would
+   otherwise stretch or squash the lines. */
+svg.cardDivideWedge {
+  flex: none;
+  width: 5mm !important;
+  height: 0.3mm !important;
 }
 
 @media print {
@@ -163,6 +208,17 @@ svg.textIcon {
   transform: translateY(-0.1em);
   filter: drop-shadow(0 0.25mm 0.5mm black);
   color: var(--yellow);
+}
+
+/* Glyphs drawn black in their source files, which this project does not own,
+   recoloured to the card yellow. !important: the colour sits in each path's
+   own style attribute. */
+svg.recolorFill path {
+  fill: #ebd667 !important;
+}
+
+svg.recolorStroke path {
+  stroke: #ebd667 !important;
 }
 
 img.textIcon {

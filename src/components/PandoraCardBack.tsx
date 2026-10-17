@@ -4,7 +4,7 @@ export default function PandoraCardBack() {
   return (
     <div
       className={styles.cardBack}
-      style={{ backgroundImage: `url("pandora_back.png")` }}
+      style={{ backgroundImage: `url("pandora_back.webp")` }}
     />
   );
 }

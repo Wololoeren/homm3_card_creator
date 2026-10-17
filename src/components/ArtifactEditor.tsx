@@ -6,8 +6,7 @@ import {
 } from "@/models/artifactCard";
 import { useCardInstances } from "@/hooks/cardInstances";
 import CardInstances from "./CardInstances";
-import { sendToPdf } from "@/lib/pdfQueue";
-import { faFilePdf } from "@fortawesome/free-solid-svg-icons";
+import SendToPdfButton from "./SendToPdfButton";
 import {
   Button,
   Card,
@@ -19,6 +18,7 @@ import ArtifactForm from "./ArtifactForm";
 import ArtifactCard from "./ArtifactCard";
 import ArtifactCardBack from "./ArtifactCardBack";
 import clsx from "clsx";
+import ScaledPreview from "./ScaledPreview";
 import styles from "./ArtifactEditor.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -32,6 +32,8 @@ import {
   saveArtifactCard,
 } from "@/lib/serializeArtifactCard";
 import { loadOrToast } from "@/lib/toast";
+import { normalizeString } from "@/lib/normalizeString";
+import DownloadableCard from "./DownloadableCard";
 
 export default function ArtifactEditor() {
   const {
@@ -44,6 +46,9 @@ export default function ArtifactEditor() {
     setCurrent: setArtifact,
   } = useCardInstances<ArtifactCardModel>(initialArtifactCard, "artifact");
 
+
+  const previewName =
+    normalizeString(String(artifact.name ?? "")) || "artifact";
   return (
     <div className={clsx("d-print-none", styles.editor)}>
       <Card className={styles.properties}>
@@ -84,14 +89,11 @@ export default function ArtifactEditor() {
             >
               <FontAwesomeIcon icon={faDownload} /> Save
             </Button>
-            <Button
-              variant="outline-success"
-              onClick={() =>
-                sendToPdf("artifact", String(artifact.name ?? ""), artifact)
-              }
-            >
-              <FontAwesomeIcon icon={faFilePdf} /> Send to PDF
-            </Button>
+            <SendToPdfButton
+              cardKey="artifact"
+              name={String(artifact.name ?? "")}
+              payload={artifact}
+            />
           </div>
         </CardFooter>
       </Card>
@@ -103,12 +105,14 @@ export default function ArtifactEditor() {
           </h2>
         </CardHeader>
         <CardBody>
-          <div className={styles.previewContainer}>
-            <div className={styles.previewRow}>
+          <ScaledPreview className={styles.previewRow}>
+            <DownloadableCard filename={`${previewName}-front`}>
               <ArtifactCard artifact={artifact} />
+            </DownloadableCard>
+            <DownloadableCard filename={`${previewName}-back`}>
               <ArtifactCardBack />
-            </div>
-          </div>
+            </DownloadableCard>
+          </ScaledPreview>
         </CardBody>
       </Card>
     </div>

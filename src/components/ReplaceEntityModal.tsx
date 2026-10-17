@@ -46,6 +46,7 @@ export default function ReplaceEntityModal({
       onHide={onHide}
       backdrop="static"
       centered
+      scrollable
       fullscreen="sm-down"
     >
       <Modal.Header closeButton>

@@ -7,6 +7,7 @@ import {
 import styles from "./PandoraCard.module.css";
 import { textToComponent } from "@/lib/textToComponent";
 import { useBorder } from "@/hooks/background";
+import { cardTextProps } from "./cardTextProps";
 
 export default function PandoraCard({
   pandora,
@@ -31,7 +32,7 @@ export default function PandoraCard({
         />
 
         <div className={styles.effect}>
-          <div>{textToComponent(pandora.effect)}</div>
+          <div>{textToComponent(pandora.effect, cardTextProps)}</div>
         </div>
       </div>
     </div>

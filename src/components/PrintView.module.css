@@ -1,9 +1,0 @@
-.backfaces {
-  img {
-    width: 62.5mm;
-    height: 87.9mm;
-  }
-  &.flip img {
-    transform: scale(-1, -1);
-  }
-}

@@ -5,9 +5,9 @@ export enum ArtifactRarity {
 }
 
 export const artifactRarityColors: Record<ArtifactRarity, string> = {
-  [ArtifactRarity.Minor]: "#a8a8a8",
-  [ArtifactRarity.Major]: "#a5202f",
-  [ArtifactRarity.Relic]: "#4a3f80",
+  [ArtifactRarity.Minor]: "#5485aa",
+  [ArtifactRarity.Major]: "#d00006",
+  [ArtifactRarity.Relic]: "#450063",
 };
 
 export interface ArtifactIcon {

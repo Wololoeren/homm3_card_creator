@@ -1,11 +1,11 @@
 .board {
-  font-family: var(--font-liberation-serif), "Times New Roman", Times, serif;
+  font-family: var(--font-times-nr-mt-std), var(--font-liberation-serif),
+    "Times New Roman", Times, serif;
   width: 134mm;
   height: 96mm;
   padding: calc(3mm + 2mm); /* Black outline + border */
   background: black;
   position: relative;
-  letter-spacing: 0.05em;
   color: var(--white);
 
   text-shadow:

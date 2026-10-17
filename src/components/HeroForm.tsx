@@ -12,9 +12,15 @@ import { useState } from "react";
 import { Button, Col, Form, Row, Tab, Tabs } from "react-bootstrap";
 import ReplaceEntityModal from "./ReplaceEntityModal";
 import { abilities, Ability } from "@/models/ability";
-import { iconMap } from "@/lib/textToComponent";
-import styles from "./HeroForm.module.css";
+import IconPalette from "./IconPalette";
 import { townColors } from "@/models/color";
+
+/** The field behind each specialty tab, which is where its icons are typed. */
+const SPECIALTY_FIELD_IDS: Record<SpecialtyLevel, string> = {
+  [SpecialtyLevel.One]: "specialtyOneContent",
+  [SpecialtyLevel.Four]: "specialtyFourContent",
+  [SpecialtyLevel.Six]: "specialtySixContent",
+};
 
 export default function HeroForm({
   hero,
@@ -400,15 +406,16 @@ export default function HeroForm({
         </Tab>
       </Tabs>
 
-      <div>Available icons</div>
-
-      <div className={styles.iconContainer}>
-        {Object.entries(iconMap).map(([key, icon]) => (
-          <span key={key} title={key} className={styles.icon}>
-            {icon}
-          </span>
-        ))}
-      </div>
+      <IconPalette
+        targets={[
+          {
+            id: SPECIALTY_FIELD_IDS[key],
+            value: hero.specialtyContent[key],
+            setValue: (value) =>
+              setSpecialtyContent({ ...hero.specialtyContent, [key]: value }),
+          },
+        ]}
+      />
     </Form>
   );
 }

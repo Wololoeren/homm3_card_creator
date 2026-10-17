@@ -1,0 +1,5 @@
+/* The label swaps between two lengths, and the button ends a row of others:
+   a floor at the wider one keeps the row still while it does. */
+.button {
+  min-width: 9.5rem;
+}

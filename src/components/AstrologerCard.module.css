@@ -1,13 +1,16 @@
 .card {
-  font-family: var(--font-liberation-serif), "Times New Roman", Times, serif;
+  font-family:
+    var(--font-times-nr-mt-std), var(--font-liberation-serif),
+    "Times New Roman", Times, serif;
   width: 87.9mm;
   height: 62.5mm;
   background: black;
   position: relative;
   margin: 0;
-  letter-spacing: 0.05em;
   color: var(--white);
-  text-shadow: 0 0 0.25mm black, 0 0.25mm 0.5mm black;
+  text-shadow:
+    0 0 0.25mm black,
+    0 0.25mm 0.5mm black;
 
   &::before {
     content: "";
@@ -44,7 +47,7 @@
 
   h3 {
     color: var(--white);
-    font-size: 11pt;
+    font-size: 10pt;
     font-weight: bold;
     margin: 0;
     line-height: 1.3em;
@@ -52,14 +55,13 @@
 }
 
 .effect {
-  flex: 1;
+  margin: 2mm 0;
   min-height: 0;
   display: flex;
   align-items: center;
-  justify-content: center;
   text-align: center;
   padding: 0 5mm;
-  font-size: 8.5pt;
+  font-size: var(--card-body-size);
   line-height: 1.28em;
 
   img {
@@ -92,7 +94,7 @@
   text-align: center;
   padding: 0 5mm;
   font-style: italic;
-  font-size: 7.5pt;
+  font-size: var(--card-flavor-size);
   line-height: 1.25em;
   color: var(--yellow);
 }

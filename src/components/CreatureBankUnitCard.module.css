@@ -1,16 +1,21 @@
 .card {
-  font-family: var(--font-liberation-serif), "Times New Roman", Times, serif;
+  font-family:
+    var(--font-times-nr-mt-std), var(--font-liberation-serif),
+    "Times New Roman", Times, serif;
   width: 62.5mm;
   height: 87.9mm;
   /* Matches the pack side of the faction unit card, which shares this band
      structure exactly in the source art (2090x2900 canvas). */
   padding: 4.7mm 5mm 4.9mm 5mm;
   background: black;
+  /* Silver frame instead of the default gold, to match the card back. */
+  --border-light: #b5b5b7;
   position: relative;
   margin: 0;
-  letter-spacing: 0.05em;
   color: var(--white);
-  text-shadow: 0 0 0.25mm black, 0 0.25mm 0.5mm black;
+  text-shadow:
+    0 0 0.25mm black,
+    0 0.25mm 0.5mm black;
 
   display: grid;
   grid-template-columns: 9.3mm minmax(0, 1fr);
@@ -51,8 +56,8 @@
   padding: 0 6mm;
 
   h3 {
-    color: var(--yellow);
-    font-size: 11pt;
+    color: var(--yellow-middle);
+    font-size: 14pt;
     margin: 0;
     text-align: center;
     white-space: nowrap;
@@ -76,19 +81,18 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 0.3mm;
 
     img {
-      width: 6.5mm;
+      width: 7.5mm;
       height: auto;
       flex-shrink: 0;
-      filter: drop-shadow(0 0.5mm 0.35mm black);
     }
 
     span {
       font-weight: bold;
       font-size: 10pt;
       line-height: 1;
+      margin-bottom: 0.5mm;
     }
   }
 }
@@ -104,9 +108,9 @@
     position: absolute;
     top: 1.3mm;
     left: 1.2mm;
-    height: 6mm;
+    height: 4.5mm;
     width: auto;
-    color: var(--yellow);
+    color: var(--yellow-middle);
     filter: drop-shadow(0 0.25mm 0.5mm black);
   }
 }
@@ -133,9 +137,8 @@
 .specialty {
   grid-area: 4 / 1 / 5 / 3;
 
-  padding: 2mm;
-  font-size: 7.5pt;
-  letter-spacing: 0.025em;
+  padding: 1mm;
+  font-size: var(--card-body-size);
   line-height: 1.25em;
 
   display: flex;

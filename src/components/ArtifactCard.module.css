@@ -1,13 +1,16 @@
 .card {
-  font-family: var(--font-liberation-serif), "Times New Roman", Times, serif;
+  font-family:
+    var(--font-times-nr-mt-std), var(--font-liberation-serif),
+    "Times New Roman", Times, serif;
   width: 62.5mm;
   height: 87.9mm;
   background: black;
   position: relative;
   margin: 0;
-  letter-spacing: 0.05em;
   color: var(--white);
-  text-shadow: 0 0 0.25mm black, 0 0.25mm 0.5mm black;
+  text-shadow:
+    0 0 0.25mm black,
+    0 0.25mm 0.5mm black;
 
   &::before {
     content: "";
@@ -17,6 +20,11 @@
     pointer-events: none;
     z-index: 1;
   }
+}
+
+/* Minor artifacts get a silver frame, so the inner rules match it. */
+.silver {
+  --border-light: #b5b5b7;
 }
 
 .inner {
@@ -44,7 +52,7 @@
 
   h3 {
     color: var(--yellow);
-    font-size: 13pt;
+    font-size: var(--card-title-size);
     margin: 0;
     text-align: center;
     white-space: nowrap;
@@ -105,7 +113,7 @@
   text-align: center;
   padding: 0 3mm;
   font-style: italic;
-  font-size: 7pt;
+  font-size: 6pt;
   line-height: 1.25em;
   color: var(--yellow);
 }

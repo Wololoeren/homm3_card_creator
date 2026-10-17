@@ -30,9 +30,6 @@ export function stringifyAbilityCard(ability: AbilityCard): string {
 export async function loadAbilityCard(): Promise<AbilityCard> {
   const blob = await fileOpen({
     mimeTypes: ["application/json"],
-    // Chrome rejects accept extensions longer than 16 characters, and
-    // ".homm3ability.json" exceeds that. Filter on .json instead so
-    // files saved with the long name still open.
     extensions: [".json"],
     description: "Ability card",
   });
@@ -45,6 +42,6 @@ export function saveAbilityCard(ability: AbilityCard) {
     new Blob([stringifyAbilityCard(ability)], {
       type: "application/json;charset=utf-8",
     }),
-    `${normalizeString(ability.name)}.homm3ability.json`
+    `${normalizeString(ability.name)}.ability.json`,
   );
 }

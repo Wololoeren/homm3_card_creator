@@ -6,8 +6,7 @@ import {
 } from "@/models/adventureCard";
 import { useCardInstances } from "@/hooks/cardInstances";
 import CardInstances from "./CardInstances";
-import { sendToPdf } from "@/lib/pdfQueue";
-import { faFilePdf } from "@fortawesome/free-solid-svg-icons";
+import SendToPdfButton from "./SendToPdfButton";
 import {
   Button,
   Card,
@@ -19,6 +18,7 @@ import AdventureForm from "./AdventureForm";
 import AdventureCard from "./AdventureCard";
 import AdventureCardBack from "./AdventureCardBack";
 import clsx from "clsx";
+import ScaledPreview from "./ScaledPreview";
 import styles from "./AdventureEditor.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -32,6 +32,8 @@ import {
   saveAdventureCard,
 } from "@/lib/serializeAdventureCard";
 import { loadOrToast } from "@/lib/toast";
+import { normalizeString } from "@/lib/normalizeString";
+import DownloadableCard from "./DownloadableCard";
 
 export default function AdventureEditor() {
   const {
@@ -44,6 +46,9 @@ export default function AdventureEditor() {
     setCurrent: setAdventure,
   } = useCardInstances<AdventureCardModel>(initialAdventureCard, "adventure");
 
+
+  const previewName =
+    normalizeString(String(adventure.name ?? "")) || "adventure";
   return (
     <div className={clsx("d-print-none", styles.editor)}>
       <Card className={styles.properties}>
@@ -84,14 +89,11 @@ export default function AdventureEditor() {
             >
               <FontAwesomeIcon icon={faDownload} /> Save
             </Button>
-            <Button
-              variant="outline-success"
-              onClick={() =>
-                sendToPdf("adventure", String(adventure.name ?? ""), adventure)
-              }
-            >
-              <FontAwesomeIcon icon={faFilePdf} /> Send to PDF
-            </Button>
+            <SendToPdfButton
+              cardKey="adventure"
+              name={String(adventure.name ?? "")}
+              payload={adventure}
+            />
           </div>
         </CardFooter>
       </Card>
@@ -103,12 +105,14 @@ export default function AdventureEditor() {
           </h2>
         </CardHeader>
         <CardBody>
-          <div className={styles.previewContainer}>
-            <div className={styles.previewRow}>
+          <ScaledPreview className={styles.previewRow}>
+            <DownloadableCard filename={`${previewName}-front`}>
               <AdventureCard adventure={adventure} />
+            </DownloadableCard>
+            <DownloadableCard filename={`${previewName}-back`}>
               <AdventureCardBack />
-            </div>
-          </div>
+            </DownloadableCard>
+          </ScaledPreview>
         </CardBody>
       </Card>
     </div>

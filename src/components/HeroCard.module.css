@@ -1,14 +1,17 @@
 .card {
-  font-family: var(--font-liberation-serif), "Times New Roman", Times, serif;
+  font-family:
+    var(--font-times-nr-mt-std), var(--font-liberation-serif),
+    "Times New Roman", Times, serif;
   width: 62.5mm;
   height: 87.9mm;
   padding: calc(3mm + 2mm); /* Black outline + border */
   background: black;
   position: relative;
   margin: 0;
-  letter-spacing: 0.05em;
   color: var(--white);
-  text-shadow: 0 0 0.25mm black, 0 0.25mm 0.5mm black;
+  text-shadow:
+    0 0 0.25mm black,
+    0 0.25mm 0.5mm black;
 
   display: grid;
   grid-template-columns: 20mm minmax(0, 1fr);
@@ -50,17 +53,9 @@
     font-size: 12pt;
   }
 
-  h4 {
-    margin: 1.5mm 0 1mm 0;
-    color: var(--yellow);
-    font-size: 8pt;
-    font-weight: normal;
-  }
-
   .description {
     padding: 0 2mm;
     font-size: 7pt;
-    letter-spacing: 0.025em;
     line-height: 1.2em;
     height: 23.5mm;
 
@@ -176,39 +171,3 @@
     --level-padding: 0;
   }
 }
-
-.unitStats {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  gap: 2.5mm;
-
-  > div {
-    margin-top: 0.3em;
-    margin-bottom: 0.2em;
-    font-size: 10pt;
-    font-weight: bold;
-    vertical-align: middle;
-
-    img.unitIcon {
-      top: 0;
-      margin: 0;
-      margin-top: -0.3em;
-      margin-right: 1mm;
-      width: 5mm;
-      height: auto;
-      filter: drop-shadow(0 0.25mm 0.5mm black);
-      display: inline-block;
-    }
-
-    &:nth-child(2) img.unitIcon {
-      transform: scale(1.1);
-    }
-
-    &:nth-child(4) img.unitIcon {
-      transform: scale(1.25);
-    }
-  }
-}
-

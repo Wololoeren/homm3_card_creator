@@ -1,11 +1,11 @@
 .card {
-  font-family: var(--font-liberation-serif), "Times New Roman", Times, serif;
+  font-family: var(--font-times-nr-mt-std), var(--font-liberation-serif),
+    "Times New Roman", Times, serif;
   width: 62.5mm;
   height: 87.9mm;
   background: black;
   position: relative;
   margin: 0;
-  letter-spacing: 0.05em;
   color: var(--white);
   text-shadow: 0 0 0.25mm black, 0 0.25mm 0.5mm black;
 
@@ -24,7 +24,7 @@
   /* Bands from airMagic.xcf (2090x2900 canvas). */
   inset: 3.7mm;
   padding: 1.3mm;
-  background-image: url("@/assets/background/leather.png");
+  background-image: var(--tint-background);
   background-size: 200%;
   background-position: center;
 
@@ -51,7 +51,7 @@
 
   h3 {
     color: var(--yellow);
-    font-size: 13pt;
+    font-size: var(--card-title-size);
     margin: 0;
     text-align: center;
     white-space: nowrap;
@@ -86,7 +86,7 @@
   /* The inner panel already insets the text 5mm from the card edge, so this
      only needs to keep it clear of the frame, not repeat that inset. */
   padding: 0 1mm;
-  font-size: 8.5pt;
+  font-size: var(--card-body-size);
   line-height: 1.3em;
 
   img {
@@ -107,9 +107,9 @@
   &::before {
     content: "";
     position: absolute;
-    /* Matches the effect text's inset so the rule spans the same width. */
-    left: 1mm;
-    right: 1mm;
+    /* Out past .inner's padding, so the rule runs edge to edge under the frame. */
+    left: -1.3mm;
+    right: -1.3mm;
     top: 50%;
     border-top: 0.3mm solid var(--border-light);
   }
@@ -119,7 +119,7 @@
     width: 6mm;
     height: 6mm;
     border-radius: 50%;
-    background-image: url("@/assets/background/leather.png");
+    background-image: var(--tint-background-dark);
     background-size: 300%;
     background-position: center;
     border: 0.3mm solid var(--yellow);
@@ -137,6 +137,27 @@
 
 /* The source art puts the crown divider below the middle of the card, so the
    lower block takes the larger share of whatever space the text leaves over. */
-.divider + .effect {
-  flex-grow: 1.3;
+.lower {
+  flex: 1.3 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  /* Reaches past .inner's padding so the darker band runs to the frame. */
+  margin: 0 -1.3mm -1.3mm;
+  padding: 0 1.3mm 1.3mm;
+
+  /* The darker tint starts on the divider rule, not at the top of its band. */
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 2.9mm 0 0 0;
+    background-image: var(--tint-background-dark);
+    background-size: 200%;
+    background-position: center;
+  }
+
+  > * {
+    position: relative;
+  }
 }

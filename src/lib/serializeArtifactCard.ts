@@ -30,9 +30,6 @@ export function stringifyArtifactCard(artifact: ArtifactCard): string {
 export async function loadArtifactCard(): Promise<ArtifactCard> {
   const blob = await fileOpen({
     mimeTypes: ["application/json"],
-    // Chrome rejects accept extensions longer than 16 characters, and
-    // ".homm3artifact.json" exceeds that. Filter on .json instead so
-    // files saved with the long name still open.
     extensions: [".json"],
     description: "Artifact card",
   });
@@ -45,6 +42,6 @@ export function saveArtifactCard(artifact: ArtifactCard) {
     new Blob([stringifyArtifactCard(artifact)], {
       type: "application/json;charset=utf-8",
     }),
-    `${normalizeString(artifact.name)}.homm3artifact.json`
+    `${normalizeString(artifact.name)}.artifact.json`,
   );
 }

@@ -3,8 +3,7 @@
 import HeroBoard from "./HeroBoard";
 import { useCardInstances } from "@/hooks/cardInstances";
 import CardInstances from "./CardInstances";
-import { sendToPdf } from "@/lib/pdfQueue";
-import { faFilePdf } from "@fortawesome/free-solid-svg-icons";
+import SendToPdfButton from "./SendToPdfButton";
 import { Hero, initialHero } from "@/models/hero";
 import HeroCards from "./HeroCards";
 import {
@@ -27,6 +26,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { loadHero, saveHero } from "@/lib/serializeHero";
 import { loadOrToast } from "@/lib/toast";
+import { normalizeString } from "@/lib/normalizeString";
+import DownloadableCard from "./DownloadableCard";
 
 export default function HeroEditor() {
   const {
@@ -38,6 +39,8 @@ export default function HeroEditor() {
     append,
     setCurrent: setHero,
   } = useCardInstances<Hero>(initialHero, "hero");
+
+  const previewName = normalizeString(String(hero.name ?? "")) || "hero";
 
   return (
     <div className={clsx("d-print-none", styles.editor)}>
@@ -81,12 +84,11 @@ export default function HeroEditor() {
             >
               <FontAwesomeIcon icon={faDownload} /> Save
             </Button>
-            <Button
-              variant="outline-success"
-              onClick={() => sendToPdf("hero", String(hero.name ?? ""), hero)}
-            >
-              <FontAwesomeIcon icon={faFilePdf} /> Send to PDF
-            </Button>
+            <SendToPdfButton
+              cardKey="hero"
+              name={String(hero.name ?? "")}
+              payload={hero}
+            />
           </div>
         </CardFooter>
       </Card>
@@ -100,7 +102,9 @@ export default function HeroEditor() {
         <CardBody className={styles.previewBody}>
           <div className={styles.previewContainer}>
             <div className="d-flex justify-content-center">
-              <HeroBoard hero={hero} />
+              <DownloadableCard filename={`${previewName}-board`}>
+                <HeroBoard hero={hero} />
+              </DownloadableCard>
             </div>
             <br />
             <HeroCards hero={hero} />

@@ -1,11 +1,17 @@
 "use client";
 
-import { Unit, UnitPortrait, UnitStatistics, UnitTier, UnitType, unitPortraits } from "@/models/unit";
+import {
+  Unit,
+  UnitPortrait,
+  UnitStatistics,
+  UnitTier,
+  UnitType,
+  unitPortraits,
+} from "@/models/unit";
 import { useState } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import ReplaceEntityModal from "./ReplaceEntityModal";
-import { iconMap } from "@/lib/textToComponent";
-import styles from "./HeroForm.module.css";
+import IconPalette from "./IconPalette";
 
 export default function UnitForm({
   unit,
@@ -19,7 +25,8 @@ export default function UnitForm({
   const setName = (name: string) => setUnit({ ...unit, name });
   const setType = (type: UnitType) => setUnit({ ...unit, type });
   const setTier = (tier: UnitTier) => setUnit({ ...unit, tier });
-  const setPortrait = (portrait: UnitPortrait) => setUnit({ ...unit, portrait });
+  const setPortrait = (portrait: UnitPortrait) =>
+    setUnit({ ...unit, portrait });
   const setSpecialty = (specialty: string) => setUnit({ ...unit, specialty });
 
   const setStatistic = (key: keyof UnitStatistics, value: number) =>
@@ -77,7 +84,9 @@ export default function UnitForm({
               type="number"
               min={0}
               value={unit.statistics.attack}
-              onChange={(e) => setStatistic("attack", Number(e.currentTarget.value))}
+              onChange={(e) =>
+                setStatistic("attack", Number(e.currentTarget.value))
+              }
             />
           </Col>
           <Col xs={4} sm>
@@ -86,7 +95,9 @@ export default function UnitForm({
               type="number"
               min={0}
               value={unit.statistics.defense}
-              onChange={(e) => setStatistic("defense", Number(e.currentTarget.value))}
+              onChange={(e) =>
+                setStatistic("defense", Number(e.currentTarget.value))
+              }
             />
           </Col>
           <Col xs={4} sm>
@@ -95,16 +106,22 @@ export default function UnitForm({
               type="number"
               min={0}
               value={unit.statistics.health}
-              onChange={(e) => setStatistic("health", Number(e.currentTarget.value))}
+              onChange={(e) =>
+                setStatistic("health", Number(e.currentTarget.value))
+              }
             />
           </Col>
           <Col xs={6} sm>
-            <Form.Label className="small text-muted mb-0">Initiative</Form.Label>
+            <Form.Label className="small text-muted mb-0">
+              Initiative
+            </Form.Label>
             <Form.Control
               type="number"
               min={0}
               value={unit.statistics.initiative}
-              onChange={(e) => setStatistic("initiative", Number(e.currentTarget.value))}
+              onChange={(e) =>
+                setStatistic("initiative", Number(e.currentTarget.value))
+              }
             />
           </Col>
           <Col xs={6} sm>
@@ -113,7 +130,9 @@ export default function UnitForm({
               type="number"
               min={0}
               value={unit.statistics.price}
-              onChange={(e) => setStatistic("price", Number(e.currentTarget.value))}
+              onChange={(e) =>
+                setStatistic("price", Number(e.currentTarget.value))
+              }
             />
           </Col>
         </Row>
@@ -150,15 +169,15 @@ export default function UnitForm({
         />
       </Form.Group>
 
-      <div>Available icons</div>
-
-      <div className={styles.iconContainer}>
-        {Object.entries(iconMap).map(([key, icon]) => (
-          <span key={key} title={key} className={styles.icon}>
-            {icon}
-          </span>
-        ))}
-      </div>
+      <IconPalette
+        targets={[
+          {
+            id: "unitSpecialtyContent",
+            value: unit.specialty,
+            setValue: setSpecialty,
+          },
+        ]}
+      />
     </Form>
   );
 }

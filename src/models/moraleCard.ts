@@ -10,5 +10,5 @@ export interface MoraleCard {
 
 export const initialMoraleCard: MoraleCard = {
   type: MoraleType.Positive,
-  effect: "Discard any number of cards from hand and draw as many.",
+  effect: "Discard any number of cards from\nhand and draw as many.",
 };

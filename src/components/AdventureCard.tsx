@@ -5,13 +5,9 @@ import {
   adventureCardColors,
 } from "@/models/adventureCard";
 import styles from "./AdventureCard.module.css";
-import { textToComponent, TextToComponentProps } from "@/lib/textToComponent";
-import SpellEffect from "./SpellEffect";
+import { textToComponent } from "@/lib/textToComponent";
+import { cardTextProps } from "./cardTextProps";
 import { useBorder } from "@/hooks/background";
-
-const textToComponentProps: TextToComponentProps = {
-  renderSpell: (props) => <SpellEffect {...props} />,
-};
 
 export default function AdventureCard({
   adventure,
@@ -40,7 +36,7 @@ export default function AdventureCard({
         </div>
 
         <div className={styles.effect}>
-          <div>{textToComponent(adventure.effect, textToComponentProps)}</div>
+          <div>{textToComponent(adventure.effect, cardTextProps)}</div>
         </div>
       </div>
     </div>

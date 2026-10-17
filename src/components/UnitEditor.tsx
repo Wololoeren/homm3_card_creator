@@ -3,8 +3,7 @@
 import { Unit, initialUnit } from "@/models/unit";
 import { useCardInstances } from "@/hooks/cardInstances";
 import CardInstances from "./CardInstances";
-import { sendToPdf } from "@/lib/pdfQueue";
-import { faFilePdf } from "@fortawesome/free-solid-svg-icons";
+import SendToPdfButton from "./SendToPdfButton";
 import {
   Button,
   Card,
@@ -16,6 +15,7 @@ import UnitForm from "./UnitForm";
 import UnitCard from "./UnitCard";
 import UnitCardBack from "./UnitCardBack";
 import clsx from "clsx";
+import ScaledPreview from "./ScaledPreview";
 import styles from "./UnitEditor.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -26,6 +26,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { loadUnit, saveUnit } from "@/lib/serializeUnit";
 import { loadOrToast } from "@/lib/toast";
+import { normalizeString } from "@/lib/normalizeString";
+import DownloadableCard from "./DownloadableCard";
 
 export default function UnitEditor() {
   const {
@@ -38,6 +40,7 @@ export default function UnitEditor() {
     setCurrent: setUnit,
   } = useCardInstances<Unit>(initialUnit, "unit");
 
+  const previewName = normalizeString(String(unit.name ?? "")) || "unit";
   return (
     <div className={clsx("d-print-none", styles.editor)}>
       <Card className={styles.properties}>
@@ -75,12 +78,11 @@ export default function UnitEditor() {
             >
               <FontAwesomeIcon icon={faDownload} /> Save
             </Button>
-            <Button
-              variant="outline-success"
-              onClick={() => sendToPdf("unit", String(unit.name ?? ""), unit)}
-            >
-              <FontAwesomeIcon icon={faFilePdf} /> Send to PDF
-            </Button>
+            <SendToPdfButton
+              cardKey="unit"
+              name={String(unit.name ?? "")}
+              payload={unit}
+            />
           </div>
         </CardFooter>
       </Card>
@@ -92,12 +94,14 @@ export default function UnitEditor() {
           </h2>
         </CardHeader>
         <CardBody>
-          <div className={styles.previewContainer}>
-            <div className={styles.previewRow}>
+          <ScaledPreview className={styles.previewRow}>
+            <DownloadableCard filename={`${previewName}-few`}>
               <UnitCard unit={unit} />
+            </DownloadableCard>
+            <DownloadableCard filename={`${previewName}-back`}>
               <UnitCardBack unit={unit} />
-            </div>
-          </div>
+            </DownloadableCard>
+          </ScaledPreview>
         </CardBody>
       </Card>
     </div>

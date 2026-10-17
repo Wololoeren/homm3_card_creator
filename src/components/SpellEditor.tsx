@@ -6,8 +6,7 @@ import {
 } from "@/models/spellCard";
 import { useCardInstances } from "@/hooks/cardInstances";
 import CardInstances from "./CardInstances";
-import { sendToPdf } from "@/lib/pdfQueue";
-import { faFilePdf } from "@fortawesome/free-solid-svg-icons";
+import SendToPdfButton from "./SendToPdfButton";
 import {
   Button,
   Card,
@@ -19,6 +18,7 @@ import SpellForm from "./SpellForm";
 import SpellCard from "./SpellCard";
 import SpellCardBack from "./SpellCardBack";
 import clsx from "clsx";
+import ScaledPreview from "./ScaledPreview";
 import styles from "./SpellEditor.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -29,6 +29,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { loadSpellCard, saveSpellCard } from "@/lib/serializeSpellCard";
 import { loadOrToast } from "@/lib/toast";
+import { normalizeString } from "@/lib/normalizeString";
+import DownloadableCard from "./DownloadableCard";
 
 export default function SpellEditor() {
   const {
@@ -41,6 +43,9 @@ export default function SpellEditor() {
     setCurrent: setSpell,
   } = useCardInstances<SpellCardModel>(initialSpellCard, "spell");
 
+
+  const previewName =
+    normalizeString(String(spell.name ?? "")) || "spell";
   return (
     <div className={clsx("d-print-none", styles.editor)}>
       <Card className={styles.properties}>
@@ -78,14 +83,11 @@ export default function SpellEditor() {
             >
               <FontAwesomeIcon icon={faDownload} /> Save
             </Button>
-            <Button
-              variant="outline-success"
-              onClick={() =>
-                sendToPdf("spell", String(spell.name ?? ""), spell)
-              }
-            >
-              <FontAwesomeIcon icon={faFilePdf} /> Send to PDF
-            </Button>
+            <SendToPdfButton
+              cardKey="spell"
+              name={String(spell.name ?? "")}
+              payload={spell}
+            />
           </div>
         </CardFooter>
       </Card>
@@ -97,12 +99,14 @@ export default function SpellEditor() {
           </h2>
         </CardHeader>
         <CardBody>
-          <div className={styles.previewContainer}>
-            <div className={styles.previewRow}>
+          <ScaledPreview className={styles.previewRow}>
+            <DownloadableCard filename={`${previewName}-front`}>
               <SpellCard spell={spell} />
+            </DownloadableCard>
+            <DownloadableCard filename={`${previewName}-back`}>
               <SpellCardBack />
-            </div>
-          </div>
+            </DownloadableCard>
+          </ScaledPreview>
         </CardBody>
       </Card>
     </div>

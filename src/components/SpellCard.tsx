@@ -4,18 +4,14 @@ import {
   SpellTier,
 } from "@/models/spellCard";
 import styles from "./SpellCard.module.css";
-import { textToComponent, TextToComponentProps } from "@/lib/textToComponent";
-import SpellEffect from "./SpellEffect";
+import { textToComponent } from "@/lib/textToComponent";
+import { cardTextProps } from "./cardTextProps";
 import clsx from "clsx";
 
 import EarthIcon from "@/assets/glyphsInternal/spell-schools/earth.png";
 import WaterIcon from "@/assets/glyphsInternal/spell-schools/water.png";
 import FireIcon from "@/assets/glyphsInternal/spell-schools/fire.png";
 import AirIcon from "@/assets/glyphsInternal/spell-schools/air.png";
-
-const textToComponentProps: TextToComponentProps = {
-  renderSpell: (props) => <SpellEffect {...props} />,
-};
 
 const schoolIcons: Record<SpellSchool, string> = {
   [SpellSchool.Water]: WaterIcon.src,
@@ -96,7 +92,7 @@ export default function SpellCard({ spell }: { spell: SpellCardModel }) {
       </div>
 
       <div className={styles.effect}>
-        <div>{textToComponent(spell.effect, textToComponentProps)}</div>
+        <div>{textToComponent(spell.effect, cardTextProps)}</div>
       </div>
     </div>
   );

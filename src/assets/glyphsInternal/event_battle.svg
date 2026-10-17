@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="3 17 94 78">
+  <!-- Two axes crossed at the handles, heads up and blades facing outward. -->
+  <g fill="#b44734">
+    <g transform="rotate(-38 50 58)">
+      <rect x="46" y="14" width="8" height="84" rx="4" />
+      <path d="M47 16 L33 9 Q17 27 31 47 L47 33 Z" />
+      <path d="M53 18 L59 20 L59 30 L53 32 Z" />
+    </g>
+    <g transform="translate(100 0) scale(-1 1) rotate(-38 50 58)">
+      <rect x="46" y="14" width="8" height="84" rx="4" />
+      <path d="M47 16 L33 9 Q17 27 31 47 L47 33 Z" />
+      <path d="M53 18 L59 20 L59 30 L53 32 Z" />
+    </g>
+  </g>
+</svg>

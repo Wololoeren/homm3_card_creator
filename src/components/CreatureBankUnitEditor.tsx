@@ -6,8 +6,7 @@ import {
 } from "@/models/creatureBankUnit";
 import { useCardInstances } from "@/hooks/cardInstances";
 import CardInstances from "./CardInstances";
-import { sendToPdf } from "@/lib/pdfQueue";
-import { faFilePdf } from "@fortawesome/free-solid-svg-icons";
+import SendToPdfButton from "./SendToPdfButton";
 import {
   Button,
   Card,
@@ -19,6 +18,7 @@ import CreatureBankUnitForm from "./CreatureBankUnitForm";
 import CreatureBankUnitCard from "./CreatureBankUnitCard";
 import CreatureBankUnitCardBack from "./CreatureBankUnitCardBack";
 import clsx from "clsx";
+import ScaledPreview from "./ScaledPreview";
 import styles from "./CreatureBankUnitEditor.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -32,6 +32,8 @@ import {
   saveCreatureBankUnit,
 } from "@/lib/serializeCreatureBankUnit";
 import { loadOrToast } from "@/lib/toast";
+import { normalizeString } from "@/lib/normalizeString";
+import DownloadableCard from "./DownloadableCard";
 
 export default function CreatureBankUnitEditor() {
   const {
@@ -44,6 +46,9 @@ export default function CreatureBankUnitEditor() {
     setCurrent: setUnit,
   } = useCardInstances<CreatureBankUnitModel>(initialCreatureBankUnit, "creatureBankUnit");
 
+
+  const previewName =
+    normalizeString(String(unit.name ?? "")) || "creature_bank_unit";
   return (
     <div className={clsx("d-print-none", styles.editor)}>
       <Card className={styles.properties}>
@@ -81,14 +86,11 @@ export default function CreatureBankUnitEditor() {
             >
               <FontAwesomeIcon icon={faDownload} /> Save
             </Button>
-            <Button
-              variant="outline-success"
-              onClick={() =>
-                sendToPdf("creatureBankUnit", String(unit.name ?? ""), unit)
-              }
-            >
-              <FontAwesomeIcon icon={faFilePdf} /> Send to PDF
-            </Button>
+            <SendToPdfButton
+              cardKey="creatureBankUnit"
+              name={String(unit.name ?? "")}
+              payload={unit}
+            />
           </div>
         </CardFooter>
       </Card>
@@ -100,12 +102,14 @@ export default function CreatureBankUnitEditor() {
           </h2>
         </CardHeader>
         <CardBody>
-          <div className={styles.previewContainer}>
-            <div className={styles.previewRow}>
+          <ScaledPreview className={styles.previewRow}>
+            <DownloadableCard filename={`${previewName}-front`}>
               <CreatureBankUnitCard unit={unit} />
+            </DownloadableCard>
+            <DownloadableCard filename={`${previewName}-back`}>
               <CreatureBankUnitCardBack />
-            </div>
-          </div>
+            </DownloadableCard>
+          </ScaledPreview>
         </CardBody>
       </Card>
     </div>

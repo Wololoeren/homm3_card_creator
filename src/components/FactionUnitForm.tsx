@@ -14,8 +14,7 @@ import { townColors } from "@/models/color";
 import { useState } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import ReplaceEntityModal from "./ReplaceEntityModal";
-import { iconMap } from "@/lib/textToComponent";
-import styles from "./HeroForm.module.css";
+import IconPalette from "./IconPalette";
 
 export default function FactionUnitForm({
   unit,
@@ -33,7 +32,7 @@ export default function FactionUnitForm({
   const setTier = (tier: UnitTier) => setUnit({ ...unit, tier });
   const townColor = townColors[unit.town];
   // The panel colour used before custom colours existed.
-  const defaultPanelColor = "#6c5e38";
+  const defaultPanelColor = "#5b3e1f";
   // Border and panels toggle independently. Each seeds from its own default
   // when switched on, so flipping a switch changes nothing until a colour is
   // moved: the border from the town, the panels from their original brown.
@@ -614,15 +613,20 @@ export default function FactionUnitForm({
         </Col>
       </Row>
 
-      <div>Available icons</div>
-
-      <div className={styles.iconContainer}>
-        {Object.entries(iconMap).map(([key, icon]) => (
-          <span key={key} title={key} className={styles.icon}>
-            {icon}
-          </span>
-        ))}
-      </div>
+      <IconPalette
+        targets={[
+          {
+            id: "factionUnitFewSpecialtyContent",
+            value: unit.fewSpecialty,
+            setValue: setFewSpecialty,
+          },
+          {
+            id: "factionUnitPackSpecialtyContent",
+            value: unit.packSpecialty,
+            setValue: setPackSpecialty,
+          },
+        ]}
+      />
     </Form>
   );
 }

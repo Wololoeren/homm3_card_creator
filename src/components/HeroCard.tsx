@@ -3,43 +3,11 @@ import styles from "./HeroCard.module.css";
 import clsx from "clsx";
 import { SpecialtyLevel } from "@/models/specialty";
 
-import { textToComponent, TextToComponentProps } from "@/lib/textToComponent";
-import SpellEffect from "./SpellEffect";
+import { textToComponent } from "@/lib/textToComponent";
+import { cardTextProps } from "./cardTextProps";
 
 import { townColors } from "@/models/color";
 import { useBackground } from "@/hooks/background";
-
-const textToComponentProps: TextToComponentProps = {
-  renderSpell: (props) => <SpellEffect {...props} />,
-  renderUnitStats: (props) => (
-    <div className={styles.unitStats}>
-      <div>
-        <img className={styles.unitIcon} src="images/attack.png" alt="Attack" />{" "}
-        {props.attack}
-      </div>
-      <div>
-        <img
-          className={styles.unitIcon}
-          src="images/defense.png"
-          alt="Defense"
-        />{" "}
-        {props.defense}
-      </div>
-      <div>
-        <img className={styles.unitIcon} src="images/hp.png" alt="Health" />{" "}
-        {props.health}
-      </div>
-      <div>
-        <img
-          className={styles.unitIcon}
-          src="images/initiative.png"
-          alt="Speed"
-        />{" "}
-        {props.speed}
-      </div>
-    </div>
-  ),
-};
 
 export default function HeroCard({
   hero,
@@ -69,7 +37,7 @@ export default function HeroCard({
           <div>
             {textToComponent(
               hero.specialtyContent[specialtyLevel],
-              textToComponentProps
+              cardTextProps
             )}
           </div>
         </div>

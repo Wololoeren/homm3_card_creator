@@ -1,15 +1,18 @@
 .card {
-  font-family: var(--font-liberation-serif), "Times New Roman", Times, serif;
+  font-family:
+    var(--font-times-nr-mt-std), var(--font-liberation-serif),
+    "Times New Roman", Times, serif;
   width: 87.9mm;
   height: 62.5mm;
   background: black;
-  background-image: url("@/assets/cards/event-parchment.jpg");
+  background-image: url("@/assets/cards/event-parchment.webp");
   background-size: 100% 100%;
   position: relative;
   margin: 0;
-  letter-spacing: 0.05em;
   color: var(--white);
-  text-shadow: 0 0 0.25mm black, 0 0.25mm 0.5mm black;
+  text-shadow:
+    0 0 0.25mm black,
+    0 0.25mm 0.5mm black;
   /* Bands from stables.xcf (2900x2090 canvas). */
   padding: 12.5mm 10.7mm 6mm 10.7mm;
 
@@ -25,8 +28,8 @@
   gap: 2mm;
 
   h3 {
-    color: var(--yellow);
-    font-size: 13pt;
+    color: var(--yellow-middle);
+    font-size: var(--card-title-size);
     font-style: italic;
     font-weight: bold;
     margin: 0;
@@ -40,6 +43,7 @@
     height: 5mm;
     width: auto;
     flex-shrink: 0;
+    filter: drop-shadow(0 0.35mm 0.35mm black);
   }
 
   .flourishRight {
@@ -55,9 +59,9 @@
   text-align: center;
   padding: 0 3mm;
   font-style: italic;
-  font-size: 7.5pt;
+  font-size: var(--card-flavor-size);
   line-height: 1.25em;
-  color: var(--yellow);
+  color: var(--yellow-middle);
 }
 
 .effect {
@@ -68,7 +72,7 @@
   justify-content: center;
   text-align: center;
   padding: 0 3mm;
-  font-size: 8.5pt;
+  font-size: var(--card-body-size);
   line-height: 1.35em;
 
   img {

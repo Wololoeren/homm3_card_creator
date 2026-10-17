@@ -6,8 +6,7 @@ import {
 } from "@/models/moraleCard";
 import { useCardInstances } from "@/hooks/cardInstances";
 import CardInstances from "./CardInstances";
-import { sendToPdf } from "@/lib/pdfQueue";
-import { faFilePdf } from "@fortawesome/free-solid-svg-icons";
+import SendToPdfButton from "./SendToPdfButton";
 import {
   Button,
   Card,
@@ -19,6 +18,7 @@ import MoraleForm from "./MoraleForm";
 import MoraleCard from "./MoraleCard";
 import MoraleCardBack from "./MoraleCardBack";
 import clsx from "clsx";
+import ScaledPreview from "./ScaledPreview";
 import styles from "./MoraleEditor.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -29,6 +29,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { loadMoraleCard, saveMoraleCard } from "@/lib/serializeMoraleCard";
 import { loadOrToast } from "@/lib/toast";
+import { normalizeString } from "@/lib/normalizeString";
+import DownloadableCard from "./DownloadableCard";
 
 export default function MoraleEditor() {
   const {
@@ -41,6 +43,12 @@ export default function MoraleEditor() {
     setCurrent: setMorale,
   } = useCardInstances<MoraleCardModel>(initialMoraleCard, "morale");
 
+
+  // Morale cards are identified by type rather than a name, matching the
+  // filename the JSON export uses.
+  const previewName = `${
+    normalizeString(String(morale.type ?? "")) || "morale"
+  }_morale`;
   return (
     <div className={clsx("d-print-none", styles.editor)}>
       <Card className={styles.properties}>
@@ -78,14 +86,11 @@ export default function MoraleEditor() {
             >
               <FontAwesomeIcon icon={faDownload} /> Save
             </Button>
-            <Button
-              variant="outline-success"
-              onClick={() =>
-                sendToPdf("morale", String(morale.type ?? ""), morale)
-              }
-            >
-              <FontAwesomeIcon icon={faFilePdf} /> Send to PDF
-            </Button>
+            <SendToPdfButton
+              cardKey="morale"
+              name={String(morale.type ?? "")}
+              payload={morale}
+            />
           </div>
         </CardFooter>
       </Card>
@@ -97,12 +102,14 @@ export default function MoraleEditor() {
           </h2>
         </CardHeader>
         <CardBody>
-          <div className={styles.previewContainer}>
-            <div className={styles.previewRow}>
+          <ScaledPreview className={styles.previewRow}>
+            <DownloadableCard filename={`${previewName}-front`}>
               <MoraleCard morale={morale} />
+            </DownloadableCard>
+            <DownloadableCard filename={`${previewName}-back`}>
               <MoraleCardBack type={morale.type} />
-            </div>
-          </div>
+            </DownloadableCard>
+          </ScaledPreview>
         </CardBody>
       </Card>
     </div>

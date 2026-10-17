@@ -2,6 +2,7 @@ import React from "react";
 import { JSX } from "react";
 
 import OrDividerIcon from "@/assets/glyphsInternal/or_divider.svg";
+import EventBattleIcon from "@/assets/glyphsInternal/event_battle.svg";
 
 import InstantIcon from "@/assets/glyphs/instant.svg";
 import OngoingIcon from "@/assets/glyphs/ongoing.svg";
@@ -26,6 +27,7 @@ import GoldIcon from "@/assets/glyphs/gold.svg";
 import ValuableIcon from "@/assets/glyphs/valuablegreater.svg";
 import BuildingMaterialIcon from "@/assets/glyphs/building_materials.svg";
 import PayIcon from "@/assets/glyphsInternal/price-icons/pay.png";
+import { unitStatIcons } from "@/lib/unitIcons";
 
 import UnitGroundIcon from "@/assets/glyphsInternal/unit_ground.svg";
 import UnitFlyingIcon from "@/assets/glyphsInternal/unit_flying.svg";
@@ -52,7 +54,6 @@ import Building2Icon from "@/assets/glyphs/2_building_materials.svg";
 import Building4Icon from "@/assets/glyphs/4_building_materials.svg";
 import Gold3Icon from "@/assets/glyphs/3_gold.svg";
 import Gold6Icon from "@/assets/glyphs/6_gold.svg";
-import TreasureDieIcon from "@/assets/glyphs/trasuredie.svg";
 import TreasureDie2Icon from "@/assets/glyphs/2_treasure_die.svg";
 import PayV2Icon from "@/assets/glyphs/pay_v2.svg";
 
@@ -86,8 +87,26 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 
 export const iconMap: Record<string, JSX.Element> = {
-  ":instant:": <InstantIcon aria-label="Instant" className="textIcon" />,
-  ":ongoing:": <OngoingIcon aria-label="Ongoing" className="textIcon" />,
+  // Order matters only to the icon palette, which lists the map as it stands.
+  // The glyphs most reached for while writing a card lead; the rest follow in
+  // the groups they have always been in. Every lookup here is by key.
+  ":or:": (
+    <OrDividerIcon
+      aria-label="Or"
+      className="textIcon"
+      style={{
+        width: "15mm",
+        height: "auto",
+        marginTop: "0.75mm",
+        marginBottom: "0.5mm",
+        // The glyph's own box is only as tall as the rules either side of the
+        // word, and it carries no font of its own, so the letters are drawn at
+        // whatever size the text around them is and stand taller than the box.
+        // Without this the tops are shaved off.
+        overflow: "visible",
+      }}
+    />
+  ),
   ":permanent:": (
     <PermanentIcon
       viewBox="-10 -200 1722 1250"
@@ -95,40 +114,32 @@ export const iconMap: Record<string, JSX.Element> = {
       className="textIcon"
     />
   ),
-
-  ":attack:": <AttackIcon aria-label="Attack" className="textIcon" />,
-  ":defense:": <DefenseIcon aria-label="Defense" className="textIcon" />,
-  ":empower:": <EmpowerIcon aria-label="Empower" className="textIcon" />,
-
-  ":health:": <HealthPointsIcon aria-label="Health" className="textIcon" />,
-  ":map:": <MapIcon aria-label="Map" className="textIcon" />,
-  ":spell:": <SpellIcon aria-label="Spell" className="textIcon" />,
-
-  ":movement:": <MovementIcon aria-label="Movement" className="textIcon" />,
-  ":initiative:": (
-    <InitiativeIcon aria-label="Initiative" className="textIcon" />
+  ":unit_passive:": (
+    <UnitPassiveIcon aria-label="Unit passive" className="textIcon" />
   ),
+  ":ongoing:": <OngoingIcon aria-label="Ongoing" className="textIcon" />,
   ":activation:": (
     <ActivationIcon aria-label="Activation" className="textIcon" />
   ),
-  ":morale:": <MoraleIcon aria-label="Morale" className="textIcon" />,
-  ":morale_negative:": (
-    <MoraleNegativeIcon
-      aria-label="Negative Morale"
-      className="textIcon"
-      style={{ color: "#a8a8a7" }}
-    />
+  ":instant:": <InstantIcon aria-label="Instant" className="textIcon" />,
+  ":unit_attack:": (
+    <UnitAttackIcon aria-label="Unit attack" className="textIcon" />
+  ),
+  ":unit_retaliate:": (
+    <UnitRetaliateIcon aria-label="Unit retaliate" className="textIcon" />
+  ),
+  ":unit_special:": (
+    <UnitSpecialIcon aria-label="Unit Special acion" className="textIcon" />
+  ),
+  ":paralysis:": <ParalysisIcon aria-label="Paralysis" className="textIcon" />,
+  ":map:": <MapIcon aria-label="Map" className="textIcon" />,
+  ":attack:": <AttackIcon aria-label="Attack" className="textIcon" />,
+  ":defense:": <DefenseIcon aria-label="Defense" className="textIcon" />,
+  ":health:": <HealthPointsIcon aria-label="Health" className="textIcon" />,
+  ":initiative:": (
+    <InitiativeIcon aria-label="Initiative" className="textIcon" />
   ),
   ":damage:": <DamageIcon aria-label="Damage" className="textIcon" />,
-  ":paralysis:": <ParalysisIcon aria-label="Paralysis" className="textIcon" />,
-
-  ":gold:": <GoldIcon aria-label="Gold" className="textIcon" />,
-  ":valuable:": <ValuableIcon aria-label="Valuable" className="textIcon" />,
-  ":building:": (
-    <BuildingMaterialIcon aria-label="Building Material" className="textIcon" />
-  ),
-  ":pay:": <img src={PayIcon.src} alt="Pay" className="textIcon" />,
-
   ":unit_ground:": (
     <UnitGroundIcon
       viewBox="0 0 76 76"
@@ -144,32 +155,60 @@ export const iconMap: Record<string, JSX.Element> = {
   ":unit_ranged:": (
     <UnitRangedIcon aria-label="Ranged unit" className="textIcon" />
   ),
-
-  ":treasure:": <TreasureIcon aria-label="Treasure" className="textIcon" />,
-  ":resource:": <ResourceIcon aria-label="Resource" className="textIcon" />,
-
-  ":necro:": <NecroIcon aria-label="Necro" className="textIcon" />,
-
   ":expert:": <ExpertIcon aria-label="Expert" className="textIcon" />,
   ":hand_limit:": (
     <HandLimitIcon aria-label="Hand limit" className="textIcon" />
   ),
+  ":pay:": <img src={PayIcon.src} alt="Pay" className="textIcon" />,
+  ":pay_v2:": <PayV2Icon aria-label="Pay" className="textIcon recolorFill" />,
+  ":reinforce:": <ReinforceIcon aria-label="Reinforce" className="textIcon" />,
+  ":bronze:": <FontAwesomeIcon icon={faStar} className="bronze" />,
+  ":silver:": <FontAwesomeIcon icon={faStar} className="silver" />,
+  ":golden:": <FontAwesomeIcon icon={faStar} className="golden" />,
+  ":azure:": <FontAwesomeIcon icon={faStar} className="azure" />,
+
+  ":empower:": <EmpowerIcon aria-label="Empower" className="textIcon" />,
+
+  ":spell:": <SpellIcon aria-label="Spell" className="textIcon" />,
   ":experience:": (
     <ExperienceIcon aria-label="Experience" className="textIcon" />
   ),
-  ":reinforce:": <ReinforceIcon aria-label="Reinforce" className="textIcon" />,
 
-  ":unit_attack:": (
-    <UnitAttackIcon aria-label="Unit attack" className="textIcon" />
+  ":morale:": <MoraleIcon aria-label="Morale" className="textIcon" />,
+  ":morale_negative:": (
+    <MoraleNegativeIcon
+      aria-label="Negative Morale"
+      className="textIcon"
+      style={{ color: "#a8a8a7" }}
+    />
   ),
-  ":unit_retaliate:": (
-    <UnitRetaliateIcon aria-label="Unit retaliate" className="textIcon" />
+
+  ":gold:": <GoldIcon aria-label="Gold" className="textIcon" />,
+  ":valuable:": <ValuableIcon aria-label="Valuable" className="textIcon" />,
+  ":building:": (
+    <BuildingMaterialIcon aria-label="Building Material" className="textIcon" />
   ),
-  ":unit_special:": (
-    <UnitSpecialIcon aria-label="Unit Special acion" className="textIcon" />
+  ":movement:": <MovementIcon aria-label="Movement" className="textIcon" />,
+  ":arrow_right:": (
+    <ArrowRightIcon
+      aria-label="Arrow right"
+      className="textIcon recolorStroke"
+    />
   ),
-  ":unit_passive:": (
-    <UnitPassiveIcon aria-label="Unit passive" className="textIcon" />
+  ":arrow_right_gray:": (
+    <ArrowRightGrayIcon aria-label="Arrow right (gray)" className="textIcon" />
+  ),
+
+  ":necro:": <NecroIcon aria-label="Necro" className="textIcon" />,
+
+  ":skill:": <SkillIcon aria-label="Skill" className="textIcon" />,
+  ":might:": <MightIcon aria-label="Might" className="textIcon" />,
+  ":magic:": <MagicIcon aria-label="Magic" className="textIcon" />,
+  ":artifact:": <ArtifactIcon aria-label="Artifact" className="textIcon" />,
+  ":treasure:": <TreasureIcon aria-label="Treasure" className="textIcon" />,
+  ":resource:": <ResourceIcon aria-label="Resource" className="textIcon" />,
+  ":2_treasure_die:": (
+    <TreasureDie2Icon aria-label="2 Treasure dice" className="textIcon" />
   ),
 
   ":1_valuables:": (
@@ -186,18 +225,16 @@ export const iconMap: Record<string, JSX.Element> = {
   ),
   ":3_gold:": <Gold3Icon aria-label="3 Gold" className="textIcon" />,
   ":6_gold:": <Gold6Icon aria-label="6 Gold" className="textIcon" />,
-  ":treasure_die:": (
-    <TreasureDieIcon aria-label="Treasure die" className="textIcon" />
-  ),
-  ":2_treasure_die:": (
-    <TreasureDie2Icon aria-label="2 Treasure dice" className="textIcon" />
-  ),
-  ":pay_v2:": <PayV2Icon aria-label="Pay" className="textIcon" />,
 
-  ":artifact:": <ArtifactIcon aria-label="Artifact" className="textIcon" />,
-  ":skill:": <SkillIcon aria-label="Skill" className="textIcon" />,
-  ":might:": <MightIcon aria-label="Might" className="textIcon" />,
-  ":magic:": <MagicIcon aria-label="Magic" className="textIcon" />,
+  ":plusone:": <PlusOneIcon aria-label="Plus one" className="textIcon" />,
+  ":zero:": <ZeroIcon aria-label="Zero" className="textIcon" />,
+
+  ":level1:": <Level1Icon aria-label="Level I" className="textIcon" />,
+  ":level4:": <Level4Icon aria-label="Level IV" className="textIcon" />,
+  ":level6:": <Level6Icon aria-label="Level VI" className="textIcon" />,
+  ":attack_color:": (
+    <img src={unitStatIcons.attack.src} alt="Attack" className="textIcon" />
+  ),
   ":defense_color:": (
     <DefenseColorIcon
       viewBox="0 0 249.99348 282.92319"
@@ -205,18 +242,13 @@ export const iconMap: Record<string, JSX.Element> = {
       className="textIcon"
     />
   ),
-  ":plusone:": <PlusOneIcon aria-label="Plus one" className="textIcon" />,
-  ":zero:": <ZeroIcon aria-label="Zero" className="textIcon" />,
-  ":arrow_right:": (
-    <ArrowRightIcon aria-label="Arrow right" className="textIcon" />
+  ":initiative_2:": (
+    <img
+      src={unitStatIcons.initiative.src}
+      alt="Initiative"
+      className="textIcon"
+    />
   ),
-  ":arrow_right_gray:": (
-    <ArrowRightGrayIcon aria-label="Arrow right (gray)" className="textIcon" />
-  ),
-
-  ":level1:": <Level1Icon aria-label="Level I" className="textIcon" />,
-  ":level4:": <Level4Icon aria-label="Level IV" className="textIcon" />,
-  ":level6:": <Level6Icon aria-label="Level VI" className="textIcon" />,
 
   ":bronze_mono:": (
     <BronzeMonoIcon
@@ -248,72 +280,44 @@ export const iconMap: Record<string, JSX.Element> = {
   ),
 
   ":damage_dark:": <DamageDarkIcon aria-label="Damage" className="textIcon" />,
-
-  ":bronze:": <FontAwesomeIcon icon={faStar} className="bronze" />,
-  ":silver:": <FontAwesomeIcon icon={faStar} className="silver" />,
-  ":golden:": <FontAwesomeIcon icon={faStar} className="golden" />,
-  ":azure:": <FontAwesomeIcon icon={faStar} className="azure" />,
-
-  ":or:": (
-    <OrDividerIcon
-      aria-label="Or"
-      className="textIcon"
-      style={{
-        width: "15mm",
-        height: "auto",
-        marginTop: "0.75mm",
-        marginBottom: "0.5mm",
-      }}
-    />
+  ":event_battle:": (
+    <EventBattleIcon aria-label="Event battle" className="textIcon" />
   ),
 };
 
 type IconToken = keyof typeof iconMap;
 
-// Renders arbitrary text flanked by the same tapered wedge lines as the
-// ":or:" glyph, but with the text width (and thus the whole glyph's width)
-// scaling to fit the given string instead of being fixed to "OR".
-function renderDivide(text: string): React.ReactNode {
-  const wedgeWidth = 50;
-  const charWidth = 13;
-  const textPadding = 20;
-  const textWidth = Math.max(wedgeWidth, text.length * charWidth + textPadding);
-  const totalWidth = wedgeWidth * 2 + textWidth;
-  const leftWide = wedgeWidth;
-  const rightWide = wedgeWidth + textWidth;
-
+/** One tapered line of a divider, wide end against the text. */
+function DivideWedge({ pointing }: { pointing: "left" | "right" }) {
   return (
     <svg
-      viewBox={`0 0 ${totalWidth} 14`}
-      aria-label={text}
-      className="textIcon"
-      style={{
-        height: "1.4mm",
-        width: "auto",
-        marginTop: "0.75mm",
-        marginBottom: "0.5mm",
-        overflow: "visible",
-      }}
+      viewBox="0 0 50 3"
+      preserveAspectRatio="none"
+      aria-hidden="true"
+      className="cardDivideWedge"
     >
-      <text
-        x={leftWide + textWidth / 2}
-        y="50%"
-        textAnchor="middle"
-        dominantBaseline="central"
-        fill="currentColor"
-        fontSize="20"
-      >
-        {text}
-      </text>
       <polygon
-        points={`${leftWide},5.5 ${leftWide},8.5 0,7`}
-        fill="currentColor"
-      />
-      <polygon
-        points={`${rightWide},5.5 ${rightWide},8.5 ${totalWidth},7`}
+        points={pointing === "left" ? "50,0 50,3 0,1.5" : "0,0 0,3 50,1.5"}
         fill="currentColor"
       />
     </svg>
+  );
+}
+
+// Text flanked by the same tapered wedge lines as the ":or:" glyph. Laid out
+// rather than drawn into one SVG, so the lines sit the same distance from any
+// length of text and the text can carry icons of its own. Styled in
+// globals.css, the same on every card.
+function renderDivide(
+  text: string,
+  props: TextToComponentProps,
+): React.ReactNode {
+  return (
+    <span className="cardDivide">
+      <DivideWedge pointing="left" />
+      <span className="cardDivideText">{textToComponent(text, props)}</span>
+      <DivideWedge pointing="right" />
+    </span>
   );
 }
 
@@ -341,7 +345,7 @@ const MAX_SPELL_OPTIONS = 5;
 function spellTableProblem(
   keyword: string,
   power: number[],
-  effect: React.ReactNode[]
+  effect: React.ReactNode[],
 ): string | null {
   if (power.length !== effect.length) {
     return `${keyword} needs as many effects as powers`;
@@ -364,7 +368,7 @@ export interface TextToComponentProps {
 
 export function textToComponent(
   text: string,
-  props: TextToComponentProps = {}
+  props: TextToComponentProps = {},
 ): React.ReactNode {
   // Digits are allowed so tokens can carry a quantity, e.g. :3_gold:.
   const re =
@@ -410,7 +414,7 @@ export function textToComponent(
         last = start; // match original behavior when there's no closing **
       } else {
         append(
-          <strong>{textToComponent(text.slice(start, close), props)}</strong>
+          <strong>{textToComponent(text.slice(start, close), props)}</strong>,
         );
         last = close + 2; // jump past closing **
       }
@@ -418,10 +422,10 @@ export function textToComponent(
       const start = tokEnd;
       const close = text.indexOf("\n", start);
       if (close === -1) {
-        append(<h4>{text.slice(start)}</h4>);
+        append(<h4 className="cardHeading">{text.slice(start)}</h4>);
         last = text.length;
       } else {
-        append(<h4>{text.slice(start, close)}</h4>);
+        append(<h4 className="cardHeading">{text.slice(start, close)}</h4>);
         last = close + 1; // include trailing newline
       }
     } else if (tok === "\n") {
@@ -435,7 +439,7 @@ export function textToComponent(
 
       if (stats.length !== 4) {
         append(
-          <span className="text-danger">Stats must have 4 components</span>
+          <span className="text-danger">Stats must have 4 components</span>,
         );
       }
 
@@ -449,7 +453,7 @@ export function textToComponent(
           })
         ) : (
           <span className="text-danger">No renderUnitStats available</span>
-        )
+        ),
       );
       last = tokEnd;
     } else if (tok.startsWith(":spell{")) {
@@ -462,7 +466,7 @@ export function textToComponent(
           s
             .trim()
             .split(";")
-            .map((p) => p.trim())
+            .map((p) => p.trim()),
         );
 
       if (spellParts.length === 2 || spellParts.length === 3) {
@@ -485,12 +489,14 @@ export function textToComponent(
               })
             ) : (
               <span className="text-danger">No renderSpell available</span>
-            )
+            ),
           );
         }
       } else {
         append(
-          <span className="text-danger">Spell must have 2 or 3 components</span>
+          <span className="text-danger">
+            Spell must have 2 or 3 components
+          </span>,
         );
       }
       last = tokEnd;
@@ -506,7 +512,7 @@ export function textToComponent(
           s
             .trim()
             .split(";")
-            .map((p) => p.trim())
+            .map((p) => p.trim()),
         );
 
       if (scaleParts.length === 3 || scaleParts.length === 4) {
@@ -532,18 +538,20 @@ export function textToComponent(
               })
             ) : (
               <span className="text-danger">No renderSpell available</span>
-            )
+            ),
           );
         }
       } else {
         append(
-          <span className="text-danger">Scale must have 3 or 4 components</span>
+          <span className="text-danger">
+            Scale must have 3 or 4 components
+          </span>,
         );
       }
       last = tokEnd;
     } else if (tok.startsWith(":divide{")) {
       const divideText = tok.slice(8, -2);
-      append(renderDivide(divideText));
+      append(renderDivide(divideText, props));
       last = tokEnd;
     } else if ((tok as IconToken) in iconMap) {
       append(iconMap[tok as IconToken]);

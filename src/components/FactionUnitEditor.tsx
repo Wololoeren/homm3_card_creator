@@ -3,8 +3,7 @@
 import { FactionUnit, initialFactionUnit } from "@/models/factionUnit";
 import { useCardInstances } from "@/hooks/cardInstances";
 import CardInstances from "./CardInstances";
-import { sendToPdf } from "@/lib/pdfQueue";
-import { faFilePdf } from "@fortawesome/free-solid-svg-icons";
+import SendToPdfButton from "./SendToPdfButton";
 import {
   Button,
   Card,
@@ -16,6 +15,7 @@ import FactionUnitForm from "./FactionUnitForm";
 import FactionUnitCard from "./FactionUnitCard";
 import FactionUnitCardPack from "./FactionUnitCardPack";
 import clsx from "clsx";
+import ScaledPreview from "./ScaledPreview";
 import styles from "./FactionUnitEditor.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -26,6 +26,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { loadFactionUnit, saveFactionUnit } from "@/lib/serializeFactionUnit";
 import { loadOrToast } from "@/lib/toast";
+import { normalizeString } from "@/lib/normalizeString";
+import DownloadableCard from "./DownloadableCard";
 
 export default function FactionUnitEditor() {
   const {
@@ -38,6 +40,8 @@ export default function FactionUnitEditor() {
     setCurrent: setUnit,
   } = useCardInstances<FactionUnit>(initialFactionUnit, "factionUnit");
 
+  const previewName =
+    normalizeString(String(unit.name ?? "")) || "faction_unit";
   return (
     <div className={clsx("d-print-none", styles.editor)}>
       <Card className={styles.properties}>
@@ -75,14 +79,11 @@ export default function FactionUnitEditor() {
             >
               <FontAwesomeIcon icon={faDownload} /> Save
             </Button>
-            <Button
-              variant="outline-success"
-              onClick={() =>
-                sendToPdf("factionUnit", String(unit.name ?? ""), unit)
-              }
-            >
-              <FontAwesomeIcon icon={faFilePdf} /> Send to PDF
-            </Button>
+            <SendToPdfButton
+              cardKey="factionUnit"
+              name={String(unit.name ?? "")}
+              payload={unit}
+            />
           </div>
         </CardFooter>
       </Card>
@@ -94,12 +95,14 @@ export default function FactionUnitEditor() {
           </h2>
         </CardHeader>
         <CardBody>
-          <div className={styles.previewContainer}>
-            <div className={styles.previewRow}>
+          <ScaledPreview className={styles.previewRow}>
+            <DownloadableCard filename={`${previewName}-few`}>
               <FactionUnitCard unit={unit} />
+            </DownloadableCard>
+            <DownloadableCard filename={`${previewName}-pack`}>
               <FactionUnitCardPack unit={unit} />
-            </div>
-          </div>
+            </DownloadableCard>
+          </ScaledPreview>
         </CardBody>
       </Card>
     </div>

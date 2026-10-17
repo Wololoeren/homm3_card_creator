@@ -13,6 +13,7 @@ import { textToComponent } from "@/lib/textToComponent";
 import { useBackground, useBorder } from "@/hooks/background";
 import { colord } from "colord";
 
+import { unitStatIcons } from "@/lib/unitIcons";
 import GoldIcon from "@/assets/glyphsInternal/price-icons/gold.png";
 import ValuableIcon from "@/assets/glyphsInternal/price-icons/valuables.png";
 import PayIcon from "@/assets/glyphsInternal/price-icons/pay.png";
@@ -27,6 +28,7 @@ import AzureStar from "@/assets/glyphsInternal/tier-stars/azure.png";
 import UnitGroundIcon from "@/assets/glyphsInternal/unit_ground.svg";
 import UnitFlyingIcon from "@/assets/glyphsInternal/unit_flying.svg";
 import UnitRangedIcon from "@/assets/glyphs/unit_ranged.svg";
+import { cardTextProps } from "./cardTextProps";
 
 const tierStars: Record<UnitTier, { src: string }> = {
   [UnitTier.Bronze]: BronzeStar,
@@ -65,7 +67,7 @@ export default function FactionUnitCard({ unit }: { unit: FactionUnit }) {
   // Panels default to the same brown used before custom colours existed —
   // only the border follows the town by default. The specialty panel is a
   // shade deeper; the printed cards separate the two bands that way.
-  const panelColor = unit.backgroundColor ?? "#6c5e38";
+  const panelColor = unit.backgroundColor ?? "#5b3e1f";
   const tintUrl = useBackground(panelColor);
   const tintDarkUrl = useBackground(colord(panelColor).darken(0.1).toHex());
 
@@ -91,19 +93,19 @@ export default function FactionUnitCard({ unit }: { unit: FactionUnit }) {
 
       <div className={clsx(styles.stats, styles.statsAloneRow)}>
         <div className={clsx(styles.block, styles.tint, styles.stat)}>
-          <img src="images/attack.png" alt="Attack" />
+          <img src={unitStatIcons.attack.src} alt="Attack" />
           <span>{unit.few.attack}</span>
         </div>
         <div className={clsx(styles.block, styles.tint, styles.stat)}>
-          <img src="images/defense.png" alt="Defense" />
+          <img src={unitStatIcons.defense.src} alt="Defense" />
           <span>{unit.few.defense}</span>
         </div>
         <div className={clsx(styles.block, styles.tint, styles.stat)}>
-          <img src="images/hp.png" alt="Health" />
+          <img src={unitStatIcons.health.src} alt="Health" />
           <span>{unit.few.health}</span>
         </div>
         <div className={clsx(styles.block, styles.tint, styles.stat)}>
-          <img src="images/initiative.png" alt="Initiative" />
+          <img src={unitStatIcons.initiative.src} alt="Initiative" />
           <span>{unit.few.initiative}</span>
         </div>
       </div>
@@ -163,7 +165,7 @@ export default function FactionUnitCard({ unit }: { unit: FactionUnit }) {
       </div>
 
       <div className={clsx(styles.block, styles.tintDark, styles.specialty)}>
-        <div>{textToComponent(unit.fewSpecialty)}</div>
+        <div>{textToComponent(unit.fewSpecialty, cardTextProps)}</div>
       </div>
     </div>
   );

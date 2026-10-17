@@ -5,6 +5,7 @@ import styles from "./EventCard.module.css";
 import { textToComponent } from "@/lib/textToComponent";
 
 import FlourishIcon from "@/assets/glyphsInternal/event-flourish.png";
+import { cardTextProps } from "./cardTextProps";
 
 export default function EventCard({ event }: { event: EventCardModel }) {
   return (
@@ -20,7 +21,7 @@ export default function EventCard({ event }: { event: EventCardModel }) {
       </div>
 
       <div className={styles.effect}>
-        <div>{textToComponent(event.effect)}</div>
+        <div>{textToComponent(event.effect, cardTextProps)}</div>
       </div>
     </div>
   );
