@@ -2,6 +2,7 @@ import { CreatureBankUnit } from "@/models/creatureBankUnit";
 import { fileOpen } from "browser-fs-access";
 import saveAs from "file-saver";
 import { normalizeString } from "./normalizeString";
+import { upgradeCardAssets } from "./legacyAssets";
 
 interface JsonFormat {
   herocreator: "0.1";
@@ -19,7 +20,7 @@ function parseCreatureBankUnit(data: string): CreatureBankUnit {
     throw new Error("This file is not a creature bank unit card!");
   }
 
-  return (obj as JsonFormat).creatureBankUnit;
+  return upgradeCardAssets((obj as JsonFormat).creatureBankUnit);
 }
 
 export function stringifyCreatureBankUnit(unit: CreatureBankUnit): string {

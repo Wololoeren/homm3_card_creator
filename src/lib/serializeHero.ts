@@ -2,6 +2,7 @@ import { Hero } from "@/models/hero";
 import { fileOpen } from "browser-fs-access";
 import saveAs from "file-saver";
 import { normalizeString } from "./normalizeString";
+import { upgradeCardAssets } from "./legacyAssets";
 
 // TODO: Define zod schema
 
@@ -21,7 +22,7 @@ function parseHero(data: string): Hero {
     throw new Error("This file is not a hero card!");
   }
 
-  return (obj as JsonFormat).hero;
+  return upgradeCardAssets((obj as JsonFormat).hero);
 }
 
 export function stringifyHero(hero: Hero): string {

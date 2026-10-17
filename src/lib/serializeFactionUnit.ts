@@ -2,6 +2,7 @@ import { FactionUnit } from "@/models/factionUnit";
 import { fileOpen } from "browser-fs-access";
 import saveAs from "file-saver";
 import { normalizeString } from "./normalizeString";
+import { upgradeCardAssets } from "./legacyAssets";
 
 interface JsonFormat {
   herocreator: "0.1";
@@ -19,7 +20,7 @@ function parseFactionUnit(data: string): FactionUnit {
     throw new Error("This file is not a faction unit card!");
   }
 
-  return (obj as JsonFormat).factionUnit;
+  return upgradeCardAssets((obj as JsonFormat).factionUnit);
 }
 
 export function stringifyFactionUnit(factionUnit: FactionUnit): string {

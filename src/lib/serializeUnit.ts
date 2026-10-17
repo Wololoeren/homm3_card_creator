@@ -2,6 +2,7 @@ import { Unit } from "@/models/unit";
 import { fileOpen } from "browser-fs-access";
 import saveAs from "file-saver";
 import { normalizeString } from "./normalizeString";
+import { upgradeCardAssets } from "./legacyAssets";
 
 interface JsonFormat {
   herocreator: "0.1";
@@ -19,7 +20,7 @@ function parseUnit(data: string): Unit {
     throw new Error("This file is not a neutral unit card!");
   }
 
-  return (obj as JsonFormat).unit;
+  return upgradeCardAssets((obj as JsonFormat).unit);
 }
 
 export function stringifyUnit(unit: Unit): string {

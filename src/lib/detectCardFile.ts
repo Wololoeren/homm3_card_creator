@@ -1,3 +1,5 @@
+import { upgradeCardAssets } from "./legacyAssets";
+
 /**
  * Every saved card is `{ herocreator: "0.1", <key>: <payload> }`, so the key
  * present tells us which kind of card the file holds. That lets the PDF tab
@@ -42,5 +44,5 @@ export function parseCardFile(text: string): ParsedCardFile {
     throw new Error("Unrecognised card type.");
   }
 
-  return { key, payload: obj[key] };
+  return { key, payload: upgradeCardAssets(obj[key]) };
 }
