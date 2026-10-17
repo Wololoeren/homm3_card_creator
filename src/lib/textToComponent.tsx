@@ -99,6 +99,11 @@ export const iconMap: Record<string, JSX.Element> = {
         height: "auto",
         marginTop: "0.75mm",
         marginBottom: "0.5mm",
+        // The glyph's own box is only as tall as the rules either side of the
+        // word, and it carries no font of its own, so the letters are drawn at
+        // whatever size the text around them is and stand taller than the box.
+        // Without this the tops are shaved off.
+        overflow: "visible",
       }}
     />
   ),
