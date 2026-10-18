@@ -14,8 +14,9 @@ export interface IconTarget {
 }
 
 /** Glyphs kept for the cards that already use them, but left off the palette
- * because a construction below does the same job better. */
-const HIDDEN_ICONS = new Set([":or:"]);
+ * because a construction below does the same job better, or because they
+ * belong to one card type rather than to every card's text. */
+const HIDDEN_ICONS = new Set([":or:", ":level3:", ":level5:"]);
 
 /** The four glyphs a unit's stat row is drawn with, as the card prints them. */
 const STATS_ICONS = [

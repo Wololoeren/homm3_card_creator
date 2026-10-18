@@ -3,6 +3,8 @@ import { JSX } from "react";
 
 import OrDividerIcon from "@/assets/glyphsInternal/or_divider.svg";
 import EventBattleIcon from "@/assets/glyphsInternal/event_battle.svg";
+import Level3Icon from "@/assets/glyphsInternal/level3.svg";
+import Level5Icon from "@/assets/glyphsInternal/level5.svg";
 
 import InstantIcon from "@/assets/glyphs/instant.svg";
 import OngoingIcon from "@/assets/glyphs/ongoing.svg";
@@ -230,7 +232,9 @@ export const iconMap: Record<string, JSX.Element> = {
   ":zero:": <ZeroIcon aria-label="Zero" className="textIcon" />,
 
   ":level1:": <Level1Icon aria-label="Level I" className="textIcon" />,
+  ":level3:": <Level3Icon aria-label="Level III" className="textIcon" />,
   ":level4:": <Level4Icon aria-label="Level IV" className="textIcon" />,
+  ":level5:": <Level5Icon aria-label="Level V" className="textIcon" />,
   ":level6:": <Level6Icon aria-label="Level VI" className="textIcon" />,
   ":attack_color:": (
     <img src={unitStatIcons.attack.src} alt="Attack" className="textIcon" />
