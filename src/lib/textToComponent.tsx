@@ -376,7 +376,7 @@ export function textToComponent(
 ): React.ReactNode {
   // Digits are allowed so tokens can carry a quantity, e.g. :3_gold:.
   const re =
-    /(\*\*|:[a-z0-9_]+:|:stats{[\s;0-9]*}:|:spell{.*?(?=}:)}:|:scale{.*?(?=}:)}:|:divide{.*?(?=}:)}:|\n\#|\n)/g;
+    /(\*\*|:[a-z0-9_]+:|:s{\d+}:|:stats{[\s;0-9]*}:|:spell{.*?(?=}:)}:|:scale{.*?(?=}:)}:|:divide{.*?(?=}:)}:|\n\#|\n)/g;
   let last = 0;
   let result: React.ReactNode = null;
 
@@ -552,6 +552,18 @@ export function textToComponent(
           </span>,
         );
       }
+      last = tokEnd;
+    } else if (tok.startsWith(":s{")) {
+      // :s{3}: is three spaces wide, so a line can be lined up under the one
+      // above it. The tokeniser only matches digits, so this always parses.
+      const spaces = parseInt(tok.slice(3, -2));
+      append(
+        <span
+          className="textSpacer"
+          style={{ width: `${spaces}em` }}
+          aria-hidden="true"
+        />
+      );
       last = tokEnd;
     } else if (tok.startsWith(":divide{")) {
       const divideText = tok.slice(8, -2);

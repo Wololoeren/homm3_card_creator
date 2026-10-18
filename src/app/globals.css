@@ -202,6 +202,14 @@ svg.cardDivideWedge {
   }
 }
 
+/* A gap in a line of card text, for lining one line up under the one above.
+   It prints as empty space; the icon palette outlines it so the button it
+   sits on has something to show. */
+span.textSpacer {
+  display: inline-block;
+  width: 1em;
+}
+
 svg.textIcon {
   height: 1em;
   width: auto;

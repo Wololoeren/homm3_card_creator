@@ -120,3 +120,11 @@
   margin: 0 4px;
   background: rgba(255, 255, 255, 0.2);
 }
+
+/* The spacer draws nothing, so outline it here to give its button a face.
+   Only inside the palette: on a card it stays empty space. */
+.icon :global(span.textSpacer) {
+  height: 1em;
+  outline: 1px dashed rgba(255, 255, 255, 0.55);
+  outline-offset: -1px;
+}

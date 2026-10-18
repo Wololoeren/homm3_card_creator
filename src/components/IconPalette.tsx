@@ -305,6 +305,14 @@ export default function IconPalette({ targets }: { targets: IconTarget[] }) {
             () => edit(bold),
             "B",
           )}
+          {button(
+            "spacer",
+            "Spacer",
+            "Spacer: :s{1}: for one space wide, :s{3}: for three",
+            `${styles.icon} ${styles.format}`,
+            () => insert(":s{1}:"),
+            <span className="textSpacer" />,
+          )}
           <span className={styles.separator} aria-hidden="true" />
           {CONSTRUCTIONS.map(({ token, label, title, face }) =>
             button(
