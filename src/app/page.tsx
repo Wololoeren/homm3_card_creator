@@ -12,6 +12,7 @@ import PandoraEditor from "@/components/PandoraEditor";
 import CreatureBankUnitEditor from "@/components/CreatureBankUnitEditor";
 import AdventureEditor from "@/components/AdventureEditor";
 import MoraleEditor from "@/components/MoraleEditor";
+import CustomCardsTab from "@/components/CustomCardsTab";
 import PdfEditor from "@/components/PdfEditor";
 import PdfSheets, { LoadedCard } from "@/components/PdfSheets";
 import WelcomeModal from "@/components/WelcomeModal";
@@ -34,6 +35,7 @@ import {
   faCompass,
   faScaleBalanced,
   faFilePdf,
+  faPenRuler,
 } from "@fortawesome/free-solid-svg-icons";
 
 export default function Home() {
@@ -187,6 +189,17 @@ export default function Home() {
           >
             <MoraleEditor />
           </Tab>
+          <Tab
+            eventKey="custom"
+            title={
+              <>
+                <FontAwesomeIcon icon={faPenRuler} /> Custom Cards
+              </>
+            }
+          >
+            <CustomCardsTab />
+          </Tab>
+
           <Tab
             eventKey="pdf"
             tabClassName="pdfTab"

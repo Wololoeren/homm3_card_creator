@@ -1,0 +1,167 @@
+/* Proportions measured off the printed card: the name band starts 3.9mm down
+   and runs 7.3mm, the XP track is 19.6mm tall and the effects panel 23mm, all
+   inset 3.7mm from the card's edge. */
+.card {
+  font-family: var(--font-times-nr-mt-std), var(--font-liberation-serif),
+    "Times New Roman", Times, serif;
+  width: 62.5mm;
+  height: 87.9mm;
+  padding: 3.9mm 3.7mm 1.4mm 3.7mm;
+  background: black;
+  position: relative;
+  margin: 0;
+  letter-spacing: 0.05em;
+  color: var(--white);
+  text-shadow:
+    0 0 0.25mm black,
+    0 0.25mm 0.5mm black;
+
+  display: grid;
+  grid-template-rows: 7.3mm minmax(0, 1fr) 19.6mm 23mm;
+  grid-row-gap: 0;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 2.2mm;
+    border-image: var(--border-image) 165 / 42px / 0;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  svg {
+    filter: drop-shadow(0 0.25mm 0.5mm black);
+    color: var(--yellow);
+  }
+
+  .block {
+    border-width: 0.5mm;
+    border-style: solid;
+    border-color: var(--border-dark) var(--border-dark) var(--border-light)
+      var(--border-light);
+    box-shadow: 0 0 3mm rgba(0, 0, 0, 0.8) inset;
+  }
+}
+
+.tint {
+  background-image: var(--tint-background);
+  background-size: 200%;
+  background-position: center;
+}
+
+.statTint {
+  background-image: var(--stat-background);
+  background-size: 200%;
+  background-position: center;
+}
+
+.tintDark {
+  background-image: var(--tint-background-dark);
+  background-size: 200%;
+  background-position: center;
+}
+
+.name {
+  background-image: var(--name-background);
+  background-size: 200%;
+  background-position: center;
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  h3 {
+    color: var(--yellow);
+    font-size: 12pt;
+    margin: 0;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /* Clear of the might/magic badge at the end of the band. */
+    padding: 0 7mm;
+  }
+
+  /* Sized by height: the two glyphs have quite different widths. */
+  .mightMagicIcon {
+    position: absolute;
+    right: 1.2mm;
+    top: 0.6mm;
+    bottom: 0.6mm;
+    margin: 0;
+
+    svg {
+      height: 100%;
+      width: auto;
+      display: block;
+    }
+
+    svg.magic {
+      transform: scale(0.85);
+      transform-origin: 100% 50%;
+    }
+  }
+}
+
+.middle {
+  display: grid;
+  grid-template-columns: 9mm minmax(0, 1fr) 9mm;
+  min-height: 0;
+}
+
+.statColumn {
+  display: flex;
+  flex-direction: column;
+
+  .stat {
+    flex: 1;
+    min-height: 0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4mm;
+
+    img {
+      width: 5.6mm;
+      height: auto;
+      filter: drop-shadow(0 0.5mm 0.35mm black);
+    }
+
+    span {
+      font-weight: bold;
+      font-size: 11pt;
+      line-height: 1;
+    }
+  }
+}
+
+.portrait {
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0 0 4mm rgba(0, 0, 0, 0.8) inset;
+}
+
+.track {
+  background-size: 100% 100%;
+  background-position: center;
+}
+
+.effects {
+  padding: 0.8mm 1.2mm;
+  /* The level glyphs run inline with the text, so the box is a plain run of
+     it like any other card's effect box. */
+  font-size: 6pt;
+  letter-spacing: 0.01em;
+  line-height: 1.35em;
+  overflow: hidden;
+
+  img {
+    height: 1.2em;
+    margin: -0.2em;
+    position: relative;
+    top: 1.5px;
+  }
+}

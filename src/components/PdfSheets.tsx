@@ -29,6 +29,7 @@ import AdventureCard from "./AdventureCard";
 import AdventureCardBack from "./AdventureCardBack";
 import MoraleCard from "./MoraleCard";
 import MoraleCardBack from "./MoraleCardBack";
+import SecondaryHeroCard from "./SecondaryHeroCard";
 
 import { Hero } from "@/models/hero";
 import { SpecialtyLevel } from "@/models/specialty";
@@ -43,6 +44,7 @@ import { EventCard as EventCardModel } from "@/models/eventCard";
 import { PandoraCard as PandoraCardModel } from "@/models/pandoraCard";
 import { AdventureCard as AdventureCardModel } from "@/models/adventureCard";
 import { MoraleCard as MoraleCardModel } from "@/models/moraleCard";
+import { SecondaryHeroCard as SecondaryHeroCardModel } from "@/models/secondaryHeroCard";
 
 export interface LoadedCard {
   id: number;
@@ -203,6 +205,17 @@ export function pairsFor(card: LoadedCard): Pair[] {
           shape: "portrait",
           front: <MoraleCard morale={p as MoraleCardModel} />,
           back: <MoraleCardBack type={(p as MoraleCardModel).type} />,
+        },
+      ];
+    case "secondaryHero":
+      // A hero on each side, so the card is already its own back.
+      return [
+        {
+          shape: "portrait",
+          front: (
+            <SecondaryHeroCard side={(p as SecondaryHeroCardModel).front} />
+          ),
+          back: <SecondaryHeroCard side={(p as SecondaryHeroCardModel).back} />,
         },
       ];
     case "astrologer":

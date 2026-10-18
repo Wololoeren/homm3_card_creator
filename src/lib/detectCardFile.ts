@@ -18,6 +18,7 @@ export const CARD_KEYS = [
   "pandora",
   "adventure",
   "morale",
+  "secondaryHero",
 ] as const;
 
 export type CardKey = (typeof CARD_KEYS)[number];

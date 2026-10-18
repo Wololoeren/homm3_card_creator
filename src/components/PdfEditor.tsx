@@ -43,6 +43,7 @@ const LABELS: Record<CardKey, string> = {
   pandora: "Pandora's box",
   adventure: "Adventure",
   morale: "Morale",
+  secondaryHero: "Secondary hero",
 };
 
 function nameOf(payload: unknown, fallback: string): string {
