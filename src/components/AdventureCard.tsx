@@ -32,7 +32,7 @@ export default function AdventureCard({
         />
 
         <div className={styles.typeLabel}>
-          <span>{adventure.type}</span>
+          <span>{adventure.typeLabel || adventure.type}</span>
         </div>
 
         <div className={styles.effect}>

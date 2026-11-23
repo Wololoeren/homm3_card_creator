@@ -1,6 +1,11 @@
 "use client";
 
-import { AbilityCard, AbilityIcon, abilityIcons } from "@/models/abilityCard";
+import {
+  AbilityCard,
+  AbilityIcon,
+  abilityIcons,
+  defaultEmpoweredLabel,
+} from "@/models/abilityCard";
 import { useState } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import ReplaceEntityModal from "./ReplaceEntityModal";
@@ -64,9 +69,21 @@ export default function AbilityForm({
           onChange={(e) => setEmpowered(e.target.checked)}
         />
         <Form.Text muted>
-          Empowered cards show only the Expert effect, with an
-          &quot;Empowered&quot; label under the name.
+          Empowered cards show only the Expert effect, with the label below
+          printed under the name.
         </Form.Text>
+        {ability.empowered ? (
+          <Form.Control
+            type="text"
+            className="mt-2"
+            value={ability.empoweredLabel ?? ""}
+            placeholder={defaultEmpoweredLabel}
+            aria-label="Empowered label"
+            onChange={(e) =>
+              setAbility({ ...ability, empoweredLabel: e.target.value })
+            }
+          />
+        ) : null}
       </Form.Group>
 
       {!ability.empowered ? (

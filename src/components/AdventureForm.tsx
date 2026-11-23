@@ -53,6 +53,22 @@ export default function AdventureForm({
         </Form.Select>
       </Form.Group>
 
+      <Form.Group controlId="adventureTypeLabel" className="mb-3">
+        <Form.Label>Type label</Form.Label>
+        <Form.Control
+          type="text"
+          value={adventure.typeLabel ?? ""}
+          placeholder={adventure.type}
+          onChange={(e) =>
+            setAdventure({ ...adventure, typeLabel: e.target.value })
+          }
+        />
+        <Form.Text muted>
+          Printed in place of the type&apos;s own name. The type still sets the
+          card&apos;s colour.
+        </Form.Text>
+      </Form.Group>
+
       <Row className="my-3 text-center g-2">
         <Col xs={12}>
           <Button

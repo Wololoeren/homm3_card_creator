@@ -22,6 +22,8 @@ export const adventurePortraits: AdventurePortrait[] = [
 export interface AdventureCard {
   name: string;
   type: AdventureCardType;
+  /** Printed in place of the type's own name; the type still sets the colour. */
+  typeLabel?: string;
   portrait: AdventurePortrait;
   effect: string;
 }

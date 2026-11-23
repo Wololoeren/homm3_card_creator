@@ -1,6 +1,9 @@
 "use client";
 
-import { AstrologerCard } from "@/models/astrologerCard";
+import {
+  AstrologerCard,
+  defaultAstrologerIntro,
+} from "@/models/astrologerCard";
 import { Form } from "react-bootstrap";
 import IconPalette from "./IconPalette";
 
@@ -28,9 +31,23 @@ export default function AstrologerForm({
           placeholder="Enter astrologer card name"
         />
         <Form.Text muted>
-          Shown as &quot;Astrologers proclaim week of the{" "}
+          Shown as &quot;
+          {astrologer.introText || defaultAstrologerIntro}{" "}
           {astrologer.name || "..."}&quot;.
         </Form.Text>
+      </Form.Group>
+
+      <Form.Group className="mb-3" controlId="astrologerIntroText">
+        <Form.Label>Lead-in</Form.Label>
+        <Form.Control
+          type="text"
+          value={astrologer.introText ?? ""}
+          placeholder={defaultAstrologerIntro}
+          onChange={(e) =>
+            setAstrologer({ ...astrologer, introText: e.target.value })
+          }
+        />
+        <Form.Text muted>Printed before the name.</Form.Text>
       </Form.Group>
 
       <Form.Group className="mb-3" controlId="astrologerEffectContent">

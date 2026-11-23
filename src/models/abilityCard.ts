@@ -3,12 +3,17 @@ import { abilities as abilityIcons, Ability as AbilityIconRef } from "./ability"
 export type AbilityIcon = AbilityIconRef;
 export { abilityIcons };
 
+/** Printed under the name on an empowered card, when the card names none. */
+export const defaultEmpoweredLabel = "Empowered";
+
 export interface AbilityCard {
   name: string;
   icon: AbilityIcon;
   regularEffect: string;
   expertEffect: string;
   empowered: boolean;
+  /** Optional: cards saved before the label was editable carry none. */
+  empoweredLabel?: string;
 }
 
 export const initialAbilityCard: AbilityCard = {

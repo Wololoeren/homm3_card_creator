@@ -1,6 +1,9 @@
 "use client";
 
-import { AbilityCard as AbilityCardModel } from "@/models/abilityCard";
+import {
+  AbilityCard as AbilityCardModel,
+  defaultEmpoweredLabel,
+} from "@/models/abilityCard";
 import styles from "./AbilityCard.module.css";
 import { textToComponent } from "@/lib/textToComponent";
 import { useBackground, useBorder } from "@/hooks/background";
@@ -38,7 +41,9 @@ export default function AbilityCard({
           <>
             <div className={clsx(styles.title, styles.titleEmpowered)}>
               <h3>{ability.name}</h3>
-              <div className={styles.empoweredLabel}>Empowered</div>
+              <div className={styles.empoweredLabel}>
+                {ability.empoweredLabel || defaultEmpoweredLabel}
+              </div>
             </div>
 
             <div className={styles.icon} style={{ backgroundImage: `url("${ability.icon.path}")` }} />

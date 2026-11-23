@@ -1,6 +1,9 @@
 "use client";
 
-import { AstrologerCard as AstrologerCardModel } from "@/models/astrologerCard";
+import {
+  AstrologerCard as AstrologerCardModel,
+  defaultAstrologerIntro,
+} from "@/models/astrologerCard";
 import styles from "./AstrologerCard.module.css";
 import { textToComponent } from "@/lib/textToComponent";
 import { useBorder } from "@/hooks/background";
@@ -20,7 +23,9 @@ export default function AstrologerCard({
     >
       <div className={styles.inner}>
         <div className={styles.title}>
-          <h3>Astrologers proclaim week of the {astrologer.name}</h3>
+          <h3>
+            {astrologer.introText || defaultAstrologerIntro} {astrologer.name}
+          </h3>
         </div>
 
         <div className={styles.effect}>
