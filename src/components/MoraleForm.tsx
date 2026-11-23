@@ -30,6 +30,39 @@ export default function MoraleForm({
         </Form.Select>
       </Form.Group>
 
+      <Form.Group className="mb-3" controlId="moraleCustomTitle">
+        <Form.Check
+          type="switch"
+          label="Custom title"
+          checked={morale.title !== undefined}
+          onChange={(e) =>
+            setMorale({
+              ...morale,
+              title: e.target.checked ? `${morale.type} Morale` : undefined,
+            })
+          }
+        />
+        {morale.title === undefined ? (
+          <Form.Text muted>
+            Off, the card keeps the title printed in its own art.
+          </Form.Text>
+        ) : (
+          <>
+            <Form.Control
+              type="text"
+              className="mt-1"
+              value={morale.title}
+              placeholder={`${morale.type} Morale`}
+              aria-label="Morale card title"
+              onChange={(e) => setMorale({ ...morale, title: e.target.value })}
+            />
+            <Form.Text muted>
+              Set over an empty plaque, in place of the art&apos;s own title.
+            </Form.Text>
+          </>
+        )}
+      </Form.Group>
+
       <Form.Group className="mb-3" controlId="moraleEffectContent">
         <Form.Label>Effect</Form.Label>
         <Form.Control

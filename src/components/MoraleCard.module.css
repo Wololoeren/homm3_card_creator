@@ -33,3 +33,30 @@
     top: 1.5px;
   }
 }
+
+/* Over the plaque in the art: it spans 20% to 81% of the card's width and
+   sits 9.4% to 18.5% down it. Dark on gold, so none of the card's own white
+   text shadow applies. */
+.title {
+  position: absolute;
+  left: 12.5mm;
+  right: 12mm;
+  top: 8.3mm;
+  height: 8mm;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  h3 {
+    margin: 0;
+    color: #1a1208;
+    text-shadow: none;
+    font-size: 13pt;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
